@@ -11,6 +11,11 @@ export const metadata = {
   description: "Looking for the best hotels in Dwarka? Hotel Devang offers family-friendly premium stays near Dwarkadhish Temple with deluxe rooms, modern amenities & affordable rates.",
   keywords: "hotels in dwarka, best hotel in dwarka, hotel devang dwarka, family hotel dwarka, hotels near dwarkadhish temple",
   robots: "index, follow",
+  icons: {
+    icon: "/Photos/index/favicon.png",
+    shortcut: "/Photos/index/favicon.png",
+    apple: "/Photos/index/favicon.png",
+  },
   alternates: {
     canonical: "https://hoteldevang.com/",
     languages: {
