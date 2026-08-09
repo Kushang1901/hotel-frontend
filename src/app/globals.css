@@ -1,0 +1,32 @@
+@import "./css/nav.css";
+@import "./css/footer.css";
+@import "./css/chat.css";
+
+/* Additional base resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Jost', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-dark, #2a1a1a);
+  background: var(--white, #ffffff);
+  -webkit-overflow-scrolling: touch;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

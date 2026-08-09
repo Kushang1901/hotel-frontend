@@ -1,0 +1,1088 @@
+/* ==========================================
+   HOTEL DEVANG — REFUND POLICY PAGE
+   Nav · Footer · Chatbot → identical to policies.css
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+/* ── CSS Variables (brand system) ──────── */
+:root {
+    --crimson:       #880000;
+    --crimson-dark:  #5c0000;
+    --crimson-mid:   #a00000;
+    --crimson-light: #b22222;
+    --gold:          #caa035;
+    --gold-light:    #ffd700;
+    --gold-dark:     #a37c1d;
+    --gold-pale:     rgba(202, 160, 53, 0.12);
+    --gold-border:   rgba(202, 160, 53, 0.35);
+    --ivory:         #fdf8f1;
+    --ivory-dark:    #f5ede0;
+    --white:         #ffffff;
+    --text-dark:     #2a1a1a;
+    --text-mid:      #5c4040;
+    --text-muted:    #8a7070;
+    --border:        #e8ddd5;
+    --card-border:   rgba(202, 160, 53, 0.18);
+    --shadow-sm:     0 2px 12px rgba(136, 0, 0, 0.07);
+    --shadow-md:     0 8px 30px rgba(136, 0, 0, 0.12);
+    --shadow-lg:     0 20px 60px rgba(136, 0, 0, 0.15);
+    --radius-sm:     8px;
+    --radius-md:     16px;
+    --radius-lg:     24px;
+    --radius-xl:     32px;
+    --transition:    all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Reset ──────────────────────────────── */
+.page-refund * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-margin-top: 90px;
+}
+
+.page-refund { scroll-behavior: smooth; }
+
+.page-refund {
+    font-family: 'Jost', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background: var(--ivory);
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.page-refund.menu-open { overflow: hidden; }
+
+/* ── Preloader ──────────────────────────── */
+.page-refund #preloader {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.page-refund #preloader.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.page-refund #preloader img {
+    width: 200px;
+    height: auto;
+}
+
+/* ── Scroll progress ────────────────────── */
+.page-refund #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(to right, var(--crimson), var(--gold));
+    z-index: 10000;
+    transition: width 0.2s ease-out;
+}
+
+/* ══════════════════════════════════════════
+   NAVBAR  — identical to policies.css
+════════════════════════════════════════════ */
+.page-refund header {
+    background: #880000;
+    color: white;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: top 0.4s ease-in-out;
+}
+
+.page-refund nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.page-refund .logo {
+    font-size: clamp(1.2rem, 1.4vw, 1.6rem);
+    font-weight: bold;
+    white-space: nowrap;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-left: 0;
+    flex-shrink: 0;
+    padding-left: clamp(0.4rem, 0.8vw, 1rem);
+}
+
+.page-refund .logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #caa035 !important;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.page-refund nav .logo img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.page-refund .nav-links {
+    display: flex;
+    list-style: none;
+    gap: clamp(0.3rem, 0.8vw, 1rem);
+    flex-wrap: nowrap;
+    overflow: visible;
+    white-space: nowrap;
+    margin-left: 0.5rem;
+    align-items: center;
+}
+
+.page-refund .nav-links a {
+    display: inline-flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.5rem clamp(0.4rem, 0.8vw, 1rem);
+    border-radius: 25px;
+    font-size: clamp(0.8rem, 0.85vw, 0.9rem);
+    white-space: nowrap;
+    position: relative;
+    background: none !important;
+}
+
+.page-refund .nav-links a:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px);
+}
+
+.page-refund .nav-links a::before,
+.page-refund .nav-links a::after {
+    content: none !important;
+    background: none !important;
+}
+
+.page-refund .nav-links a.active {
+    color: #ffd700 !important;
+    border: 2px solid #caa035;
+    background: transparent !important;
+    border-radius: 50px;
+    font-weight: 600;
+    padding: 0.6rem clamp(0.5rem, 1vw, 1.2rem);
+    box-shadow: 0 0 10px rgba(202, 160, 53, 0.6);
+    animation: goldPulse 3s infinite ease-in-out;
+}
+
+.page-refund .nav-links a.active:hover {
+    background: rgba(202, 160, 53, 0.1) !important;
+    transform: scale(1.05);
+}
+
+@keyframes goldPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(202, 160, 53, 0.6); }
+    50%       { box-shadow: 0 0 20px rgba(202, 160, 53, 0.9); }
+}
+
+/* Hamburger */
+.page-refund .menu-toggle {
+    width: 34px;
+    height: 26px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;
+    position: relative;
+    z-index: 1100;
+}
+
+.page-refund .menu-toggle span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #ffd700;
+    border-radius: 3px;
+    transition: all 0.35s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+.page-refund .menu-toggle span:nth-child(1) { top: 0; }
+.page-refund .menu-toggle span:nth-child(2) { top: 11px; width: 70%; }
+.page-refund .menu-toggle span:nth-child(3) { bottom: 0; }
+
+.page-refund .menu-toggle.open span:nth-child(1) { transform: rotate(45deg);  top: 11px; }
+.page-refund .menu-toggle.open span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+.page-refund .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg); bottom: 11px; }
+
+/* Mobile nav header — hidden on desktop */
+.page-refund .mobile-nav-header,
+.page-refund .close-menu {
+    display: none;
+}
+
+.page-refund .brand span { display: none; }
+
+/* ── Main content offset ────────────────── */
+.page-refund .main-content { margin-top: 80px; }
+
+/* ══════════════════════════════════════════
+   HERO
+════════════════════════════════════════════ */
+.page-refund .refund-hero {
+    background:
+        linear-gradient(165deg, rgba(92, 0, 0, 0.72) 0%, rgba(20, 0, 0, 0.78) 100%),
+        url('/Photos/policies/bhadkeshwar_temple.jpg') center/cover no-repeat;
+    padding: 80px 2rem 72px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-refund .refund-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(ellipse at 50% 70%, rgba(202, 160, 53, 0.18) 0%, transparent 60%),
+        url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23caa035' stroke-width='0.8' stroke-opacity='0.08'%3E%3Cpath d='M40 0 L80 40 L40 80 L0 40 Z'/%3E%3Ccircle cx='40' cy='40' r='12'/%3E%3Ccircle cx='40' cy='40' r='4'/%3E%3Cpath d='M0 0 L80 80 M80 0 L0 80'/%3E%3Cpath d='M40 0 Q40 20 20 40 Q40 60 40 80 Q40 60 60 40 Q40 20 40 0'/%3E%3Cpath d='M0 40 Q20 40 40 20 Q60 40 80 40 Q60 40 40 60 Q20 40 0 40'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+}
+
+.page-refund .refund-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--ivory);
+    clip-path: ellipse(65% 100% at 50% 100%);
+}
+
+.page-refund .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(202, 160, 53, 0.2);
+    border: 1px solid rgba(202, 160, 53, 0.5);
+    color: var(--gold-light);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 1.1rem;
+    position: relative;
+    z-index: 2;
+    animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-refund .refund-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    margin-bottom: 0.8rem;
+    position: relative;
+    z-index: 2;
+    animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.page-refund .refund-hero p {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 580px;
+    margin: 0 auto 1.4rem;
+    position: relative;
+    z-index: 2;
+    animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.page-refund .breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 5px 16px;
+    border-radius: 50px;
+    position: relative;
+    z-index: 2;
+    animation: heroFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.page-refund .breadcrumb a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.page-refund .breadcrumb a:hover { color: white; }
+
+.page-refund .breadcrumb i {
+    color: var(--gold-light);
+    font-size: 0.7rem;
+}
+
+.page-refund .breadcrumb span {
+    color: var(--gold-light);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+@keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ══════════════════════════════════════════
+   CONTAINER
+════════════════════════════════════════════ */
+.page-refund .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ══════════════════════════════════════════
+   REFUND GRID SECTION
+════════════════════════════════════════════ */
+.page-refund .refund-section {
+    padding: 4.5rem 0 5rem;
+    background: var(--ivory);
+}
+
+.page-refund .section-label {
+    text-align: center;
+    margin-bottom: 0.6rem;
+}
+
+.page-refund .section-label span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold-pale);
+    border: 1px solid var(--gold-border);
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 50px;
+}
+
+.page-refund .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--crimson);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.page-refund .section-sub {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 300;
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+}
+
+/* Grid */
+.page-refund .refund-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr));
+    gap: 1.8rem;
+}
+
+/* ── Policy Card ─────────────────────────  */
+.page-refund .policy-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 0;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.page-refund .policy-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Top colour bar */
+.page-refund .policy-card::before {
+    content: '';
+    display: block;
+    height: 4px;
+    width: 100%;
+    flex-shrink: 0;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+}
+
+.page-refund .policy-card.warning::before {
+    background: linear-gradient(90deg, var(--crimson), var(--crimson-light));
+}
+
+.page-refund .card-body {
+    padding: 2rem 2.2rem 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-refund .card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.page-refund .policy-icon-wrap {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: rgba(202, 160, 53, 0.1);
+    color: var(--gold);
+    border: 1px solid rgba(202, 160, 53, 0.18);
+}
+
+.page-refund .policy-card.warning .policy-icon-wrap {
+    background: rgba(136, 0, 0, 0.08);
+    color: var(--crimson);
+    border-color: rgba(136, 0, 0, 0.18);
+}
+
+.page-refund .card-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--crimson);
+    line-height: 1.2;
+}
+
+/* Policy list */
+.page-refund .policy-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1.4rem;
+    flex: 1;
+}
+
+.page-refund .policy-list li {
+    padding: 0.55rem 0 0.55rem 1.6rem;
+    position: relative;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-mid);
+    border-bottom: 1px solid var(--border);
+}
+
+.page-refund .policy-list li:last-child { border-bottom: none; }
+
+.page-refund .policy-list li::before {
+    content: '✓';
+    color: #2e7d32;
+    font-weight: 700;
+    position: absolute;
+    left: 0;
+    top: 0.6rem;
+    font-size: 0.85rem;
+    line-height: 1;
+}
+
+.page-refund .policy-list.warning li::before {
+    content: '⚠';
+    color: #d68910;
+}
+
+.page-refund .policy-list li strong {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+/* Policy note */
+.page-refund .policy-note {
+    background: var(--gold-pale);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 0.85rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin-top: auto;
+}
+
+.page-refund .policy-note strong { color: var(--crimson); }
+
+.page-refund .policy-card.warning .policy-note {
+    border-left-color: var(--crimson);
+    background: rgba(136, 0, 0, 0.04);
+}
+
+/* ── CTA Banner ──────────────────────────  */
+.page-refund .cta-banner {
+    background: linear-gradient(135deg, rgba(136, 0, 0, 0.06) 0%, rgba(202, 160, 53, 0.08) 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem;
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-refund .cta-banner::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 300px;
+    height: 100%;
+    background: radial-gradient(circle, rgba(202, 160, 53, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.page-refund .cta-text { flex: 1; }
+
+.page-refund .cta-text h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    color: var(--crimson);
+    margin-bottom: 0.5rem;
+}
+
+.page-refund .cta-text p {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+.page-refund .cta-action {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: flex-end;
+}
+
+.page-refund .cta-btn {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(202, 160, 53, 0.2);
+}
+
+.page-refund .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(202, 160, 53, 0.35);
+    background: linear-gradient(135deg, #ffe3b3 0%, var(--gold) 100%);
+    color: #000;
+}
+
+.page-refund .cta-phone {
+    font-family: monospace;
+    font-size: 1rem;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+/* fade-in animation */
+.page-refund .fade-in {
+    animation: fadeInUp 0.7s ease-out both;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ══════════════════════════════════════════
+   FOOTER  — identical to policies.css
+════════════════════════════════════════════ */
+.page-refund footer {
+    background: #8b0000;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30,0 L60,30 L30,60 L0,30 Z' fill='none' stroke='%23caa035' stroke-width='0.5' opacity='0.15'/%3E%3Cpath d='M0,0 L60,60 M60,0 L0,60' fill='none' stroke='%23caa035' stroke-width='0.25' opacity='0.08'/%3E%3Ccircle cx='30' cy='30' r='1.5' fill='%23ffd700' opacity='0.2'/%3E%3C/svg%3E");
+    color: white;
+    padding: 3rem 0 1rem;
+    position: relative;
+}
+/* ─── Footer temple arch top border — mirrors navbar bottom border ─── */
+.page-refund footer::before {
+    content: '';
+    position: absolute;
+    top: -6px; left: 0; right: 0;
+    height: 8px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='8' viewBox='0 0 20 8'%3E%3Cpath d='M0,1 Q10,7 20,1' fill='none' stroke='%23caa035' stroke-width='1.2'/%3E%3Cpath d='M0,1 L20,1' fill='none' stroke='%23ffd700' stroke-width='0.8'/%3E%3Ccircle cx='10' cy='4' r='1.2' fill='%23ffd700'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    opacity: 1;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.page-refund .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.page-refund .footer-section h3 {
+    margin-bottom: 1rem;
+    color: #ffd700;
+}
+
+.page-refund .footer-section p,
+.page-refund .footer-section li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.page-refund .footer-section ul { list-style: none; }
+
+.page-refund .footer-section a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.page-refund .footer-section a:hover { color: #ffd700; }
+
+.page-refund .footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 25px 15px;
+    background: #8b1c10;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: "Poppins", "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    letter-spacing: 0.4px;
+    color: #f1f1f1;
+}
+
+.page-refund .footer-tagline {
+    font-size: 17px;
+    font-weight: 500;
+    font-style: italic;
+    margin-bottom: 8px;
+    color: #ffd7a0;
+}
+
+.page-refund .footer-text span {
+    font-weight: 600;
+    color: #fff;
+}
+
+.page-refund .footer-text a {
+    color: gold;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.page-refund .footer-text a:hover {
+    color: #ffd700;
+    text-decoration: underline;
+}
+
+.page-refund .footer-text i {
+    color: #ff4d4d;
+    margin: 0 2px;
+}
+
+/* ══════════════════════════════════════════
+   CHATBOT  — identical to policies.css
+════════════════════════════════════════════ */
+.page-refund .chat-container {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 350px;
+    max-height: 520px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+    z-index: 9998;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    border: 1.5px solid var(--border);
+}
+
+.page-refund .chat-container.show { display: flex; }
+
+.page-refund .chat-header {
+    background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+    color: white;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-refund .contact-icons { display: flex; gap: 14px; }
+
+.page-refund .contact-icons a {
+    color: white;
+    font-size: 18px;
+    transition: opacity 0.2s;
+}
+
+.page-refund .contact-icons a:hover { opacity: 0.8; }
+
+.page-refund .chat-header button {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.page-refund .chat-header button:hover { background: rgba(255, 255, 255, 0.35); }
+
+.page-refund .chat-messages {
+    flex: 1;
+    padding: 18px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 280px;
+    background: #f9f5f0;
+}
+
+.page-refund .bot-message {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 4px 16px 16px 16px;
+    font-size: 0.88rem;
+    color: var(--text-dark);
+    max-width: 85%;
+    line-height: 1.5;
+    box-shadow: var(--shadow-sm);
+}
+
+.page-refund .user-message {
+    background: linear-gradient(135deg, var(--crimson), #a00000);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 16px 4px 16px 16px;
+    font-size: 0.88rem;
+    max-width: 85%;
+    align-self: flex-end;
+    line-height: 1.5;
+}
+
+.page-refund .chat-input {
+    display: flex;
+    padding: 12px;
+    gap: 8px;
+    border-top: 1px solid var(--border);
+    background: white;
+}
+
+.page-refund .chat-input input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-family: 'Jost', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.page-refund .chat-input input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(202, 160, 53, 0.15);
+}
+
+.page-refund .chat-input button {
+    background: var(--crimson);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.page-refund .chat-input button:hover {
+    background: var(--crimson-dark);
+    transform: scale(1.04);
+}
+
+.page-refund .chat-toggle {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: linear-gradient(135deg, var(--gold), #ffd700);
+    color: var(--crimson);
+    border: none;
+    border-radius: 50%;
+    width: 62px;
+    height: 62px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10000;
+    box-shadow: 0 8px 28px rgba(202, 160, 53, 0.45);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.page-refund .chat-toggle:hover {
+    transform: scale(1.1) rotate(8deg);
+    box-shadow: 0 12px 35px rgba(202, 160, 53, 0.6);
+}
+
+/* ── Back to Top  — identical to policies.css ── */
+.page-refund .back-to-top {
+    position: fixed;
+    left: 30px;
+    top: -80px;
+    width: 46px;
+    height: 46px;
+    background: var(--white);
+    border: 2px solid var(--gold);
+    color: var(--crimson);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    text-decoration: none;
+    z-index: 999;
+    box-shadow: var(--shadow-sm);
+    transition: top 1.5s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s, color 0.2s;
+}
+
+.page-refund .back-to-top.show { top: calc(100vh - 80px); }
+
+.page-refund .back-to-top:hover {
+    background: var(--crimson);
+    color: white;
+    border-color: var(--crimson);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE  — identical to policies.css
+════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+
+    /* Show mobile nav drawer */
+    .page-refund .mobile-nav-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .page-refund .brand { display: flex; align-items: center; gap: 10px; }
+    .page-refund .brand img { height: 48px; border-radius: 50%; }
+    .page-refund .brand span {
+        display: inline-block;
+        font-size: clamp(1.1rem, 4vw, 1.4rem);
+        font-weight: 700;
+        color: #caa035 !important;
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .page-refund nav { padding: 0 1rem; justify-content: space-between; }
+
+    .page-refund .logo {
+        font-size: 1.4rem;
+        margin-left: 0;
+        flex-shrink: 0;
+    }
+
+    .page-refund .menu-toggle { display: flex; flex-direction: column; justify-content: space-between; z-index: 10001; }
+
+    .page-refund .nav-links {
+        display: flex;
+        visibility: hidden;
+        position: fixed;
+        top: 0; left: 0;
+        width: 80%; max-width: 340px;
+        height: 100vh;
+        background: linear-gradient(160deg, #880000 0%, #5c0000 100%);
+        flex-direction: column;
+        gap: 0;
+        padding: 2rem 0 2rem;
+        overflow-y: auto;
+        z-index: 9999;
+        box-shadow: 6px 0 30px rgba(0, 0, 0, 0.3);
+        transform: translateX(-110%);
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.4s;
+    }
+
+    .page-refund .nav-links.active {
+        visibility: visible;
+        transform: translateX(0);
+    }
+
+    .page-refund .nav-links li { width: 100%; margin-bottom: 0 !important; }
+
+    .page-refund .nav-links a {
+        display: block;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .page-refund .nav-links a.active {
+        border: none;
+        border-bottom: 1px solid rgba(202, 160, 53, 0.3);
+        border-radius: 0;
+        padding: 1rem 2rem;
+        background: rgba(202, 160, 53, 0.08) !important;
+        animation: none;
+        box-shadow: none;
+    }
+
+    .page-refund .close-menu {
+        display: block;
+        background: rgba(255, 255, 255, 0.15);
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 6px 10px;
+        border-radius: 6px;
+    }
+
+    /* Page layout */
+    .page-refund .refund-hero h1   { font-size: 2.4rem; }
+    .page-refund .refund-hero p    { font-size: 1rem; }
+    .page-refund .refund-section   { padding: 3rem 0 3.5rem; }
+    .page-refund .refund-grid      { grid-template-columns: 1fr; gap: 1.3rem; }
+
+    .page-refund .cta-banner {
+        flex-direction: column;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .page-refund .cta-action { align-items: center; }
+
+    /* Chatbot */
+    .page-refund .chat-container {
+        width: 94%;
+        right: 3%;
+        bottom: 85px;
+        max-height: 80vh;
+        border-radius: 18px;
+    }
+
+    .page-refund .chat-header    { padding: 14px; }
+    .page-refund .contact-icons a { font-size: 16px; }
+    .page-refund .chat-messages  { height: 55vh; font-size: 14px; }
+    .page-refund .chat-input input  { font-size: 14px; }
+    .page-refund .chat-input button { padding: 10px 16px; font-size: 14px; }
+
+    .page-refund .chat-toggle {
+        width: 55px;
+        height: 55px;
+        font-size: 20px;
+        bottom: 18px;
+        right: 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .page-refund #preloader img   { width: 100px; }
+    .page-refund .refund-hero h1  { font-size: 2rem; }
+    .page-refund .section-heading { font-size: 2rem; }
+    .page-refund .container       { padding: 0 1.2rem; }
+    .page-refund .back-to-top     { left: 15px; }
+}
+
+@media (max-width: 480px) {
+    .page-refund .refund-hero { padding: 60px 1rem 60px; }
+    .page-refund .refund-hero h1 { font-size: 1.75rem; }
+    .page-refund .card-body { padding: 1.5rem 1.3rem; }
+
+    .page-refund .chat-container {
+        width: 96%;
+        right: 2%;
+        bottom: 75px;
+        max-height: 85vh;
+        border-radius: 16px;
+    }
+
+    .page-refund .chat-messages { height: 58vh; font-size: 13px; }
+
+    .page-refund .bot-message,
+    .page-refund .user-message {
+        font-size: 13px;
+        max-width: 92%;
+    }
+
+    .page-refund .chat-input        { padding: 10px; }
+    .page-refund .chat-input input  { padding: 9px 12px; font-size: 13px; }
+    .page-refund .chat-input button { padding: 9px 14px; font-size: 13px; }
+
+    .page-refund .chat-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+        bottom: 15px;
+        right: 15px;
+    }
+}
