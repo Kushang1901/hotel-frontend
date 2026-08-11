@@ -7,7 +7,8 @@ import "../css/facilities.css";
 export default function Facilities() {
   const [lightboxImg, setLightboxImg] = useState(null);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [activeGroundIndex, setActiveGroundIndex] = useState(0);
+  const [isClosing, setIsClosing] = useState(false);
+  const [imgTransitioning, setImgTransitioning] = useState(false);
 
   const eventHalls = [
     {
@@ -138,24 +139,42 @@ export default function Facilities() {
     const idx = allPhotos.indexOf(photoSrc);
     setLightboxIndex(idx !== -1 ? idx : 0);
     setLightboxImg(photoSrc);
+    setIsClosing(false);
+    setImgTransitioning(false);
     document.body.style.overflow = "hidden";
   };
 
   const closeLightbox = () => {
-    setLightboxImg(null);
-    document.body.style.overflow = "";
+    if (isClosing) return;
+    setIsClosing(true);
+    setTimeout(() => {
+      setLightboxImg(null);
+      setIsClosing(false);
+      setImgTransitioning(false);
+      document.body.style.overflow = "";
+    }, 260);
   };
 
-  const handlePrev = () => {
-    const nextIdx = (lightboxIndex - 1 + allPhotos.length) % allPhotos.length;
-    setLightboxIndex(nextIdx);
-    setLightboxImg(allPhotos[nextIdx]);
+  const handlePrev = (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    setImgTransitioning(true);
+    setTimeout(() => {
+      const nextIdx = (lightboxIndex - 1 + allPhotos.length) % allPhotos.length;
+      setLightboxIndex(nextIdx);
+      setLightboxImg(allPhotos[nextIdx]);
+      setImgTransitioning(false);
+    }, 100);
   };
 
-  const handleNext = () => {
-    const nextIdx = (lightboxIndex + 1) % allPhotos.length;
-    setLightboxIndex(nextIdx);
-    setLightboxImg(allPhotos[nextIdx]);
+  const handleNext = (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    setImgTransitioning(true);
+    setTimeout(() => {
+      const nextIdx = (lightboxIndex + 1) % allPhotos.length;
+      setLightboxIndex(nextIdx);
+      setLightboxImg(allPhotos[nextIdx]);
+      setImgTransitioning(false);
+    }, 100);
   };
 
   useEffect(() => {
@@ -167,7 +186,7 @@ export default function Facilities() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [lightboxImg, lightboxIndex]);
+  }, [lightboxImg, lightboxIndex, isClosing]);
 
   return (
     <div className="page-facilities">
@@ -283,50 +302,35 @@ export default function Facilities() {
           <h2>Outdoor Wedding Grounds</h2>
           <p>Three expansive outdoor venues perfect for grand wedding celebrations</p>
         </div>
-        <div className="fac-grounds-accordion" id="groundsAccordion">
-          {weddingGrounds.map((ground, idx) => {
-            const isActive = activeGroundIndex === idx;
-            return (
-              <div key={idx} className={`fac-ground-item ${isActive ? "active" : ""}`}>
-                <button className="fac-ground-trigger" onClick={() => setActiveGroundIndex(isActive ? -1 : idx)}>
-                  <div className="fac-ground-trigger-left">
-                    <span className="fac-ground-num">{ground.num}</span>
-                    <div>
-                      <span className="fac-ground-name">{ground.name}</span>
-                      <span className="fac-ground-sub">{ground.sub}</span>
-                    </div>
-                  </div>
-                  <span className="fac-ground-arrow"><i className={`fas fa-chevron-${isActive ? "up" : "down"}`}></i></span>
-                </button>
-                <div 
-                  className="fac-ground-body"
-                  style={{
-                    height: isActive ? "auto" : "0px",
-                    overflow: "hidden",
-                    transition: "height 0.3s ease"
-                  }}
-                >
-                  <div className="fac-ground-body-inner">
-                    <div className="fac-ground-desc">
-                      <p>{ground.desc}</p>
-                      <ul className="fac-ground-feats">
-                        {ground.features.map((feat, fIdx) => (
-                          <li key={fIdx}><i className="fas fa-check"></i> {feat}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="fac-ground-photos">
-                      {ground.photos.map((photo, pIdx) => (
-                        <div key={pIdx} className="fac-photo-box" onClick={() => openLightbox(photo)} style={{ cursor: "zoom-in" }}>
-                          <img src={photo} alt={ground.name} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+        <div className="fac-grounds-cards">
+          {weddingGrounds.map((ground, idx) => (
+            <div key={idx} className="fac-ground-card">
+              <div className="fac-ground-card-header">
+                <span className="fac-ground-card-num">{ground.num}</span>
+                <div className="fac-ground-card-title-wrap">
+                  <h3 className="fac-ground-card-title">{ground.name}</h3>
+                  <p className="fac-ground-card-sub">{ground.sub}</p>
                 </div>
               </div>
-            );
-          })}
+              <div className="fac-ground-card-body">
+                <div className="fac-ground-card-desc">
+                  <p>{ground.desc}</p>
+                  <ul className="fac-ground-card-feats">
+                    {ground.features.map((feat, fIdx) => (
+                      <li key={fIdx}><i className="fas fa-check"></i> {feat}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="fac-ground-card-photos">
+                  {ground.photos.map((photo, pIdx) => (
+                    <div key={pIdx} className="fac-photo-box" onClick={() => openLightbox(photo)} style={{ cursor: "zoom-in" }}>
+                      <img src={photo} alt={ground.name} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -342,20 +346,35 @@ export default function Facilities() {
         </div>
       </section>
 
-      {/* ═══ LIGHTBOX OVERLAY ═══ */}
+      {/* ═══ MOTION LIGHTBOX OVERLAY ═══ */}
       {lightboxImg && (
-        <div className="lightbox-overlay show" id="lightboxOverlay" onClick={(e) => {
-          if (e.target.id === "lightboxOverlay") closeLightbox();
-        }}>
-          <button id="lightboxClose" onClick={closeLightbox}>&times;</button>
-          <button className="lightbox-prev" onClick={handlePrev}>&#10094;</button>
-          <div className="lightbox-img-wrap">
-            <img id="lightboxImg" src={lightboxImg} alt="Gallery Zoom" />
-            <span className="lightbox-counter" id="lightboxCounter">
-              {lightboxIndex + 1} / {allPhotos.length}
-            </span>
+        <div 
+          className={`lightbox-overlay ${isClosing ? "closing" : "show"}`} 
+          id="lightboxOverlay" 
+          onClick={(e) => {
+            if (e.target.id === "lightboxOverlay" || e.target.classList.contains("lightbox-backdrop")) {
+              closeLightbox();
+            }
+          }}
+        >
+          <div className="lightbox-backdrop" onClick={closeLightbox}></div>
+          <button id="lightboxClose" className="lightbox-close-btn" onClick={closeLightbox} aria-label="Close Lightbox">
+            &times;
+          </button>
+          <button className="lightbox-prev" onClick={handlePrev} aria-label="Previous Image">
+            &#10094;
+          </button>
+          <div className={`lightbox-img-wrap ${imgTransitioning ? "transitioning" : ""}`} onClick={(e) => e.stopPropagation()}>
+            <img key={lightboxImg} id="lightboxImg" src={lightboxImg} alt="Facilities Zoom" />
+            <div className="lightbox-footer">
+              <span className="lightbox-counter" id="lightboxCounter">
+                {lightboxIndex + 1} / {allPhotos.length}
+              </span>
+            </div>
           </div>
-          <button className="lightbox-next" onClick={handleNext}>&#10095;</button>
+          <button className="lightbox-next" onClick={handleNext} aria-label="Next Image">
+            &#10095;
+          </button>
         </div>
       )}
     </div>
