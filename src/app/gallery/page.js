@@ -269,10 +269,14 @@ export default function Gallery() {
 
           <div className="video-wrapper">
             <div className="vimeo-container">
-              <video className="hotel-video" controls playsInline preload="metadata" poster="/Photos/gallery/blog.png">
-                <source src="/Photos/gallery/video.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <iframe
+                src="https://www.youtube.com/embed/3NyxcGUs7Fo?si=F_ArqZ8yql5NLCBk"
+                title="Hotel Devang YouTube Video Player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
             </div>
           </div>
         </div>

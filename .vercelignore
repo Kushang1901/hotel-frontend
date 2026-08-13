@@ -1,0 +1,7 @@
+.next
+out
+.turbo
+.vercel
+node_modules
+*.log
+*.tmp
