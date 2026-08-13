@@ -2,6 +2,21 @@ import React from "react";
 import Link from "next/link";
 import "../css/refund.css";
 
+export const metadata = {
+  title: "Refund & Cancellation Policy | Hotel Devang Dwarka",
+  description: "Read our transparent room booking advance deposit terms, cancellation policies, and refund process details for Hotel Devang in Dwarka.",
+  keywords: "hotel cancellation policy dwarka, refund policy hotel devang, booking deposit refund dwarka",
+  alternates: {
+    canonical: "https://hoteldevang.com/refund",
+  },
+  openGraph: {
+    title: "Refund & Cancellation Policy | Hotel Devang Dwarka",
+    description: "Read our transparent room booking advance deposit terms, cancellation policies, and refund process details for Hotel Devang in Dwarka.",
+    url: "https://hoteldevang.com/refund",
+    type: "website",
+  }
+};
+
 export default function Refund() {
   return (
     <div className="page-refund">

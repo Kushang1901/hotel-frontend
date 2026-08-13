@@ -2,6 +2,21 @@ import React from "react";
 import Link from "next/link";
 import "../css/blog.css";
 
+export const metadata = {
+  title: "Dwarka Travel Blog & Spiritual Stay Guide | Hotel Devang",
+  description: "Read stories, pilgrim guides, local attractions, and travel tips for your visit to the holy city of Dwarka from the official blog of Hotel Devang.",
+  keywords: "dwarka travel blog, spiritual guide dwarka, places to visit dwarka, travel tips dwarka, hotel devang blog",
+  alternates: {
+    canonical: "https://hoteldevang.com/blog",
+  },
+  openGraph: {
+    title: "Dwarka Travel Blog & Spiritual Stay Guide | Hotel Devang",
+    description: "Read stories, pilgrim guides, local attractions, and travel tips for your visit to the holy city of Dwarka.",
+    url: "https://hoteldevang.com/blog",
+    type: "website",
+  }
+};
+
 export default function Blog() {
   return (
     <div className="page-blog">

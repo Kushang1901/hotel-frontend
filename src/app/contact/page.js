@@ -2,6 +2,21 @@ import React from "react";
 import Link from "next/link";
 import "../css/contact.css";
 
+export const metadata = {
+  title: "Contact Hotel Devang Dwarka – Phone, Email & Location Map",
+  description: "Get in touch with Hotel Devang for bookings, directions, or inquiries. View phone numbers, email, WhatsApp link, and Google Map location. Located opposite Circuit House, Dwarka.",
+  keywords: "contact hotel devang, hotel devang phone number, hotel devang location, hotel devang email, dwarka hotel contact",
+  alternates: {
+    canonical: "https://hoteldevang.com/contact",
+  },
+  openGraph: {
+    title: "Contact Hotel Devang Dwarka – Phone, Email & Location Map",
+    description: "Get in touch with Hotel Devang for bookings, directions, or inquiries. View phone numbers, email, WhatsApp link, and Google Map location.",
+    url: "https://hoteldevang.com/contact",
+    type: "website",
+  }
+};
+
 export default function Contact() {
   return (
     <div className="page-contact">

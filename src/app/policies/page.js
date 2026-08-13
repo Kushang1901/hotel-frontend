@@ -2,6 +2,21 @@ import React from "react";
 import Link from "next/link";
 import "../css/policies.css";
 
+export const metadata = {
+  title: "Hotel Policies, Rules & Guidelines | Hotel Devang Dwarka",
+  description: "Review Hotel Devang's check-in/check-out timings, room guidelines, identity proof requirements, guest policies, and pet guidelines to ensure a comfortable stay.",
+  keywords: "hotel devang policies, check in time dwarka, hotel rules dwarka, guest policy dwarka",
+  alternates: {
+    canonical: "https://hoteldevang.com/policies",
+  },
+  openGraph: {
+    title: "Hotel Policies, Rules & Guidelines | Hotel Devang Dwarka",
+    description: "Review Hotel Devang's check-in/check-out timings, room guidelines, identity proof requirements, and guest policies.",
+    url: "https://hoteldevang.com/policies",
+    type: "website",
+  }
+};
+
 export default function Policies() {
   return (
     <div className="page-policies">

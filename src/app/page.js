@@ -125,7 +125,11 @@ export default function Home() {
           entries.forEach((entry) => {
             const video = entry.target;
             if (entry.isIntersecting) {
-              video.play().catch(() => {});
+              // For slideshow videos, only play if it's the active slide
+              const idx = videoRefs.current.indexOf(video);
+              if (idx === -1 || idx === currentSlide) {
+                video.play().catch(() => {});
+              }
             } else {
               video.pause();
             }
@@ -144,7 +148,24 @@ export default function Home() {
         });
       };
     }
-  }, []);
+  }, [currentSlide]);
+
+  // Handle slideshow video playback on state change
+  useEffect(() => {
+    slides.forEach((_, idx) => {
+      const video = videoRefs.current[idx];
+      if (video) {
+        if (idx === currentSlide && isPlaying) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+          try {
+            video.currentTime = 0;
+          } catch (e) {}
+        }
+      }
+    });
+  }, [currentSlide, isPlaying]);
 
   return (
     <div className="page-index">
@@ -153,18 +174,17 @@ export default function Home() {
         <div className="slideshow-container">
           {slides.map((slide, idx) => (
             <div key={idx} className={`slide ${idx === currentSlide ? "active" : ""}`}>
-              {idx === currentSlide && (
-                <video 
-                  ref={(el) => (videoRefs.current[idx] = el)}
-                  autoPlay 
-                  muted 
-                  loop 
-                  playsInline 
-                  preload="metadata"
-                >
-                  <source src={slide.src} type="video/mp4" />
-                </video>
-              )}
+              <video 
+                ref={(el) => (videoRefs.current[idx] = el)}
+                autoPlay={idx === currentSlide} 
+                muted 
+                loop 
+                playsInline 
+                preload={idx === currentSlide ? "auto" : "metadata"}
+                style={{ display: idx === currentSlide ? "block" : "none" }}
+              >
+                <source src={slide.src} type="video/mp4" />
+              </video>
             </div>
           ))}
           <div ref={linerRef} className="slide-liner"></div>

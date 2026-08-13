@@ -2,6 +2,21 @@ import React from "react";
 import Link from "next/link";
 import "../css/dwarka-attractions.css";
 
+export const metadata = {
+  title: "Top Places to Visit in Dwarka | Attractions Near Hotel Devang",
+  description: "Explore top tourist spots and holy temples in Dwarka: Dwarkadhish Temple, Gomti Ghat, Shivrajpur Beach, Nageshwar Jyotirlinga, and Bet Dwarka near Hotel Devang.",
+  keywords: "places to visit in dwarka, dwarka sightseeing, attractions near hotel devang, dwarkadhish temple distance, nageshwar jyotirlinga",
+  alternates: {
+    canonical: "https://hoteldevang.com/dwarka_attractions",
+  },
+  openGraph: {
+    title: "Top Places to Visit in Dwarka | Attractions Near Hotel Devang",
+    description: "Explore top tourist spots and holy temples in Dwarka: Dwarkadhish Temple, Gomti Ghat, Shivrajpur Beach, Nageshwar Jyotirlinga, and Bet Dwarka.",
+    url: "https://hoteldevang.com/dwarka_attractions",
+    type: "website",
+  }
+};
+
 export default function DwarkaAttractions() {
   const attractions = [
     {
