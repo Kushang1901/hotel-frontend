@@ -1441,6 +1441,7 @@
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
+    -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
     z-index: 2;
 }
@@ -1727,5 +1728,468 @@
     .page-room .footer-bottom {
         margin: 0 0.5rem;
         padding: 1.2rem 1rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════
+   PRICE TICKER BAR
+═══════════════════════════════════════════════ */
+.page-room .price-ticker-bar {
+    background: linear-gradient(135deg, #2a1a1a 0%, #880000 50%, #2a1a1a 100%);
+    border-top: 1px solid rgba(202,160,53,0.3);
+    border-bottom: 1px solid rgba(202,160,53,0.3);
+    padding: 0;
+    overflow: hidden;
+}
+
+.page-room .price-ticker-inner {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.9rem 1.5rem;
+}
+
+.page-room .ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.5rem 1.2rem;
+    border-right: 1px solid rgba(202,160,53,0.2);
+    flex: 1;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.page-room .ticker-item:last-child {
+    border-right: none;
+}
+
+.page-room .ticker-item i:first-child {
+    color: #caa035;
+    font-size: 0.9rem;
+}
+
+.page-room .ticker-name {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.75);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.page-room .ticker-price {
+    font-size: 1rem;
+    color: #ffd700;
+    font-weight: 700;
+    margin-left: 2px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.page-room .ticker-seasonal {
+    font-size: 0.7rem;
+    background: rgba(255,80,0,0.25);
+    color: #ff9944;
+    border: 1px solid rgba(255,80,0,0.3);
+    padding: 1px 6px;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════
+   SHOWCASE SECTION
+═══════════════════════════════════════════════ */
+.page-room .room-showcase-section {
+    background: #fff;
+    padding-bottom: 5rem;
+}
+
+.page-room .showcase-header {
+    text-align: center;
+    padding: 5rem 1.5rem 3rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.page-room .showcase-header h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: #880000;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.page-room .showcase-header h2::after {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 3px;
+    background: linear-gradient(90deg, #caa035, #ffd700);
+    margin: 0.6rem auto 0;
+    border-radius: 2px;
+}
+
+.page-room .showcase-header p {
+    color: #666;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+/* Each row */
+.page-room .showcase-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-room .showcase-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 500px;
+    border-bottom: 1px solid #f0e8e0;
+    overflow: hidden;
+}
+
+.page-room .showcase-row.reversed {
+    direction: rtl;
+}
+
+.page-room .showcase-row.reversed > * {
+    direction: ltr;
+}
+
+/* Image panel */
+.page-room .showcase-img-panel {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: #1a0a0a;
+}
+
+.page-room .showcase-img-panel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+}
+
+.page-room .showcase-img-panel:hover img {
+    transform: scale(1.06);
+}
+
+.page-room .showcase-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(42,26,26,0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: background 0.3s ease;
+    opacity: 0;
+}
+
+.page-room .showcase-img-overlay i {
+    font-size: 1.8rem;
+}
+
+.page-room .showcase-img-panel:hover .showcase-img-overlay {
+    background: rgba(42,26,26,0.45);
+    opacity: 1;
+}
+
+.page-room .showcase-badge {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    background: linear-gradient(135deg, #880000, #b22222);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(136,0,0,0.35);
+}
+
+.page-room .showcase-area-tag {
+    position: absolute;
+    bottom: 22px;
+    left: 22px;
+    background: rgba(42,26,26,0.75);
+    color: #ffd700;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 50px;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Info panel */
+.page-room .showcase-info-panel {
+    padding: 3.5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    background: #fff;
+}
+
+.page-room .showcase-room-num {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 5rem;
+    font-weight: 700;
+    color: rgba(202,160,53,0.12);
+    line-height: 1;
+    position: absolute;
+    top: 1.5rem;
+    right: 2.5rem;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.page-room .showcase-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #caa035;
+    margin-bottom: 0.75rem;
+}
+
+.page-room .showcase-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.7rem, 2.5vw, 2.3rem);
+    color: #2a1a1a;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+}
+
+.page-room .showcase-subtitle {
+    font-size: 1rem;
+    color: #8a7070;
+    margin-bottom: 1.25rem;
+    font-style: italic;
+}
+
+.page-room .showcase-desc {
+    font-size: 0.98rem;
+    color: #5c4040;
+    line-height: 1.75;
+    margin-bottom: 1.75rem;
+    border-left: 3px solid #caa035;
+    padding-left: 1rem;
+}
+
+/* Amenity pills */
+.page-room .showcase-amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2rem;
+}
+
+.page-room .amenity-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fdf8f1;
+    border: 1px solid #e8ddd5;
+    color: #5c4040;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 50px;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.page-room .amenity-pill i {
+    color: #caa035;
+    font-size: 0.8rem;
+}
+
+.page-room .amenity-pill:hover {
+    background: #f5ede0;
+    border-color: #caa035;
+}
+
+.page-room .more-pill {
+    background: transparent;
+    border-color: #caa035;
+    color: #caa035;
+    font-style: italic;
+}
+
+/* Footer inside info panel */
+.page-room .showcase-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0e8e0;
+}
+
+.page-room .showcase-price-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.page-room .showcase-price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #880000;
+    letter-spacing: -0.5px;
+    line-height: 1;
+}
+
+.page-room .showcase-price small {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #8a7070;
+    margin-left: 2px;
+}
+
+.page-room .showcase-tax {
+    font-size: 0.78rem;
+    color: #a08080;
+}
+
+.page-room .showcase-seasonal {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    color: #ff6600;
+    font-weight: 600;
+}
+
+/* CTAs */
+.page-room .showcase-cta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.page-room .cta-details {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #880000;
+    color: #880000;
+    background: transparent;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.page-room .cta-details:hover {
+    background: #880000;
+    color: #fff;
+}
+
+.page-room .cta-book {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1.75rem;
+    background: linear-gradient(135deg, #880000, #b22222);
+    color: #fff;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(136,0,0,0.25);
+    transition: all 0.25s ease;
+}
+
+.page-room .cta-book:hover {
+    background: linear-gradient(135deg, #5c0000, #880000);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(136,0,0,0.35);
+    color: #fff;
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 900px) {
+    .page-room .showcase-row,
+    .page-room .showcase-row.reversed {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        min-height: unset;
+    }
+
+    .page-room .showcase-img-panel {
+        height: 280px;
+    }
+
+    .page-room .showcase-info-panel {
+        padding: 2rem 1.75rem;
+    }
+
+    .page-room .showcase-room-num {
+        font-size: 3.5rem;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .page-room .ticker-item {
+        flex: 0 0 auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(202,160,53,0.15);
+    }
+
+    .page-room .price-ticker-inner {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 560px) {
+    .page-room .showcase-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-room .showcase-cta {
+        width: 100%;
+    }
+
+    .page-room .cta-details,
+    .page-room .cta-book {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .page-room .ticker-name {
+        display: none;
     }
 }

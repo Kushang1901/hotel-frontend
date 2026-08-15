@@ -1,3 +1,6 @@
+import { roomsData } from "../data/roomsData";
+import { facilitiesData } from "../data/facilitiesData";
+
 export const dynamic = "force-static";
 
 export default function sitemap() {
@@ -17,6 +20,16 @@ export default function sitemap() {
     { url: "policies", changeFrequency: "monthly", priority: 0.5 },
     { url: "refund", changeFrequency: "monthly", priority: 0.5 },
   ];
+
+  // Add individual room details subpages dynamically
+  Object.keys(roomsData).forEach((slug) => {
+    routes.push({ url: `room/${slug}`, changeFrequency: "weekly", priority: 0.85 });
+  });
+
+  // Add individual facility details subpages dynamically
+  Object.keys(facilitiesData).forEach((slug) => {
+    routes.push({ url: `facilities/${slug}`, changeFrequency: "monthly", priority: 0.8 });
+  });
 
   return routes.map((route) => ({
     url: `${baseUrl}/${route.url}`.replace(/\/$/, ""), // avoid double slash/trailing slash on root

@@ -1280,3 +1280,27 @@
         justify-content: center;
     }
 }
+
+/* View Details CTA Button */
+.page-facilities .fac-details-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.7rem 1.4rem;
+    border: 2px solid #caa035;
+    color: #caa035;
+    background: transparent;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    margin-top: 1rem;
+}
+
+.page-facilities .fac-details-btn:hover {
+    background: #caa035;
+    color: #1a0000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(202, 160, 53, 0.25);
+}

@@ -1,0 +1,493 @@
+/* Room Details Stylesheet for Hotel Devang */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+.page-room-detail * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.page-room-detail {
+    font-family: 'Jost', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark, #2a1a1a);
+    background-color: var(--ivory, #fdf8f1);
+    overflow-x: hidden;
+}
+
+/* Hero Section */
+.page-room-detail .hero {
+    position: relative;
+    background: linear-gradient(rgba(92, 0, 0, 0.75), rgba(42, 26, 26, 0.9)), url('/Photos/Rooms/deluxe_ac.jpeg') center/cover no-repeat;
+    height: 35vh;
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 90px; /* Push the hero section down so it starts below the fixed navbar */
+    margin-bottom: 3rem;
+}
+
+.page-room-detail .hero-content {
+    max-width: 800px;
+    padding: 0 1.5rem;
+}
+
+.page-room-detail .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(202, 160, 53, 0.2);
+    border: 1px solid #caa035;
+    color: #caa035;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.page-room-detail .hero h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.page-room-detail .hero p {
+    font-size: clamp(1rem, 1.2vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.page-room-detail .breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.page-room-detail .breadcrumb a {
+    color: #caa035;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.page-room-detail .breadcrumb a:hover {
+    color: #ffd700;
+}
+
+.page-room-detail .breadcrumb i {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Detail Layout Grid */
+.page-room-detail .detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 5rem 1.5rem;
+}
+
+.page-room-detail .detail-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+@media (max-width: 991px) {
+    .page-room-detail .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+
+/* Content Side (Left) */
+.page-room-detail .main-image-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(136, 0, 0, 0.12);
+    aspect-ratio: 16/10;
+    margin-bottom: 2rem;
+    cursor: pointer;
+}
+
+.page-room-detail .main-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.page-room-detail .main-image-wrapper:hover img {
+    transform: scale(1.05);
+}
+
+.page-room-detail .image-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #880000;
+    color: #ffffff;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.page-room-detail .image-hint {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(42, 26, 26, 0.7);
+    color: #ffffff;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 50px;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+}
+
+/* Quick Specs */
+.page-room-detail .quick-specs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 576px) {
+    .page-room-detail .quick-specs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.page-room-detail .spec-card {
+    background: #ffffff;
+    border: 1px solid #e8ddd5;
+    padding: 1.25rem 1rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(136, 0, 0, 0.04);
+}
+
+.page-room-detail .spec-card i {
+    font-size: 1.5rem;
+    color: #caa035;
+    margin-bottom: 0.5rem;
+}
+
+.page-room-detail .spec-card h4 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #8a7070;
+    margin-bottom: 0.25rem;
+}
+
+.page-room-detail .spec-card p {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2a1a1a;
+}
+
+/* Text Sections */
+.page-room-detail .description-section {
+    margin-bottom: 2.5rem;
+}
+
+.page-room-detail .description-section h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2rem;
+    color: #880000;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e8ddd5;
+    padding-bottom: 0.5rem;
+}
+
+.page-room-detail .description-section p {
+    font-size: 1.05rem;
+    color: #5c4040;
+    margin-bottom: 1rem;
+}
+
+/* Amenities Grid */
+.page-room-detail .amenities-section {
+    margin-bottom: 2.5rem;
+}
+
+.page-room-detail .amenities-section h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2rem;
+    color: #880000;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e8ddd5;
+    padding-bottom: 0.5rem;
+}
+
+.page-room-detail .amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+@media (max-width: 576px) {
+    .page-room-detail .amenities-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.page-room-detail .amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #e8ddd5;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(136, 0, 0, 0.02);
+}
+
+.page-room-detail .amenity-item i {
+    font-size: 1.25rem;
+    color: #caa035;
+    width: 24px;
+    text-align: center;
+}
+
+.page-room-detail .amenity-item span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #2a1a1a;
+}
+
+/* Sidebar Booking Card (Right) */
+.page-room-detail .booking-card {
+    background: #ffffff;
+    border: 1px solid #e8ddd5;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(136, 0, 0, 0.08);
+    position: sticky;
+    top: 110px; /* Fixed under header */
+}
+
+.page-room-detail .card-header {
+    border-bottom: 1px solid #e8ddd5;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.page-room-detail .price-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+}
+
+.page-room-detail .live-price {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #880000;
+    display: flex;
+    align-items: baseline;
+}
+
+.page-room-detail .live-price small {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #8a7070;
+    margin-left: 4px;
+}
+
+.page-room-detail .tax-info {
+    font-size: 0.8rem;
+    color: #8a7070;
+}
+
+.page-room-detail .seasonal-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(202, 160, 53, 0.1);
+    color: #caa035;
+    border: 1px solid rgba(202, 160, 53, 0.3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+.page-room-detail .booking-info-list {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.page-room-detail .booking-info-list li {
+    display: flex;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: #5c4040;
+    margin-bottom: 0.75rem;
+    align-items: flex-start;
+}
+
+.page-room-detail .booking-info-list li i {
+    color: #caa035;
+    font-size: 1rem;
+    margin-top: 3px;
+    width: 16px;
+    text-align: center;
+}
+
+.page-room-detail .booking-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.page-room-detail .btn-book-now {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #880000;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: background 0.3s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(136, 0, 0, 0.15);
+}
+
+.page-room-detail .btn-book-now:hover {
+    background: #5c0000;
+    transform: translateY(-2px);
+}
+
+.page-room-detail .btn-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #25d366;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: background 0.3s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.15);
+}
+
+.page-room-detail .btn-whatsapp:hover {
+    background: #128c7e;
+    transform: translateY(-2px);
+}
+
+/* Policy and Notes Section */
+.page-room-detail .notice-box {
+    background: #ffffff;
+    border-left: 4px solid #caa035;
+    border-top: 1px solid #e8ddd5;
+    border-right: 1px solid #e8ddd5;
+    border-bottom: 1px solid #e8ddd5;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.page-room-detail .notice-box h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #880000;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.page-room-detail .notice-box p {
+    font-size: 0.95rem;
+    color: #5c4040;
+    margin-bottom: 0.5rem;
+}
+
+.page-room-detail .notice-box p:last-child {
+    margin-bottom: 0;
+}
+
+/* Image Zoom Modal */
+.page-room-detail .modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(42, 26, 26, 0.95);
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.page-room-detail .modal.show {
+    display: flex;
+}
+
+.page-room-detail .modal-content {
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    animation: zoomIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.page-room-detail .modal .close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+    line-height: 1;
+}
+
+.page-room-detail .modal .close:hover {
+    color: #caa035;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.9); }
+    to { transform: scale(1); }
+}
