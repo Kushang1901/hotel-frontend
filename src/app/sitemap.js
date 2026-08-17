@@ -8,7 +8,7 @@ export default function sitemap() {
   
   // List of all pages on the website
   const routes = [
-    { url: "", changeFrequency: "daily", priority: 1.0 },
+    { url: "", changeFrequency: "daily", priority: 1.0, images: [`${baseUrl}/Photos/index/Hero4.jpeg`] },
     { url: "about_us", changeFrequency: "monthly", priority: 0.8 },
     { url: "room", changeFrequency: "weekly", priority: 0.9 },
     { url: "facilities", changeFrequency: "monthly", priority: 0.8 },
@@ -23,12 +23,24 @@ export default function sitemap() {
 
   // Add individual room details subpages dynamically
   Object.keys(roomsData).forEach((slug) => {
-    routes.push({ url: `room/${slug}`, changeFrequency: "weekly", priority: 0.85 });
+    const imageUrl = roomsData[slug].image ? `${baseUrl}${roomsData[slug].image}` : null;
+    routes.push({ 
+      url: `room/${slug}`, 
+      changeFrequency: "weekly", 
+      priority: 0.85,
+      images: imageUrl ? [imageUrl] : undefined
+    });
   });
 
   // Add individual facility details subpages dynamically
   Object.keys(facilitiesData).forEach((slug) => {
-    routes.push({ url: `facilities/${slug}`, changeFrequency: "monthly", priority: 0.8 });
+    const imageUrl = facilitiesData[slug].image ? `${baseUrl}${facilitiesData[slug].image}` : null;
+    routes.push({ 
+      url: `facilities/${slug}`, 
+      changeFrequency: "monthly", 
+      priority: 0.8,
+      images: imageUrl ? [imageUrl] : undefined
+    });
   });
 
   return routes.map((route) => ({
@@ -36,5 +48,6 @@ export default function sitemap() {
     lastModified: new Date(),
     changeFrequency: route.changeFrequency,
     priority: route.priority,
+    images: route.images,
   }));
 }

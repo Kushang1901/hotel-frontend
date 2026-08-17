@@ -7,6 +7,7 @@ import Preloader from "@/components/Preloader";
 import Script from "next/script";
 
 export const metadata = {
+  metadataBase: new URL("https://hoteldevang.com"),
   title: "Hotel Devang – Official Website | Comfortable Hotel in Dwarka",
   description: "Looking for the best hotels in Dwarka? Hotel Devang offers family-friendly premium stays near Dwarkadhish Temple with deluxe rooms, modern amenities & affordable rates.",
   keywords: "hotels in dwarka, best hotel in dwarka, hotel devang dwarka, family hotel dwarka, hotels near dwarkadhish temple",
@@ -165,6 +166,10 @@ export default function RootLayout({ children }) {
                 "availableLanguage": ["English", "Hindi", "Gujarati"]
               }],
               "sameAs": [
+                "https://hoteldevang.com",
+                "https://www.hoteldevang.com",
+                "https://devanghotel.com",
+                "https://www.devanghotel.com",
                 "https://www.facebook.com/hoteldevangdwarka",
                 "https://www.instagram.com/hoteldevangdwarka",
                 "https://maps.app.goo.gl/PziUhtuH21JubEcj7"
@@ -189,14 +194,154 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Hotel Devang",
+              "alternateName": [
+                "Hotel Devang Dwarka",
+                "Hotel Devang Dwarkadhish",
+                "Devang Hotel Dwarka",
+                "Devang Hotel",
+                "hoteldevang.com",
+                "devanghotel.com"
+              ],
+              "url": "https://hoteldevang.com/",
+              "sameAs": [
+                "https://hoteldevang.com",
+                "https://www.hoteldevang.com",
+                "https://devanghotel.com",
+                "https://www.devanghotel.com"
+              ]
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "name": "Primary Navigation",
+              "itemListElement": [
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 1,
+                  "name": "Home",
+                  "url": "https://hoteldevang.com/"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 2,
+                  "name": "Our Rooms",
+                  "url": "https://hoteldevang.com/room"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 3,
+                  "name": "Amenities & Facilities",
+                  "url": "https://hoteldevang.com/facilities"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 4,
+                  "name": "Photo Gallery",
+                  "url": "https://hoteldevang.com/gallery"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 5,
+                  "name": "Reserve Stay (Booking)",
+                  "url": "https://hoteldevang.com/booking"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 6,
+                  "name": "Nearby Attractions",
+                  "url": "https://hoteldevang.com/dwarka_attractions"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 7,
+                  "name": "About Us",
+                  "url": "https://hoteldevang.com/about_us"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "position": 8,
+                  "name": "Contact Us",
+                  "url": "https://hoteldevang.com/contact"
+                }
+              ]
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Hotel Devang",
               "url": "https://hoteldevang.com",
               "logo": "https://hoteldevang.com/Photos/index/logo.png",
               "sameAs": [
+                "https://hoteldevang.com",
+                "https://www.hoteldevang.com",
+                "https://devanghotel.com",
+                "https://www.devanghotel.com",
                 "https://www.facebook.com/share/19h5JCa3Xp/?mibextid=wwXIfr",
                 "https://www.instagram.com/hoteldevang/",
                 "https://maps.app.goo.gl/PziUhtuH21JubEcj7"
+              ]
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Where is Hotel Devang located?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Hotel Devang is located Opp. Circuit House, Hospital Road, Dwarka, Gujarat - 361335, India. It is situated in the heart of Dwarka, near the famous Dwarkadhish Temple (Jagad Mandir)."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What rooms are available at Hotel Devang?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Hotel Devang features 43 comfortable rooms, including Standard AC and Non-AC rooms, Deluxe AC and Non-AC rooms, Super Deluxe AC and Non-AC family rooms, and a Luxury Suite AC room."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What amenities does Hotel Devang offer?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Hotel Devang provides key amenities including free parking, 24/7 reception support, room service, pure vegetarian breakfast, complimentary high-speed Wi-Fi, and travel assistance for local sightseeing in Dwarka."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does Hotel Devang have event halls or lawns for weddings?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, we feature premium event spaces including a 4,500 sq.ft fully climate-controlled Premium AC Hall, Traditional Halls, and grand open grounds/gardens ranging from 12,000 to 20,000 sq.ft, perfect for weddings, dhwaja ceremonies, and large events."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What are the official domains and booking options for Hotel Devang?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can book directly on our official website hoteldevang.com (also accessible via devanghotel.com). To speak with our team or get custom booking quotes, contact us at +91 98244 02132 or email info@hoteldevang.com."
+                  }
+                }
               ]
             })
           }}
