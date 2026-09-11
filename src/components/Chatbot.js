@@ -66,7 +66,8 @@ export default function Chatbot() {
         body: JSON.stringify({
           sessionId: sessionIdRef.current,
           userMessage: text,
-          messages: newMessages.slice(1) // exclude initial welcome message
+          messages: newMessages.slice(1), // exclude initial welcome message
+          mode: "guest"
         })
       });
 
