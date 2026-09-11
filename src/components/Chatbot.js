@@ -57,10 +57,10 @@ export default function Chatbot() {
       window.location.port !== "";
     const apiBase = isLocal
       ? "http://localhost:3000"
-      : "https://hotel-booking-1-gg1m.onrender.com";
+      : "https://devang-inventory.vercel.app";
 
     try {
-      const response = await fetch(`${apiBase}/api/chat`, {
+      const response = await fetch(`${apiBase}/api/public/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
