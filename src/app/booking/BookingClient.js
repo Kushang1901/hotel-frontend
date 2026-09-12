@@ -5,7 +5,7 @@ import Link from "next/link";
 import "../css/booking.css";
 
 const GOOGLE_HOLIDAY_CALENDAR_ID = "en.indian#holiday@group.v.calendar.google.com";
-const GOOGLE_HOLIDAY_API_KEY = "AIzaSyCgh1m5nFDscvyQ3Fyn9QxuGWWh0WtbDtk";
+const GOOGLE_HOLIDAY_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
 
 const TOTAL_CAPACITIES = {
   "Standard": 2,
@@ -100,6 +100,7 @@ export default function Booking() {
     if (holidays[year]) return;
 
     async function fetchHolidays() {
+      if (!GOOGLE_HOLIDAY_API_KEY) return;
       try {
         const timeMin = new Date(Date.UTC(year, 0, 1)).toISOString();
         const timeMax = new Date(Date.UTC(year + 1, 0, 1)).toISOString();
