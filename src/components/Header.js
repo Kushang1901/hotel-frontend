@@ -260,17 +260,14 @@ export default function Header() {
             <li><Link href="/gallery" className={pathname === "/gallery" ? "active" : ""}>Gallery</Link></li>
           </ul>
 
-          {/* Center logo */}
+          {/* Center logo: HOTEL , logo , DEVANG */}
           <div className="nav-center-logo">
-            <Link href="/">
+            <Link href="/" className="logo-brand-link" aria-label="Hotel Devang Home">
+              <span className="logo-word logo-word-hotel">HOTEL</span>
               <div className="logo-img-wrap">
                 <img src="/Photos/index/logo.png" alt="Hotel Devang" />
               </div>
-              <div className="logo-text-wrap">
-                <span className="logo-ornament">✦</span>
-                <span className="logo-name">Hotel Devang</span>
-                <span className="logo-ornament">✦</span>
-              </div>
+              <span className="logo-word logo-word-devang">DEVANG</span>
             </Link>
           </div>
 

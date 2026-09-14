@@ -66,12 +66,12 @@ header.scrolled::before { opacity: 1 !important; }
 /* ─── SPLIT NAV — 3 column grid ─── */
 nav.split-nav {
     display: grid !important;
-    grid-template-columns: 1fr auto 1fr !important;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
     align-items: center !important;
-    max-width: 1500px !important;
+    max-width: 1380px !important;
     margin: 0 auto !important;
-    padding: 0 2.5rem !important;
-    gap: 0.5rem !important;
+    padding: 0 clamp(1rem, 2vw, 2.5rem) !important;
+    gap: clamp(0.75rem, 1.8vw, 2rem) !important;
     height: auto !important;
     box-sizing: border-box !important;
     justify-content: stretch !important;
@@ -79,35 +79,50 @@ nav.split-nav {
     box-shadow: none !important;
 }
 
-/* ─── LEFT & RIGHT LINK LISTS ─── */
+/* ─── LEFT & RIGHT LINK LISTS (4 Equal Symmetrical Columns Each) ─── */
 .nav-left,
 .nav-right {
-    display: flex !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    align-items: center !important;
+    width: 100% !important;
     list-style: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    align-items: center !important;
     gap: 0 !important;
 }
 
-.nav-left  { justify-content: flex-end !important; }
-.nav-right { justify-content: flex-start !important; }
+.nav-left > li,
+.nav-right > li {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 48px !important;
+    text-align: center !important;
+}
 
 /* Nav link items */
 .nav-left  > li > a,
 .nav-right > li > a {
-    display: inline-block !important;
-    padding: 0.25rem clamp(0.55rem, 0.85vw, 1.05rem) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.5rem clamp(0.35rem, 0.6vw, 0.75rem) !important;
+    height: 100% !important;
     color: rgba(255, 255, 255, 0.88) !important;
     text-decoration: none !important;
     font-family: 'Jost', sans-serif !important;
-    font-size: clamp(0.68rem, 0.78vw, 0.82rem) !important;
+    font-size: clamp(0.68rem, 0.76vw, 0.82rem) !important;
     font-weight: 400 !important;
-    letter-spacing: 0.14em !important;
+    letter-spacing: 0.12em !important;
     text-transform: uppercase !important;
     white-space: nowrap !important;
     position: relative !important;
     transition: color 0.35s ease !important;
+    width: 100% !important;
 }
 
 /* Thin gold underline sweep from center */
@@ -115,12 +130,12 @@ nav.split-nav {
 .nav-right > li > a::after {
     content: '' !important;
     position: absolute !important;
-    bottom: 0 !important;
-    left: clamp(0.55rem, 0.85vw, 1.05rem) !important;
-    right: clamp(0.55rem, 0.85vw, 1.05rem) !important;
+    bottom: -2px !important;
+    left: 50% !important;
+    width: 80% !important;
     height: 1px !important;
     background: linear-gradient(90deg, #caa035, #ffd700, #caa035) !important;
-    transform: scaleX(0) !important;
+    transform: translateX(-50%) scaleX(0) !important;
     transform-origin: center !important;
     transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
@@ -132,7 +147,7 @@ nav.split-nav {
 
 .nav-left  > li > a:hover::after,
 .nav-right > li > a:hover::after {
-    transform: scaleX(1) !important;
+    transform: translateX(-50%) scaleX(1) !important;
 }
 
 /* Active link */
@@ -140,49 +155,58 @@ nav.split-nav {
 .nav-right > li > a.active {
     color: #ffd700 !important;
     font-weight: 500 !important;
-    letter-spacing: 0.16em !important;
+    letter-spacing: 0.14em !important;
 }
 
 .nav-left  > li > a.active::after,
 .nav-right > li > a.active::after {
-    transform: scaleX(1) !important;
+    transform: translateX(-50%) scaleX(1) !important;
 }
 
-/* Vertical dividers between links */
+/* Vertical dividers between links - precisely on column boundaries */
 .nav-left  > li:not(:first-child)::before,
 .nav-right > li:not(:first-child)::before {
     content: '' !important;
-    display: inline-block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
     width: 1px !important;
     height: 10px !important;
     background: rgba(202,160,53,0.25) !important;
-    vertical-align: middle !important;
 }
 
-/* ─── CENTER LOGO ─── */
+/* ─── CENTER LOGO (HOTEL , logo , DEVANG) ─── */
 .nav-center-logo {
     text-align: center !important;
     flex-shrink: 0 !important;
-    padding: 0 0.8rem !important;
+    padding: 0 clamp(0.4rem, 0.8vw, 1rem) !important;
+    display: flex !important;
+    justify-content: center !important;
 }
 
 .nav-center-logo > a {
-    display: flex !important;
-    flex-direction: column !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr !important;
     align-items: center !important;
-    gap: 2px !important;
+    justify-content: center !important;
+    gap: clamp(10px, 1.2vw, 18px) !important;
     text-decoration: none !important;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 .nav-center-logo > a:hover {
-    transform: translateY(-3px) !important;
+    transform: translateY(-2px) !important;
 }
 
 /* Logo image ring */
 .logo-img-wrap {
     position: relative !important;
-    display: inline-block !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    justify-self: center !important;
+    flex-shrink: 0 !important;
 }
 
 .logo-img-wrap img {
@@ -226,45 +250,47 @@ nav.split-nav {
 
 /* Scrolled logo: shrink */
 header.scrolled .logo-img-wrap img {
-    height: 36px !important;
-    width: 36px !important;
+    height: 38px !important;
+    width: 38px !important;
 }
 
 header.scrolled .logo-img-wrap::after { display: none !important; }
 
-/* Logo text block */
-.logo-text-wrap {
-    display: flex !important;
-    align-items: center !important;
-    gap: 7px !important;
-    line-height: 1 !important;
-}
-
-.logo-ornament {
-    font-size: 0.45rem !important;
-    color: rgba(202,160,53,0.55) !important;
-    letter-spacing: 0 !important;
-    flex-shrink: 0 !important;
-}
-
+/* Logo words: HOTEL & DEVANG flanking the circular logo with equal widths */
+.logo-word,
 .logo-name {
     font-family: 'Cormorant Garamond', Georgia, serif !important;
-    font-size: clamp(0.8rem, 0.95vw, 1rem) !important;
+    font-size: clamp(0.95rem, 1.15vw, 1.22rem) !important;
     font-weight: 700 !important;
-    letter-spacing: 0.25em !important;
+    letter-spacing: 0.24em !important;
     text-transform: uppercase !important;
     color: #caa035 !important;
     white-space: nowrap !important;
     text-shadow: 0 2px 12px rgba(0,0,0,0.55) !important;
-    transition: letter-spacing 0.4s ease !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+    transition: letter-spacing 0.4s ease, color 0.3s ease !important;
 }
 
+.logo-word-hotel {
+    text-align: right !important;
+    justify-self: end !important;
+}
+
+.logo-word-devang {
+    text-align: left !important;
+    justify-self: start !important;
+}
+
+.nav-center-logo > a:hover .logo-word,
 .nav-center-logo > a:hover .logo-name {
-    letter-spacing: 0.32em !important;
+    color: #ffd700 !important;
+    letter-spacing: 0.3em !important;
 }
 
+header.scrolled .logo-word,
 header.scrolled .logo-name {
-    font-size: clamp(0.72rem, 0.86vw, 0.9rem) !important;
+    font-size: clamp(0.82rem, 0.98vw, 1.05rem) !important;
     letter-spacing: 0.2em !important;
 }
 
@@ -752,25 +778,15 @@ header.scrolled nav.split-nav {
         text-decoration: none !important;
     }
 
-    .logo-text-wrap {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
-        line-height: normal !important;
-    }
-
-    /* Hide ornaments on mobile to fit screen width */
-    .logo-ornament {
-        display: none !important;
-    }
-
-    /* Clean logo name on mobile, no cutting, responsive sizing */
+    /* Clean logo words on mobile, no cutting, responsive sizing */
     .logo-name,
-    header.scrolled .logo-name {
+    .logo-word,
+    header.scrolled .logo-name,
+    header.scrolled .logo-word {
         font-family: 'Cormorant Garamond', Georgia, serif !important;
-        font-size: clamp(0.95rem, 4.5vw, 1.2rem) !important;
+        font-size: clamp(0.82rem, 3.2vw, 1.05rem) !important;
         font-weight: 700 !important;
-        letter-spacing: 0.1em !important;
+        letter-spacing: 0.14em !important;
         text-transform: uppercase !important;
         color: #caa035 !important;
         white-space: nowrap !important;
@@ -977,25 +993,43 @@ header.scrolled nav.split-nav {
         opacity: 0 !important;
         visibility: hidden !important;
         pointer-events: none !important;
-        transform: translateY(12px) !important;
+        transform: translateY(8px) !important;
+        /* Grace period on leave: 250ms delay keeps it open while cursor travels */
         transition: 
-            opacity 0.3s ease 0.15s, 
-            transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.15s, 
-            visibility 0.3s step-end 0.15s !important;
+            opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, 
+            transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, 
+            visibility 0.25s step-end 0.25s,
+            pointer-events 0.25s step-end 0.25s !important;
         z-index: 999 !important;
         padding: 2.2rem 0 !important;
     }
 
-    /* Show on hover of parent li item */
-    li.has-mega-menu:hover .mega-menu-dropdown {
+    /* Invisible hover bridge connecting navbar button to dropdown panel with zero gap */
+    .mega-menu-dropdown::before {
+        content: '' !important;
+        position: absolute !important;
+        top: -35px !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 40px !important;
+        background: transparent !important;
+        z-index: 1002 !important;
+        pointer-events: all !important;
+    }
+
+    /* Show on hover of parent li item or dropdown itself */
+    li.has-mega-menu:hover .mega-menu-dropdown,
+    li.has-mega-menu:focus-within .mega-menu-dropdown,
+    .mega-menu-dropdown:hover {
         opacity: 1 !important;
         visibility: visible !important;
         pointer-events: all !important;
         transform: translateY(0) !important;
         transition: 
-            opacity 0.25s ease 0s, 
-            transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s, 
-            visibility 0.25s step-start 0s !important;
+            opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1) 0s, 
+            transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) 0s, 
+            visibility 0s linear 0s,
+            pointer-events 0s linear 0s !important;
     }
 
     /* Inner wrapper grid */

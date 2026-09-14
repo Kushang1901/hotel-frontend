@@ -56,16 +56,14 @@ export default function Booking() {
 
   // 1. Setup API Base
   useEffect(() => {
-    const isLocal =
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1" ||
-      window.location.port !== "";
-    setApiBase(isLocal ? "http://localhost:3000" : "https://devang-inventory.vercel.app");
+    const defaultApi = "https://devang-inventory.vercel.app";
+    setApiBase(process.env.NEXT_PUBLIC_INVENTORY_API_URL || defaultApi);
   }, []);
 
   // 2. Fetch calendar availability
   useEffect(() => {
     if (!apiBase) return;
+    const defaultApi = "https://devang-inventory.vercel.app";
     async function fetchCalendar() {
       try {
         let res;
@@ -74,9 +72,9 @@ export default function Booking() {
           res = await fetch(`${apiBase}/api/public/calendar-availability`);
           data = await res.json();
         } catch (err) {
-          if (apiBase.includes("localhost") || apiBase.includes("127.0.0.1")) {
+          if (apiBase !== defaultApi) {
             console.warn("Local inventory API unavailable, falling back to production...");
-            setApiBase("https://devang-inventory.vercel.app");
+            setApiBase(defaultApi);
             return;
           }
           throw err;

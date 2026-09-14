@@ -39,22 +39,17 @@ export default function Rooms() {
 
   useEffect(() => {
     async function fetchPrices() {
-      const isLocal =
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1" ||
-        window.location.port !== "";
-      let apiBase = isLocal
-        ? "http://localhost:3000"
-        : "https://devang-inventory.vercel.app";
+      const defaultApi = "https://devang-inventory.vercel.app";
+      let apiBase = process.env.NEXT_PUBLIC_INVENTORY_API_URL || defaultApi;
       try {
         let response, data;
         try {
           response = await fetch(`${apiBase}/api/public/room-prices-today`);
           data = await response.json();
         } catch (err) {
-          if (isLocal) {
-            apiBase = "https://devang-inventory.vercel.app";
-            response = await fetch(`${apiBase}/api/public/room-prices-today`);
+          if (apiBase !== defaultApi) {
+            console.warn("Local inventory API unavailable, falling back to production...");
+            response = await fetch(`${defaultApi}/api/public/room-prices-today`);
             data = await response.json();
           } else throw err;
         }

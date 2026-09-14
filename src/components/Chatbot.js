@@ -51,13 +51,8 @@ export default function Chatbot() {
     setIsTyping(true);
 
     // Determine API Base
-    const isLocal =
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1" ||
-      window.location.port !== "";
-    const apiBase = isLocal
-      ? "http://localhost:3000"
-      : "https://devang-inventory.vercel.app";
+    const defaultApi = "https://devang-inventory.vercel.app";
+    let apiBase = process.env.NEXT_PUBLIC_INVENTORY_API_URL || defaultApi;
 
     try {
       const response = await fetch(`${apiBase}/api/public/chat`, {

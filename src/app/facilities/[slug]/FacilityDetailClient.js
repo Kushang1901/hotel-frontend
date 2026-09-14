@@ -26,11 +26,7 @@ export default function FacilityDetailClient({ facility, slug }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    const isLocal =
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1" ||
-      window.location.port !== "";
-    setApiBase(isLocal ? "http://localhost:3000" : "https://devang-inventory.vercel.app");
+    setApiBase(process.env.NEXT_PUBLIC_INVENTORY_API_URL || "https://devang-inventory.vercel.app");
   }, []);
 
   // Collect all photos of this venue

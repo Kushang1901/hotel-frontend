@@ -15,13 +15,8 @@ export default function RoomDetailClient({ room }) {
   // Fetch dynamic price from inventory API upon mount
   useEffect(() => {
     async function fetchLiveRoomPrice() {
-      const isLocal =
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1" ||
-        window.location.port !== "";
-      let apiBase = isLocal
-        ? "http://localhost:3000"
-        : "https://devang-inventory.vercel.app";
+      const defaultApi = "https://devang-inventory.vercel.app";
+      let apiBase = process.env.NEXT_PUBLIC_INVENTORY_API_URL || defaultApi;
 
       try {
         let response;
@@ -30,10 +25,9 @@ export default function RoomDetailClient({ room }) {
           response = await fetch(`${apiBase}/api/public/room-prices-today`);
           data = await response.json();
         } catch (err) {
-          if (isLocal) {
+          if (apiBase !== defaultApi) {
             console.warn("Local inventory API unavailable, falling back to production...");
-            apiBase = "https://devang-inventory.vercel.app";
-            response = await fetch(`${apiBase}/api/public/room-prices-today`);
+            response = await fetch(`${defaultApi}/api/public/room-prices-today`);
             data = await response.json();
           } else {
             throw err;
