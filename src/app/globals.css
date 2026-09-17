@@ -9,6 +9,186 @@
   padding: 0;
 }
 
+:root {
+  --crimson: #880000;
+  --crimson-dark: #5c0000;
+  --crimson-light: #b22222;
+  --gold: #caa035;
+  --gold-light: #ffd700;
+  --gold-pale: rgba(202, 160, 53, 0.12);
+  --ivory: #fdf8f1;
+  --white: #ffffff;
+  --text-dark: #2a1a1a;
+  --text-mid: #5c4040;
+  --text-muted: #8a7070;
+}
+
+/* ═══════════════════════════════════════════════════════
+   AUTHENTIC LUXURY TEXT SELECTION STYLING
+   - White / Light background sections: Golden highlight with crisp white text
+   - Golden background sections: Dark red highlight with golden/white text
+   - Dark red background sections: Golden highlight with dark red text
+   ════════════════════════════════════════════════════════ */
+
+/* 1. Global & White / Light Background Sections (Default) */
+::selection {
+  background-color: #caa035;
+  color: #ffffff;
+  text-shadow: none;
+}
+
+::-moz-selection {
+  background-color: #caa035;
+  color: #ffffff;
+  text-shadow: none;
+}
+
+/* Exclude image elements from showing colored selection blocks */
+img::selection {
+  background-color: transparent;
+}
+img::-moz-selection {
+  background-color: transparent;
+}
+
+/* 2. Golden Background Sections & Components -> Dark Red Selection */
+.highlights::selection,
+.highlights *::selection,
+.ocean-btn::selection,
+.ocean-btn *::selection,
+.hero-badge::selection,
+.hero-badge *::selection,
+.section-tag::selection,
+.section-tag *::selection,
+.gold-badge::selection,
+.gold-badge *::selection,
+.badge-gold::selection,
+.badge-gold *::selection,
+.btn-gold::selection,
+.btn-gold *::selection,
+.gold-bg::selection,
+.gold-bg *::selection,
+[class*="gold-bg"]::selection,
+[class*="gold-bg"] *::selection,
+[data-bg="gold"]::selection,
+[data-bg="gold"] *::selection,
+[data-theme="gold"]::selection,
+[data-theme="gold"] *::selection {
+  background-color: #880000 !important;
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+.highlights::-moz-selection,
+.highlights *::-moz-selection,
+.ocean-btn::-moz-selection,
+.ocean-btn *::-moz-selection,
+.hero-badge::-moz-selection,
+.hero-badge *::-moz-selection,
+.section-tag::-moz-selection,
+.section-tag *::-moz-selection,
+.gold-badge::-moz-selection,
+.gold-badge *::-moz-selection,
+.badge-gold::-moz-selection,
+.badge-gold *::-moz-selection,
+.btn-gold::-moz-selection,
+.btn-gold *::-moz-selection,
+.gold-bg::-moz-selection,
+.gold-bg *::-moz-selection,
+[class*="gold-bg"]::-moz-selection,
+[class*="gold-bg"] *::-moz-selection,
+[data-bg="gold"]::-moz-selection,
+[data-bg="gold"] *::-moz-selection,
+[data-theme="gold"]::-moz-selection,
+[data-theme="gold"] *::-moz-selection {
+  background-color: #880000 !important;
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+/* 3. Dark Red Background Sections & Components -> Golden Selection */
+header::selection,
+header *::selection,
+footer::selection,
+footer *::selection,
+.room-stats::selection,
+.room-stats *::selection,
+.hero::selection,
+.hero *::selection,
+.mobile-overlay::selection,
+.mobile-overlay *::selection,
+.footer-bottom::selection,
+.footer-bottom *::selection,
+.story-cta:hover::selection,
+.story-cta:hover *::selection,
+.read-more-btn:hover::selection,
+.read-more-btn:hover *::selection,
+[class*="hero-section"]::selection,
+[class*="hero-section"] *::selection,
+[class*="refund-hero"]::selection,
+[class*="refund-hero"] *::selection,
+[class*="policies-hero"]::selection,
+[class*="policies-hero"] *::selection,
+[class*="gallery-hero"]::selection,
+[class*="gallery-hero"] *::selection,
+[class*="contact-hero"]::selection,
+[class*="contact-hero"] *::selection,
+[class*="facility-hero"]::selection,
+[class*="facility-hero"] *::selection,
+[class*="dark-red"]::selection,
+[class*="dark-red"] *::selection,
+[class*="crimson-bg"]::selection,
+[class*="crimson-bg"] *::selection,
+[data-bg="red"]::selection,
+[data-bg="red"] *::selection,
+[data-theme="red"]::selection,
+[data-theme="red"] *::selection {
+  background-color: #caa035 !important;
+  color: #5c0000 !important;
+  text-shadow: none !important;
+}
+
+header::-moz-selection,
+header *::-moz-selection,
+footer::-moz-selection,
+footer *::-moz-selection,
+.room-stats::-moz-selection,
+.room-stats *::-moz-selection,
+.hero::-moz-selection,
+.hero *::-moz-selection,
+.mobile-overlay::-moz-selection,
+.mobile-overlay *::-moz-selection,
+.footer-bottom::-moz-selection,
+.footer-bottom *::-moz-selection,
+.story-cta:hover::-moz-selection,
+.story-cta:hover *::-moz-selection,
+.read-more-btn:hover::-moz-selection,
+.read-more-btn:hover *::-moz-selection,
+[class*="hero-section"]::-moz-selection,
+[class*="hero-section"] *::-moz-selection,
+[class*="refund-hero"]::-moz-selection,
+[class*="refund-hero"] *::-moz-selection,
+[class*="policies-hero"]::-moz-selection,
+[class*="policies-hero"] *::-moz-selection,
+[class*="gallery-hero"]::-moz-selection,
+[class*="gallery-hero"] *::-moz-selection,
+[class*="contact-hero"]::-moz-selection,
+[class*="contact-hero"] *::-moz-selection,
+[class*="facility-hero"]::-moz-selection,
+[class*="facility-hero"] *::-moz-selection,
+[class*="dark-red"]::-moz-selection,
+[class*="dark-red"] *::-moz-selection,
+[class*="crimson-bg"]::-moz-selection,
+[class*="crimson-bg"] *::-moz-selection,
+[data-bg="red"]::-moz-selection,
+[data-bg="red"] *::-moz-selection,
+[data-theme="red"]::-moz-selection,
+[data-theme="red"] *::-moz-selection {
+  background-color: #caa035 !important;
+  color: #5c0000 !important;
+  text-shadow: none !important;
+}
+
 html, body {
   max-width: 100vw;
   overflow-x: hidden;

@@ -43,6 +43,62 @@
 /* Body scroll lock when mobile menu open */
 .page-index.menu-open { overflow: hidden; }
 
+/* ─── TEXT SELECTION STYLES ─── */
+.page-index ::selection {
+    background-color: #caa035;
+    color: #ffffff;
+    text-shadow: none;
+}
+.page-index ::-moz-selection {
+    background-color: #caa035;
+    color: #ffffff;
+    text-shadow: none;
+}
+
+/* Golden sections (e.g. Highlights) -> Dark red selection */
+.page-index .highlights::selection,
+.page-index .highlights *::selection,
+.page-index .ocean-btn::selection,
+.page-index .ocean-btn *::selection {
+    background-color: #880000 !important;
+    color: #ffffff !important;
+    text-shadow: none !important;
+}
+.page-index .highlights::-moz-selection,
+.page-index .highlights *::-moz-selection,
+.page-index .ocean-btn::-moz-selection,
+.page-index .ocean-btn *::-moz-selection {
+    background-color: #880000 !important;
+    color: #ffffff !important;
+    text-shadow: none !important;
+}
+
+/* Dark red sections (Room stats, Hero, Header, Mobile overlay) -> Golden selection with dark red text */
+.page-index .room-stats::selection,
+.page-index .room-stats *::selection,
+.page-index .hero::selection,
+.page-index .hero *::selection,
+.page-index header::selection,
+.page-index header *::selection,
+.page-index .mobile-overlay::selection,
+.page-index .mobile-overlay *::selection {
+    background-color: #caa035 !important;
+    color: #5c0000 !important;
+    text-shadow: none !important;
+}
+.page-index .room-stats::-moz-selection,
+.page-index .room-stats *::-moz-selection,
+.page-index .hero::-moz-selection,
+.page-index .hero *::-moz-selection,
+.page-index header::-moz-selection,
+.page-index header *::-moz-selection,
+.page-index .mobile-overlay::-moz-selection,
+.page-index .mobile-overlay *::-moz-selection {
+    background-color: #caa035 !important;
+    color: #5c0000 !important;
+    text-shadow: none !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    ULTRA-PREMIUM NAV — SPLIT CENTER LOGO DESIGN
    Luxury hotel standard: Taj • Oberoi • Aman style
