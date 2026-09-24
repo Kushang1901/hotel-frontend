@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import BackToTop from "@/components/BackToTop";
-import FeedbackWidget from "@/components/FeedbackWidget";
 import Preloader from "@/components/Preloader";
 import Script from "next/script";
 
@@ -364,7 +363,6 @@ export default function RootLayout({ children }) {
         <Footer />
         <Chatbot />
         <BackToTop />
-        <FeedbackWidget />
       </body>
     </html>
   );
