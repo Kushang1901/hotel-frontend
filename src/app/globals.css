@@ -1,6 +1,7 @@
 @import "./css/nav.css";
 @import "./css/footer.css";
 @import "./css/chat.css";
+@import "./css/feedback.css";
 
 /* Additional base resets */
 *, *::before, *::after {
