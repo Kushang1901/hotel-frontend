@@ -11,6 +11,8 @@ export const roomsData = {
     type: "Standard",
     subtype: "AC",
     defaultPrice: 1500,
+    priority: 0.85,
+    changeFrequency: "weekly",
     amenities: [
       { name: "Air Conditioning", icon: "fas fa-snowflake" },
       { name: "Double Bed", icon: "fa-solid fa-bed" },
@@ -33,6 +35,8 @@ export const roomsData = {
     type: "Standard",
     subtype: "Non-AC",
     defaultPrice: 1200,
+    priority: 0.85,
+    changeFrequency: "weekly",
     amenities: [
       { name: "Natural Ventilation", icon: "fas fa-fan" },
       { name: "Double Bed", icon: "fa-solid fa-bed" },
@@ -55,6 +59,8 @@ export const roomsData = {
     type: "Deluxe",
     subtype: "AC",
     defaultPrice: 1700,
+    priority: 0.88,
+    changeFrequency: "weekly",
     amenities: [
       { name: "Air Conditioning", icon: "fas fa-snowflake" },
       { name: "Best Double Bed", icon: "fa-solid fa-bed" },
@@ -76,6 +82,8 @@ export const roomsData = {
     type: "Deluxe",
     subtype: "Non-AC",
     defaultPrice: 1400,
+    priority: 0.85,
+    changeFrequency: "weekly",
     amenities: [
       { name: "Excellent Ventilation", icon: "fas fa-fan" },
       { name: "Premium Double Bed", icon: "fa-solid fa-bed" },
@@ -97,6 +105,8 @@ export const roomsData = {
     type: "Super Deluxe",
     subtype: "AC",
     defaultPrice: 1900,
+    priority: 0.88,
+    changeFrequency: "weekly",
     amenities: [
       { name: "Premium AC", icon: "fas fa-snowflake" },
       { name: "Luxury Double Bed", icon: "fa-solid fa-bed" },
@@ -118,6 +128,8 @@ export const roomsData = {
     type: "Super Deluxe",
     subtype: "Non-AC",
     defaultPrice: 1600,
+    priority: 0.85,
+    changeFrequency: "weekly",
     amenities: [
       { name: "Superior Ventilation", icon: "fas fa-fan" },
       { name: "Luxury Double Bed", icon: "fa-solid fa-bed" },
@@ -139,6 +151,8 @@ export const roomsData = {
     type: "Suite",
     subtype: "AC",
     defaultPrice: 3000,
+    priority: 0.90,
+    changeFrequency: "weekly",
     amenities: [
       { name: "Multi-Zone AC", icon: "fas fa-snowflake" },
       { name: "King Size Bed", icon: "fa-solid fa-bed" },

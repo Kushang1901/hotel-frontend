@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import "../css/blog.css";
+import { blogData } from "../../data/blogData";
+import { generateBlogPostingSchema, generateBreadcrumbSchema } from "../../lib/schemaMarkup";
 
 export const metadata = {
   title: "Dwarka Travel Blog & Spiritual Stay Guide | Hotel Devang",
@@ -18,8 +20,24 @@ export const metadata = {
 };
 
 export default function Blog() {
+  const currentPost = blogData[0];
+  const blogSchema = generateBlogPostingSchema(currentPost, currentPost.slug);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", slug: "" },
+    { name: "Blog", slug: "blog" },
+    { name: currentPost.title, slug: `blog#${currentPost.slug}` }
+  ]);
+
   return (
     <div className="page-blog">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <section className="blog-hero">
         <div className="hero-content">
           <h1>Hotel Devang Blog</h1>

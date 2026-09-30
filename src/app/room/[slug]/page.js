@@ -1,5 +1,6 @@
 import RoomDetailClient from "./RoomDetailClient";
 import { roomsData } from "../../../data/roomsData";
+import { generateRoomSchema, generateBreadcrumbSchema } from "../../../lib/schemaMarkup";
 
 // Pre-render these 7 routes at build time (required for output: 'export')
 export async function generateStaticParams() {
@@ -59,41 +60,22 @@ export default async function Page({ params }) {
     );
   }
 
-  const detailSchema = {
-    "@context": "https://schema.org",
-    "@type": "HotelRoom",
-    "@id": `https://hoteldevang.com/room/${slug}#room`,
-    "name": room.title,
-    "description": room.description,
-    "numberOfBedrooms": "1",
-    "occupancy": {
-      "@type": "QuantitativeValue",
-      "value": "2",
-      "unitText": "persons"
-    },
-    "amenityFeature": room.amenities.map(amenity => ({
-      "@type": "LocationFeatureSpecification",
-      "name": amenity.name,
-      "value": "true"
-    })),
-    "offers": {
-      "@type": "Offer",
-      "priceCurrency": "INR",
-      "price": room.defaultPrice,
-      "priceSpecification": {
-        "@type": "UnitPriceSpecification",
-        "price": room.defaultPrice,
-        "priceCurrency": "INR",
-        "unitText": "night"
-      }
-    }
-  };
+  const roomSchema = generateRoomSchema(room, slug);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", slug: "" },
+    { name: "Rooms", slug: "room" },
+    { name: room.title, slug: `room/${slug}` }
+  ]);
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(detailSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(roomSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <RoomDetailClient room={room} />
     </>

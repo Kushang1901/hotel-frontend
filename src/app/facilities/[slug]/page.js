@@ -1,5 +1,6 @@
 import FacilityDetailClient from "./FacilityDetailClient";
 import { facilitiesData } from "../../../data/facilitiesData";
+import { generateFacilitySchema, generateBreadcrumbSchema } from "../../../lib/schemaMarkup";
 
 // Pre-render these 6 routes at build time (required for output: 'export')
 export async function generateStaticParams() {
@@ -59,35 +60,23 @@ export default async function Page({ params }) {
     );
   }
 
-  // Schema markup for EventVenue
-  const venueSchema = {
-    "@context": "https://schema.org",
-    "@type": "EventVenue",
-    "@id": `https://hoteldevang.com/facilities/${slug}#venue`,
-    "name": facility.title,
-    "description": facility.desc,
-    "image": facility.image,
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Near Dwarkadhish Temple",
-      "addressLocality": "Dwarka",
-      "addressRegion": "Gujarat",
-      "postalCode": "361335",
-      "addressCountry": "IN"
-    },
-    "telephone": "+919824402132",
-    "amenityFeature": facility.features.map(feat => ({
-      "@type": "LocationFeatureSpecification",
-      "name": feat,
-      "value": "true"
-    }))
-  };
+  // Schema markup for EventVenue and Breadcrumbs
+  const venueSchema = generateFacilitySchema(facility, slug);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", slug: "" },
+    { name: "Facilities", slug: "facilities" },
+    { name: facility.title, slug: `facilities/${slug}` }
+  ]);
 
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(venueSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <FacilityDetailClient facility={facility} slug={slug} />
     </>

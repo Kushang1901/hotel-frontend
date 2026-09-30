@@ -1,5 +1,6 @@
 export const facilitiesData = {
   "premium-ac-hall": {
+    slug: "premium-ac-hall",
     num: "01",
     title: "Premium AC Hall",
     category: "Indoor Hall",
@@ -10,6 +11,8 @@ export const facilitiesData = {
     seating: "250 guests",
     floating: "450 guests",
     badge: "Premium AC Venue",
+    priority: 0.80,
+    changeFrequency: "monthly",
     features: [
       "Climate controlled environment",
       "Modern lighting system",
@@ -27,6 +30,7 @@ export const facilitiesData = {
     image: "/Photos/Facilities/TH.jpeg"
   },
   "traditional-hall-1": {
+    slug: "traditional-hall-1",
     num: "02",
     title: "Traditional Hall — 1",
     category: "Indoor Hall",
@@ -37,6 +41,8 @@ export const facilitiesData = {
     seating: "200 guests",
     floating: "350 guests",
     badge: "Traditional Non-AC",
+    priority: 0.75,
+    changeFrequency: "monthly",
     features: [
       "Natural ventilation system",
       "Traditional architecture & layout",
@@ -54,6 +60,7 @@ export const facilitiesData = {
     image: "/Photos/Facilities/TH1.JPG"
   },
   "traditional-hall-2": {
+    slug: "traditional-hall-2",
     num: "03",
     title: "Traditional Hall — 2",
     category: "Indoor Hall",
@@ -64,6 +71,8 @@ export const facilitiesData = {
     seating: "180 guests",
     floating: "300 guests",
     badge: "Multi-Purpose",
+    priority: 0.75,
+    changeFrequency: "monthly",
     features: [
       "Ample space for custom setups",
       "Good natural lighting & airflow",
@@ -80,6 +89,7 @@ export const facilitiesData = {
     image: "/Photos/Facilities/TH-2.jpeg"
   },
   "ground-1": {
+    slug: "ground-1",
     num: "01",
     title: "Ground — 1",
     category: "Outdoor Lawn",
@@ -90,6 +100,8 @@ export const facilitiesData = {
     seating: "600 guests",
     floating: "1,200 guests",
     badge: "Premium Lawn",
+    priority: 0.80,
+    changeFrequency: "monthly",
     features: [
       "Spacious open-air layout for large gatherings",
       "Beautiful landscaping and decoration flexibility",
@@ -108,6 +120,7 @@ export const facilitiesData = {
     image: "/Photos/Facilities/G1.jpeg"
   },
   "ground-2": {
+    slug: "ground-2",
     num: "02",
     title: "Ground — 2",
     category: "Outdoor Lawn",
@@ -118,6 +131,8 @@ export const facilitiesData = {
     seating: "450 guests",
     floating: "800 guests",
     badge: "Garden Lawn",
+    priority: 0.75,
+    changeFrequency: "monthly",
     features: [
       "Natural garden setting & greenery",
       "Ideal for both day and night celebrations",
@@ -136,6 +151,7 @@ export const facilitiesData = {
     image: "/Photos/Facilities/G2.jpeg"
   },
   "huge-event-venue": {
+    slug: "huge-event-venue",
     num: "03",
     title: "Huge Event Venue",
     category: "Outdoor Lawn",
@@ -146,6 +162,8 @@ export const facilitiesData = {
     seating: "800 guests",
     floating: "1,500 guests",
     badge: "Mega Venue",
+    priority: 0.80,
+    changeFrequency: "monthly",
     features: [
       "Maximum flexibility for custom stages & sets",
       "Perfect for mega-events & community meals",

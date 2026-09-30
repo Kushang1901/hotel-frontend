@@ -17,132 +17,28 @@ export const metadata = {
   }
 };
 
+import { attractionsData } from "../../data/attractionsData";
+import { generateAttractionsSchema, generateBreadcrumbSchema } from "../../lib/schemaMarkup";
+
 export default function DwarkaAttractions() {
-  const attractions = [
-    {
-      id: "dwarkadhish",
-      class: "dwarkadhish",
-      badge: "Most Sacred",
-      distance: "900 m",
-      icon: "fa-solid fa-hands-praying",
-      title: "Dwarkadhish Temple",
-      desc: "The main temple dedicated to Lord Krishna as Dwarkadhish (King of Dwarka). This ancient temple is built over the legendary city that Lord Krishna established. The temple's 78-meter high spire and intricate architecture make it one of India's most revered pilgrimage sites.",
-      time: "Early morning (5:00 AM) and evening aarti (7:00 PM)",
-      hotelDistance: "900 m",
-      special: "Main deity of Dwarka, architectural marvel"
-    },
-    {
-      id: "gomti",
-      class: "gomti-ghat",
-      badge: "Holy Bathing",
-      distance: "1 km",
-      icon: "fa-solid fa-ship",
-      title: "Gomti Ghat",
-      desc: "Sacred bathing ghat on the banks of river Gomti where pilgrims take holy dips. According to Hindu scriptures, bathing here washes away sins and brings spiritual purification. The ghat offers beautiful views and peaceful atmosphere for meditation and prayers.",
-      time: "Early morning during sunrise",
-      hotelDistance: "1 km",
-      special: "Sacred river confluence, spiritual bathing"
-    },
-    {
-      id: "gopi",
-      class: "gopi-talav",
-      badge: "Sacred Pond",
-      distance: "23 km",
-      icon: "fa-solid fa-droplet",
-      title: "Gopi Talav",
-      desc: "Sacred pond associated with Lord Krishna's divine pastimes with the Gopis. According to legend, this is where Krishna performed his divine leelas. The serene water body surrounded by temples creates a peaceful atmosphere for devotion and meditation.",
-      time: "Early morning and evening",
-      hotelDistance: "23 km",
-      special: "Krishna's leela place, peaceful surroundings"
-    },
-    {
-      id: "beyt",
-      class: "beyt-dwarka",
-      badge: "Very Important",
-      distance: "30 km",
-      icon: "fas fa-globe-europe",
-      title: "Beyt Dwarka Island",
-      desc: "The most important pilgrimage site, considered as the original residence of Lord Krishna. Accessible by boat, this island houses several ancient temples and is believed to be where Krishna lived with his family. Offers a unique spiritual experience away from mainland crowds.",
-      time: "Full day visit — 9:00 AM–12:00 PM & 3:00–8:00 PM",
-      hotelDistance: "30 km",
-      special: "Krishna's original residence, Sudarshan bridge journey"
-    },
-    {
-      id: "rukmini",
-      class: "rukmani",
-      badge: "Queen's Temple",
-      distance: "2 km",
-      icon: "fa-solid fa-heart",
-      title: "Rukmani Temple",
-      desc: "Dedicated to Rukmani, the principal queen and beloved wife of Lord Krishna. This beautiful temple showcases the eternal love story of Krishna and Rukmani. The temple's architecture and peaceful environment make it perfect for couples seeking blessings.",
-      time: "Morning prayers and evening aarti",
-      hotelDistance: "2 km",
-      special: "Couple blessings, beautiful architecture"
-    },
-    {
-      id: "bhadkeshwar",
-      class: "bhadkeshwar",
-      badge: "Beach Temple",
-      distance: "500 m",
-      icon: "fa-solid fa-hands-praying",
-      title: "Bhadkeshwar Mahadev Temple",
-      desc: "Ancient Shiva temple located right next to a pristine beach. During high tide, the temple appears to be surrounded by water, creating a mystical atmosphere. The combination of spiritual significance and natural beauty makes it a unique pilgrimage experience.",
-      time: "High tide for mystical views, sunset for photography",
-      hotelDistance: "500 m",
-      special: "Temple surrounded by sea during high tide"
-    },
-    {
-      id: "gayatri",
-      class: "gayatri",
-      badge: "Serene",
-      distance: "0.5 km",
-      icon: "fa-solid fa-star",
-      title: "Gayatri Temple & Beach",
-      desc: "Peaceful temple dedicated to Goddess Gayatri with an adjacent clean beach. The temple offers stunning views of the Arabian Sea and is perfect for those seeking tranquility. The beach is ideal for peaceful walks and meditation away from crowded areas.",
-      time: "Morning prayers and evening walks",
-      hotelDistance: "0.5 km",
-      special: "Peaceful atmosphere, clean beach access"
-    },
-    {
-      id: "sunset",
-      class: "sunset-point",
-      badge: "Scenic View",
-      distance: "400 m",
-      icon: "fa-solid fa-sun",
-      title: "Sunset Point",
-      desc: "The most popular spot in Dwarka to witness breathtaking sunsets over the Arabian Sea. This elevated viewpoint offers panoramic views of the coastline and is perfect for photography and romantic moments. The view of the sun setting behind the sea is truly divine.",
-      time: "1 hour before sunset (6:00–7:30 PM)",
-      hotelDistance: "400 m",
-      special: "Spectacular sunset views, photography spot"
-    },
-    {
-      id: "shivrajpur",
-      class: "shivrajpur",
-      badge: "Blue Flag",
-      distance: "10 km",
-      icon: "fa-solid fa-umbrella-beach",
-      title: "Shivrajpur Beach",
-      desc: "India's first Blue Flag certified beach, known for its pristine waters and clean environment. Perfect for families and beach lovers, offering water sports, clean facilities, and beautiful coastline. The beach maintains international standards of cleanliness and safety.",
-      time: "Early morning or late afternoon",
-      hotelDistance: "10 km",
-      special: "Blue Flag certification, water sports"
-    },
-    {
-      id: "nageshwar",
-      class: "nageshwar",
-      badge: "Jyotirlinga",
-      distance: "18 km",
-      icon: "fa-solid fa-om",
-      title: "Nageshwar Mahadev Temple",
-      desc: "One of the 12 sacred Jyotirlingas of Lord Shiva, making it extremely significant for Hindu pilgrims. The temple features a massive 25-meter tall statue of Lord Shiva and houses the divine Jyotirlinga. A must-visit destination for complete spiritual fulfillment.",
-      time: "Early morning aarti and Maha Shivaratri",
-      hotelDistance: "18 km",
-      special: "Sacred Jyotirlinga, 25m tall Shiva statue"
-    }
-  ];
+  const attractions = attractionsData;
+
+  const attractionsSchema = generateAttractionsSchema(attractions);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Home", slug: "" },
+    { name: "Dwarka Attractions", slug: "dwarka_attractions" }
+  ]);
 
   return (
     <div className="page-dwarka-attractions">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(attractionsSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* ═══ HERO ═══ */}
       <section className="hero">
         <div className="hero-content">
