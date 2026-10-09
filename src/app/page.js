@@ -9,15 +9,118 @@ export default function Home() {
   // === SLIDESHOW STATE ===
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [videoReady, setVideoReady] = useState({});
+  const [parallax, setParallax] = useState({ x: 0, y: 0 });
+  const particlesCanvasRef = useRef(null);
+
   const slides = [
-    { src: "/Photos/index/counter-shot.mp4", type: "video" },
-    { src: "/Photos/index/sofa-shot.mp4", type: "video" },
-    { src: "/Photos/index/entrance-shot2.mp4", type: "video" },
-    { src: "/Photos/index/Hotel_flow.mp4", type: "video" }
+    { 
+      src: "/Photos/index/counter-shot.mp4", 
+      poster: "/Photos/index/Hero1.jpeg", 
+      title: "Grand Reception & Welcome", 
+      type: "video" 
+    },
+    { 
+      src: "/Photos/index/sofa-shot.mp4", 
+      poster: "/Photos/index/Hero2.jpeg", 
+      title: "Executive Guest Lounge", 
+      type: "video" 
+    },
+    { 
+      src: "/Photos/index/entrance-shot2.mp4", 
+      poster: "/Photos/index/Hero3.jpeg", 
+      title: "Sacred Temple Gateway", 
+      type: "video" 
+    },
+    { 
+      src: "/Photos/index/Hotel_flow.mp4", 
+      poster: "/Photos/index/Hero4.jpeg", 
+      title: "Hotel Devang Dwarka", 
+      type: "video" 
+    }
   ];
   const slideDuration = 8000;
   const slideTimerRef = useRef(null);
   const linerRef = useRef(null);
+
+  // Parallax subtle 3D hover tracking
+  const handleHeroMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 14;
+    setParallax({ x, y });
+  };
+
+  const handleHeroMouseLeave = () => {
+    setParallax({ x: 0, y: 0 });
+  };
+
+  // Golden Sacred Ambient Particles Canvas
+  useEffect(() => {
+    const canvas = particlesCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    let animId;
+    let width = (canvas.width = canvas.offsetWidth || window.innerWidth);
+    let height = (canvas.height = canvas.offsetHeight || window.innerHeight);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = canvas.offsetWidth || window.innerWidth;
+      height = canvas.height = canvas.offsetHeight || window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const particleCount = 30;
+    const particles = Array.from({ length: particleCount }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 2 + 0.8,
+      speedY: Math.random() * 0.4 + 0.15,
+      drift: (Math.random() - 0.5) * 0.3,
+      alpha: Math.random() * 0.5 + 0.2,
+      baseAlpha: Math.random() * 0.5 + 0.2,
+      freq: Math.random() * 0.02 + 0.01,
+      color: Math.random() > 0.4 ? "#ffd700" : "#caa035"
+    }));
+
+    let t = 0;
+    const render = () => {
+      t += 1;
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach((p) => {
+        p.y -= p.speedY;
+        p.x += Math.sin(t * p.freq) * 0.35 + p.drift;
+        p.alpha = p.baseAlpha + Math.sin(t * p.freq * 2) * 0.15;
+
+        if (p.y < -10) {
+          p.y = height + 10;
+          p.x = Math.random() * width;
+        }
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.max(0.1, Math.min(0.85, p.alpha));
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "#ffd700";
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
+      animId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animId);
+    };
+  }, []);
 
   const startSlideshow = () => {
     stopSlideshow();
@@ -156,7 +259,14 @@ export default function Home() {
       const video = videoRefs.current[idx];
       if (video) {
         if (idx === currentSlide && isPlaying) {
-          video.play().catch(() => {});
+          const promise = video.play();
+          if (promise !== undefined) {
+            promise
+              .then(() => {
+                setVideoReady((prev) => ({ ...prev, [idx]: true }));
+              })
+              .catch(() => {});
+          }
         } else {
           video.pause();
           try {
@@ -170,27 +280,63 @@ export default function Home() {
   return (
     <div className="page-index">
       {/* ═══ HERO SECTION ═══ */}
-      <section className="hero" id="home">
-        <div className="slideshow-container">
-          {slides.map((slide, idx) => (
-            <div key={idx} className={`slide ${idx === currentSlide ? "active" : ""}`}>
-              <video 
-                ref={(el) => (videoRefs.current[idx] = el)}
-                autoPlay={idx === currentSlide} 
-                muted 
-                loop 
-                playsInline 
-                preload={idx === currentSlide ? "auto" : "metadata"}
-                style={{ display: idx === currentSlide ? "block" : "none" }}
+      <section 
+        className="hero" 
+        id="home"
+        onMouseMove={handleHeroMouseMove}
+        onMouseLeave={handleHeroMouseLeave}
+      >
+        <div 
+          className="slideshow-container"
+          style={{
+            transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0) scale(1.04)`
+          }}
+        >
+          {slides.map((slide, idx) => {
+            const isActive = idx === currentSlide;
+            const isNext = idx === (currentSlide + 1) % slides.length;
+            return (
+              <div 
+                key={idx} 
+                className={`slide ${isActive ? "active" : ""}`}
+                aria-hidden={!isActive}
               >
-                <source src={slide.src} type="video/mp4" />
-              </video>
-            </div>
-          ))}
+                {/* Instant Cinematic Poster Image (0ms latency, Ken Burns animation) */}
+                <img 
+                  src={slide.poster} 
+                  alt={slide.title} 
+                  className="slide-poster"
+                  loading={idx === 0 ? "eager" : "lazy"}
+                />
+
+                {/* Seamless Video Layer (crossfades smoothly once buffer is ready) */}
+                <video 
+                  ref={(el) => (videoRefs.current[idx] = el)}
+                  autoPlay={isActive} 
+                  muted 
+                  loop 
+                  playsInline 
+                  preload={isActive || isNext ? "auto" : "metadata"}
+                  onPlaying={() => setVideoReady((prev) => ({ ...prev, [idx]: true }))}
+                  onLoadedData={() => setVideoReady((prev) => ({ ...prev, [idx]: true }))}
+                  className={`slide-video ${videoReady[idx] && isActive ? "is-playing" : ""}`}
+                >
+                  <source src={slide.src} type="video/mp4" />
+                </video>
+              </div>
+            );
+          })}
+
+          {/* Golden Ambient Particles Canvas */}
+          <canvas ref={particlesCanvasRef} className="hero-particles" />
+
           <div ref={linerRef} className="slide-liner"></div>
         </div>
 
         <div className="hero-content">
+          <div className="hero-location-badge">
+            <span className="badge-sparkle">✦</span> {slides[currentSlide].title}
+          </div>
           <h1>Welcome to Family Friendly <span className="hotel-name">Hotel-Devang</span></h1>
           <p>Experience divine hospitality in the sacred city Dwarka . Your spiritual journey begins with our warm welcome and comfortable stay.</p>
           <Link href="/room" className="cta-button ocean-btn">
@@ -205,11 +351,11 @@ export default function Home() {
         </div>
 
         <div className="slideshow-controls">
-          <button id="prevSlide" className="slide-btn" onClick={handlePrevSlide}>&#9664;</button>
-          <button id="playPauseSlide" className="slide-btn" onClick={handlePlayPause}>
+          <button id="prevSlide" className="slide-btn" onClick={handlePrevSlide} aria-label="Previous slide">&#9664;</button>
+          <button id="playPauseSlide" className="slide-btn" onClick={handlePlayPause} aria-label="Play or pause">
             {isPlaying ? "❚❚" : "▶"}
           </button>
-          <button id="nextSlide" className="slide-btn" onClick={handleNextSlide}>&#9654;</button>
+          <button id="nextSlide" className="slide-btn" onClick={handleNextSlide} aria-label="Next slide">&#9654;</button>
         </div>
       </section>
 

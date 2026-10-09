@@ -731,8 +731,10 @@
 
 .page-index .slideshow-container {
     position: absolute;
-    inset: 0;
+    inset: -15px;
     z-index: 1;
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.2, 0, 0.2, 1);
 }
 
 .page-index .slide {
@@ -740,24 +742,109 @@
     top: 0; left: 0;
     width: 100%; height: 100%;
     opacity: 0;
-    transition: opacity 1.8s cubic-bezier(0.4,0,0.2,1);
+    transition: opacity 1.6s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 0;
     overflow: hidden;
-    background: black;
+    background: #150808;
 }
 
 .page-index .slide.active { opacity: 1; z-index: 2; }
 .page-index .slide.previous { opacity: 1; z-index: 1; }
 
-.page-index .slide video {
+/* ─── Instant Cinematic Moving Poster (Ken Burns) ─── */
+.page-index .slide .slide-poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.84) contrast(1.06) saturate(1.05);
+    transform: scale(1.0);
+    will-change: transform;
+    pointer-events: none;
+    display: block;
+}
+
+.page-index .slide.active .slide-poster {
+    animation: kenBurnsCinematic 10s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
+}
+
+@keyframes kenBurnsCinematic {
+    0% {
+        transform: scale(1.0) translate(0%, 0%);
+    }
+    100% {
+        transform: scale(1.08) translate(-1.2%, -0.8%);
+    }
+}
+
+/* ─── Seamless Video Layer (Smooth Handshake) ─── */
+.page-index .slide .slide-video {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     transform: translate3d(0,0,0);
     backface-visibility: hidden;
-    filter: brightness(0.82) contrast(1.06) saturate(1.05);
+    filter: brightness(0.84) contrast(1.06) saturate(1.05);
+    opacity: 0;
+    transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: opacity;
+    pointer-events: none;
+}
+
+.page-index .slide .slide-video.is-playing {
+    opacity: 1;
+}
+
+/* ─── Golden Ambient Particles Canvas ─── */
+.page-index .hero-particles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+/* ─── Hero Location Tour Badge ─── */
+.page-index .hero-location-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.4rem 1.15rem;
+    margin-bottom: 1.2rem;
+    background: rgba(30, 8, 8, 0.65);
+    border: 1px solid rgba(202, 160, 53, 0.45);
+    border-radius: 30px;
+    color: #ffd700;
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.74rem, 0.85vw, 0.84rem);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    animation: fadeInBadge 0.6s ease;
+}
+
+.page-index .hero-location-badge .badge-sparkle {
+    color: #ffd700;
+    animation: sparkleSpin 3s ease infinite;
+}
+
+@keyframes sparkleSpin {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.25); }
+}
+
+@keyframes fadeInBadge {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideInFromLeft {
