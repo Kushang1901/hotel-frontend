@@ -54,6 +54,12 @@ export default function Booking() {
   const turnstileWidgetId = useRef(null);
   const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "0x4AAAAAAD4ZhZeB0hlkvbiu";
 
+  // Flatpickr instances and input references
+  const checkInInputRef = useRef(null);
+  const checkOutInputRef = useRef(null);
+  const checkInFpRef = useRef(null);
+  const checkOutFpRef = useRef(null);
+
   // Loading references
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
   const [isProcessingOrder, setIsProcessingOrder] = useState(false);
@@ -249,6 +255,119 @@ export default function Booking() {
       }
     };
   }, [phase]);
+
+  // Initialize Flatpickr on Check-in and Check-out Date Inputs
+  useEffect(() => {
+    if (typeof window === "undefined" || phase !== 1) return;
+
+    let activeCheckInFp = null;
+    let activeCheckOutFp = null;
+
+    import("flatpickr").then((module) => {
+      const fp = module.default;
+      import("flatpickr/dist/flatpickr.css");
+
+      if (checkInInputRef.current) {
+        activeCheckInFp = fp(checkInInputRef.current, {
+          altInput: true,
+          altFormat: "d/m/Y",
+          dateFormat: "Y-m-d",
+          allowInput: true,
+          minDate: "today",
+          defaultDate: checkInVal || undefined,
+          parseDate: (datestr) => {
+            if (datestr && datestr.includes("/")) {
+              const parts = datestr.split("/");
+              if (parts.length === 3) {
+                const day = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1;
+                const year = parseInt(parts[2], 10);
+                const d = new Date(year, month, day);
+                if (!isNaN(d.getTime())) return d;
+              }
+            }
+            return new Date(datestr);
+          },
+          onChange: (selectedDates, dateStr) => {
+            setCheckInVal(dateStr);
+            if (checkOutFpRef.current && selectedDates.length > 0) {
+              const nextDay = new Date(selectedDates[0].getTime() + 86400000);
+              checkOutFpRef.current.set("minDate", nextDay);
+              if (checkOutVal && new Date(checkOutVal) <= selectedDates[0]) {
+                const nextDayStr = getLocalDateString(nextDay);
+                checkOutFpRef.current.setDate(nextDay, true);
+                setCheckOutVal(nextDayStr);
+              }
+            }
+          }
+        });
+        checkInFpRef.current = activeCheckInFp;
+      }
+
+      if (checkOutInputRef.current) {
+        const initialMin = checkInVal ? new Date(new Date(checkInVal).getTime() + 86400000) : "today";
+        activeCheckOutFp = fp(checkOutInputRef.current, {
+          altInput: true,
+          altFormat: "d/m/Y",
+          dateFormat: "Y-m-d",
+          allowInput: true,
+          minDate: initialMin,
+          defaultDate: checkOutVal || undefined,
+          parseDate: (datestr) => {
+            if (datestr && datestr.includes("/")) {
+              const parts = datestr.split("/");
+              if (parts.length === 3) {
+                const day = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1;
+                const year = parseInt(parts[2], 10);
+                const d = new Date(year, month, day);
+                if (!isNaN(d.getTime())) return d;
+              }
+            }
+            return new Date(datestr);
+          },
+          onChange: (selectedDates, dateStr) => {
+            setCheckOutVal(dateStr);
+          }
+        });
+        checkOutFpRef.current = activeCheckOutFp;
+      }
+    });
+
+    return () => {
+      if (activeCheckInFp) {
+        activeCheckInFp.destroy();
+        checkInFpRef.current = null;
+      }
+      if (activeCheckOutFp) {
+        activeCheckOutFp.destroy();
+        checkOutFpRef.current = null;
+      }
+    };
+  }, [phase]);
+
+  // Sync state changes with Flatpickr instances
+  useEffect(() => {
+    if (checkInFpRef.current) {
+      const current = checkInFpRef.current.input.value;
+      if (checkInVal !== current) {
+        checkInFpRef.current.setDate(checkInVal || "", false);
+        if (checkOutFpRef.current && checkInVal) {
+          const nextDay = new Date(new Date(checkInVal).getTime() + 86400000);
+          checkOutFpRef.current.set("minDate", nextDay);
+        }
+      }
+    }
+  }, [checkInVal]);
+
+  useEffect(() => {
+    if (checkOutFpRef.current) {
+      const current = checkOutFpRef.current.input.value;
+      if (checkOutVal !== current) {
+        checkOutFpRef.current.setDate(checkOutVal || "", false);
+      }
+    }
+  }, [checkOutVal]);
 
   // Helper date parsing/normalization functions
   const normalizeDbDate = (d) => {
@@ -1005,23 +1124,29 @@ We look forward to welcoming you to Dwarka!`;
                     <div style={{ display: "flex", flexDirection: "column", gap: "1.2rem" }}>
                       <div className="field-group">
                         <label>Check-in Date</label>
-                        <input
-                          type="date"
-                          value={checkInVal}
-                          onChange={(e) => setCheckInVal(e.target.value)}
-                          className="input-control"
-                          min={getLocalDateString(new Date())}
-                        />
+                        <div className="date-input-wrapper">
+                          <input
+                            type="text"
+                            ref={checkInInputRef}
+                            defaultValue={checkInVal}
+                            placeholder="dd/mm/yyyy"
+                            className="input-control"
+                          />
+                          <i className="fa-solid fa-calendar-days date-input-icon"></i>
+                        </div>
                       </div>
                       <div className="field-group">
                         <label>Check-out Date</label>
-                        <input
-                          type="date"
-                          value={checkOutVal}
-                          onChange={(e) => setCheckOutVal(e.target.value)}
-                          className="input-control"
-                          min={checkInVal ? getLocalDateString(new Date(new Date(checkInVal).getTime() + 86400000)) : getLocalDateString(new Date())}
-                        />
+                        <div className="date-input-wrapper">
+                          <input
+                            type="text"
+                            ref={checkOutInputRef}
+                            defaultValue={checkOutVal}
+                            placeholder="dd/mm/yyyy"
+                            className="input-control"
+                          />
+                          <i className="fa-solid fa-calendar-days date-input-icon"></i>
+                        </div>
                       </div>
                     </div>
 
