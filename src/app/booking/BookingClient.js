@@ -49,6 +49,10 @@ export default function Booking() {
 
   // Turnstile
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileError, setTurnstileError] = useState(false);
+  const turnstileContainerRef = useRef(null);
+  const turnstileWidgetId = useRef(null);
+  const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "0x4AAAAAAD4ZhZeB0hlkvbiu";
 
   // Loading references
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
@@ -151,25 +155,100 @@ export default function Booking() {
     fetchHolidays();
   }, [publicCurrentMonth, holidays]);
 
-  // Load Cloudflare Turnstile
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const script = document.createElement("script");
-      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-      script.async = true;
-      script.defer = true;
-      document.body.appendChild(script);
-
-      window.onTurnstileSuccess = (token) => {
-        setTurnstileToken(token);
-      };
-
-      return () => {
-        document.body.removeChild(script);
-        delete window.onTurnstileSuccess;
-      };
+  // Helper to explicitly render Turnstile
+  const renderTurnstileWidget = () => {
+    if (typeof window === "undefined" || !window.turnstile || !turnstileContainerRef.current) {
+      return;
     }
-  }, []);
+
+    if (turnstileWidgetId.current) {
+      try {
+        window.turnstile.remove(turnstileWidgetId.current);
+      } catch (e) {
+        // ignore
+      }
+      turnstileWidgetId.current = null;
+    }
+
+    turnstileContainerRef.current.innerHTML = "";
+
+    try {
+      const id = window.turnstile.render(turnstileContainerRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        theme: "dark",
+        callback: (token) => {
+          setTurnstileToken(token);
+          setTurnstileError(false);
+        },
+        "expired-callback": () => {
+          setTurnstileToken("");
+        },
+        "error-callback": (errorCode) => {
+          console.error("Turnstile error callback:", errorCode);
+          setTurnstileToken("");
+          setTurnstileError(true);
+        }
+      });
+      turnstileWidgetId.current = id;
+      setTurnstileError(false);
+    } catch (err) {
+      console.error("Failed to render Turnstile:", err);
+      setTurnstileError(true);
+    }
+  };
+
+  // Load and initialize Cloudflare Turnstile
+  useEffect(() => {
+    if (typeof window === "undefined" || phase !== 1) return;
+
+    let isMounted = true;
+
+    const initTurnstile = () => {
+      if (window.turnstile) {
+        if (isMounted) renderTurnstileWidget();
+        return;
+      }
+
+      const existingScript = document.getElementById("cf-turnstile-script");
+      if (!existingScript) {
+        const script = document.createElement("script");
+        script.id = "cf-turnstile-script";
+        script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+        script.async = true;
+        script.defer = true;
+        script.onload = () => {
+          if (isMounted) renderTurnstileWidget();
+        };
+        script.onerror = () => {
+          console.error("Failed to load Cloudflare Turnstile script");
+          if (isMounted) setTurnstileError(true);
+        };
+        document.head.appendChild(script);
+      } else {
+        const checkReady = setInterval(() => {
+          if (window.turnstile) {
+            clearInterval(checkReady);
+            if (isMounted) renderTurnstileWidget();
+          }
+        }, 100);
+        setTimeout(() => clearInterval(checkReady), 6000);
+      }
+    };
+
+    // Delay slightly to ensure container DOM ref is attached
+    const timer = setTimeout(initTurnstile, 50);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+      if (turnstileWidgetId.current && typeof window !== "undefined" && window.turnstile) {
+        try {
+          window.turnstile.remove(turnstileWidgetId.current);
+        } catch (e) {}
+        turnstileWidgetId.current = null;
+      }
+    };
+  }, [phase]);
 
   // Helper date parsing/normalization functions
   const normalizeDbDate = (d) => {
@@ -450,10 +529,12 @@ export default function Booking() {
       const availableTypes = data.rooms.filter((r) => r.availableCount > 0);
       if (availableTypes.length === 0) {
         setShowNoVacancyModal(true);
-        if (typeof window !== "undefined" && window.turnstile) {
-          window.turnstile.reset();
-          setTurnstileToken("");
+        if (typeof window !== "undefined" && window.turnstile && turnstileWidgetId.current) {
+          try {
+            window.turnstile.reset(turnstileWidgetId.current);
+          } catch (e) {}
         }
+        setTurnstileToken("");
         return;
       }
 
@@ -473,10 +554,12 @@ export default function Booking() {
     } catch (err) {
       console.error("Availability check failed:", err);
       setAlertMsg(err.message || "Failed to check room availability. Please try again.");
-      if (typeof window !== "undefined" && window.turnstile) {
-        window.turnstile.reset();
-        setTurnstileToken("");
+      if (typeof window !== "undefined" && window.turnstile && turnstileWidgetId.current) {
+        try {
+          window.turnstile.reset(turnstileWidgetId.current);
+        } catch (e) {}
       }
+      setTurnstileToken("");
     } finally {
       setIsCheckingAvailability(false);
     }
@@ -942,8 +1025,23 @@ We look forward to welcoming you to Dwarka!`;
                       </div>
                     </div>
 
-                    <div className="recaptcha-row" style={{ marginTop: "1rem" }}>
-                      <div className="cf-turnstile" data-sitekey="0x4AAAAAAD4ZhZeB0hlkvbiu" data-theme="dark" data-callback="onTurnstileSuccess"></div>
+                    <div className="recaptcha-row" style={{ marginTop: "1rem", minHeight: "65px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                      <div ref={turnstileContainerRef}></div>
+                      {turnstileError && (
+                        <div style={{ textAlign: "center", marginTop: "0.5rem" }}>
+                          <p style={{ color: "#ff6b6b", fontSize: "0.82rem", margin: "0 0 0.4rem 0" }}>
+                            <i className="fa-solid fa-triangle-exclamation"></i> Verification widget failed to load. Please check if an ad-blocker or shield is blocking it.
+                          </p>
+                          <button
+                            type="button"
+                            onClick={renderTurnstileWidget}
+                            className="btn btn-secondary"
+                            style={{ padding: "0.3rem 0.8rem", fontSize: "0.78rem" }}
+                          >
+                            <i className="fa-solid fa-rotate-right"></i> Retry Verification
+                          </button>
+                        </div>
+                      )}
                     </div>
 
                     <button id="btnCheckAvailability" onClick={handleCheckAvailability} className="btn btn-primary" disabled={isCheckingAvailability} style={{ marginTop: "1rem" }}>
