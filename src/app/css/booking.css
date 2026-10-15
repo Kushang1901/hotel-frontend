@@ -1396,15 +1396,21 @@
 ══════════════════════════════════════════ */
 .page-booking .date-input-wrapper {
     position: relative;
-    display: flex;
-    align-items: center;
+    width: 100%;
 }
 .page-booking .date-input-wrapper input {
+    width: 100% !important;
     padding-right: 2.6rem !important;
+    cursor: pointer;
+}
+.page-booking .date-input-wrapper input[type="hidden"] {
+    display: none !important;
 }
 .page-booking .date-input-wrapper .date-input-icon {
     position: absolute;
     right: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--gold);
     pointer-events: none;
     font-size: 1.05rem;

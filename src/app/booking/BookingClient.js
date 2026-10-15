@@ -269,12 +269,10 @@ export default function Booking() {
 
       if (checkInInputRef.current) {
         activeCheckInFp = fp(checkInInputRef.current, {
-          altInput: true,
-          altFormat: "d/m/Y",
-          dateFormat: "Y-m-d",
+          dateFormat: "d/m/Y",
           allowInput: true,
           minDate: "today",
-          defaultDate: checkInVal || undefined,
+          defaultDate: checkInVal ? new Date(checkInVal) : undefined,
           parseDate: (datestr) => {
             if (datestr && datestr.includes("/")) {
               const parts = datestr.split("/");
@@ -288,16 +286,21 @@ export default function Booking() {
             }
             return new Date(datestr);
           },
-          onChange: (selectedDates, dateStr) => {
-            setCheckInVal(dateStr);
-            if (checkOutFpRef.current && selectedDates.length > 0) {
-              const nextDay = new Date(selectedDates[0].getTime() + 86400000);
-              checkOutFpRef.current.set("minDate", nextDay);
-              if (checkOutVal && new Date(checkOutVal) <= selectedDates[0]) {
-                const nextDayStr = getLocalDateString(nextDay);
-                checkOutFpRef.current.setDate(nextDay, true);
-                setCheckOutVal(nextDayStr);
+          onChange: (selectedDates) => {
+            if (selectedDates.length > 0) {
+              const iso = getLocalDateString(selectedDates[0]);
+              setCheckInVal(iso);
+              if (activeCheckOutFp) {
+                const nextDay = new Date(selectedDates[0].getTime() + 86400000);
+                activeCheckOutFp.set("minDate", nextDay);
+                if (checkOutVal && new Date(checkOutVal) <= selectedDates[0]) {
+                  const nextDayIso = getLocalDateString(nextDay);
+                  activeCheckOutFp.setDate(nextDay, true);
+                  setCheckOutVal(nextDayIso);
+                }
               }
+            } else {
+              setCheckInVal("");
             }
           }
         });
@@ -307,12 +310,10 @@ export default function Booking() {
       if (checkOutInputRef.current) {
         const initialMin = checkInVal ? new Date(new Date(checkInVal).getTime() + 86400000) : "today";
         activeCheckOutFp = fp(checkOutInputRef.current, {
-          altInput: true,
-          altFormat: "d/m/Y",
-          dateFormat: "Y-m-d",
+          dateFormat: "d/m/Y",
           allowInput: true,
           minDate: initialMin,
-          defaultDate: checkOutVal || undefined,
+          defaultDate: checkOutVal ? new Date(checkOutVal) : undefined,
           parseDate: (datestr) => {
             if (datestr && datestr.includes("/")) {
               const parts = datestr.split("/");
@@ -326,8 +327,13 @@ export default function Booking() {
             }
             return new Date(datestr);
           },
-          onChange: (selectedDates, dateStr) => {
-            setCheckOutVal(dateStr);
+          onChange: (selectedDates) => {
+            if (selectedDates.length > 0) {
+              const iso = getLocalDateString(selectedDates[0]);
+              setCheckOutVal(iso);
+            } else {
+              setCheckOutVal("");
+            }
           }
         });
         checkOutFpRef.current = activeCheckOutFp;
@@ -349,22 +355,24 @@ export default function Booking() {
   // Sync state changes with Flatpickr instances
   useEffect(() => {
     if (checkInFpRef.current) {
-      const current = checkInFpRef.current.input.value;
-      if (checkInVal !== current) {
-        checkInFpRef.current.setDate(checkInVal || "", false);
-        if (checkOutFpRef.current && checkInVal) {
+      if (checkInVal) {
+        checkInFpRef.current.setDate(new Date(checkInVal), false);
+        if (checkOutFpRef.current) {
           const nextDay = new Date(new Date(checkInVal).getTime() + 86400000);
           checkOutFpRef.current.set("minDate", nextDay);
         }
+      } else {
+        checkInFpRef.current.clear();
       }
     }
   }, [checkInVal]);
 
   useEffect(() => {
     if (checkOutFpRef.current) {
-      const current = checkOutFpRef.current.input.value;
-      if (checkOutVal !== current) {
-        checkOutFpRef.current.setDate(checkOutVal || "", false);
+      if (checkOutVal) {
+        checkOutFpRef.current.setDate(new Date(checkOutVal), false);
+      } else {
+        checkOutFpRef.current.clear();
       }
     }
   }, [checkOutVal]);
@@ -1124,11 +1132,10 @@ We look forward to welcoming you to Dwarka!`;
                     <div style={{ display: "flex", flexDirection: "column", gap: "1.2rem" }}>
                       <div className="field-group">
                         <label>Check-in Date</label>
-                        <div className="date-input-wrapper">
+                        <div className="date-input-wrapper" onClick={() => checkInFpRef.current?.open()}>
                           <input
                             type="text"
                             ref={checkInInputRef}
-                            defaultValue={checkInVal}
                             placeholder="dd/mm/yyyy"
                             className="input-control"
                           />
@@ -1137,11 +1144,10 @@ We look forward to welcoming you to Dwarka!`;
                       </div>
                       <div className="field-group">
                         <label>Check-out Date</label>
-                        <div className="date-input-wrapper">
+                        <div className="date-input-wrapper" onClick={() => checkOutFpRef.current?.open()}>
                           <input
                             type="text"
                             ref={checkOutInputRef}
-                            defaultValue={checkOutVal}
                             placeholder="dd/mm/yyyy"
                             className="input-control"
                           />
