@@ -85,7 +85,6 @@ export function LanguageProvider({ children }) {
     const found = INDIAN_LANGUAGES.find((l) => l.code === savedCode);
     if (found) {
       setCurrentLang(found);
-      // Re-assert cookies in case browser session cleared them
       setGoogleTransCookies(found.code);
     }
   }, []);
@@ -95,7 +94,6 @@ export function LanguageProvider({ children }) {
     if (typeof window === "undefined" || initializedRef.current) return;
     initializedRef.current = true;
 
-    // Define callback on window BEFORE script loads
     window.googleTranslateElementInit = function () {
       try {
         if (window.google && window.google.translate) {
@@ -127,7 +125,6 @@ export function LanguageProvider({ children }) {
     if (typeof window === "undefined") return;
 
     const suppressBanner = () => {
-      // Keep page pinned to top
       if (document.body.style.top && document.body.style.top !== "0px") {
         document.body.style.setProperty("top", "0px", "important");
       }
@@ -135,7 +132,6 @@ export function LanguageProvider({ children }) {
         document.documentElement.style.setProperty("top", "0px", "important");
       }
 
-      // Hide only Google's top popup banner frames
       const banners = document.querySelectorAll(
         '.VIpgJd-ZVi9od-ORHb-OEVmcd, .goog-te-banner-frame, iframe.goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame'
       );
@@ -218,15 +214,12 @@ export function LanguageProvider({ children }) {
     triggerTranslateCombo();
 
     // 5. Check if translation succeeded client-side or fallback to reload
-    // In production hosted environments, reloading with googtrans cookie set
-    // guarantees Google Translate translates the page on initial load.
     setTimeout(() => {
       const isTranslated =
         document.documentElement.classList.contains("translated-ltr") ||
         document.documentElement.classList.contains("translated-rtl");
 
       if (isTranslated) {
-        // Translation applied dynamically
         setIsClosingLoader(true);
         setTimeout(() => {
           setIsTranslating(false);
@@ -234,7 +227,6 @@ export function LanguageProvider({ children }) {
           setCurrentLang(targetLang);
         }, 350);
       } else {
-        // Production fallback: clean reload with googtrans cookie active
         window.location.reload();
       }
     }, 1100);
@@ -266,7 +258,7 @@ export function LanguageProvider({ children }) {
     >
       {children}
 
-      {/* Off-screen Google Translate Container (Must NOT be display: none for Google script to mount) */}
+      {/* Off-screen Google Translate Container */}
       <div
         id="google_translate_element"
         style={{
@@ -338,7 +330,7 @@ export function LanguageProvider({ children }) {
                   key={region}
                   type="button"
                   onClick={() => setSelectedRegion(region)}
-                  className={`lang-tab ${selectedRegion === region ? "active" : ""}`}
+                  className={`lang-filter-tab ${selectedRegion === region ? "active" : ""}`}
                 >
                   {region}
                 </button>
@@ -346,7 +338,7 @@ export function LanguageProvider({ children }) {
             </div>
 
             {/* Language Grid */}
-            <div className="lang-grid">
+            <div className="lang-grid-wrap">
               {filteredLanguages.map((lang) => {
                 const isSelected = currentLang.code === lang.code;
                 return (
@@ -354,32 +346,21 @@ export function LanguageProvider({ children }) {
                     key={lang.code}
                     type="button"
                     onClick={() => changeLanguage(lang)}
-                    className={`lang-card ${isSelected ? "selected" : ""}`}
+                    className={`lang-option-card ${isSelected ? "selected" : ""}`}
                   >
-                    <div className="lang-card-top">
-                      <span className="lang-flag">{lang.flag}</span>
-                      <span className="lang-region-badge">{lang.region}</span>
-                    </div>
-                    <div className="lang-card-main">
-                      <span className="lang-native-name">{lang.nativeName}</span>
-                      <span className="lang-english-name">{lang.name}</span>
+                    <span className="lang-card-flag">{lang.flag}</span>
+                    <div className="lang-card-info">
+                      <span className="lang-card-native">{lang.nativeName}</span>
+                      <span className="lang-card-en">{lang.name} • {lang.region}</span>
                     </div>
                     {isSelected && (
-                      <span className="lang-selected-check">
-                        <i className="fas fa-check-circle"></i> Active
+                      <span className="lang-card-check">
+                        <i className="fas fa-check-circle"></i>
                       </span>
                     )}
                   </button>
                 );
               })}
-            </div>
-
-            {/* Footer */}
-            <div className="lang-modal-footer">
-              <span>
-                <i className="fas fa-sparkles" style={{ color: "#ffd700", marginRight: "6px" }}></i>
-                Real-time dynamic translation across 15+ Indian languages
-              </span>
             </div>
           </div>
         </div>
@@ -387,46 +368,68 @@ export function LanguageProvider({ children }) {
 
       {/* ═══ LUXURY LOGO CONVERTER LOADER SCREEN ═══ */}
       {isTranslating && (
-        <div className={`logo-converter-overlay ${isClosingLoader ? "fade-out" : ""}`}>
-          <div className="logo-converter-content">
-            {/* Spinning Rings & Center Logo */}
-            <div className="converter-logo-wrapper">
-              <div className="converter-ring ring-1"></div>
-              <div className="converter-ring ring-2"></div>
-              <div className="converter-ring ring-3"></div>
-              <div className="converter-logo-center">
-                <img src="/Photos/index/logo.png" alt="Hotel Devang" />
+        <div className={`lang-converter-loader ${isClosingLoader ? "fade-out" : "fade-in"}`}>
+          <div className="loader-center-card">
+            {/* Center Logo with Multi-Ring Aura */}
+            <div className="loader-logo-container">
+              <div className="loader-ring-dashed"></div>
+              <div className="loader-ring-outer"></div>
+              <div className="loader-ring-inner"></div>
+              <div className="loader-logo-img-wrap">
+                <img src="/Photos/index/logo.png" alt="Hotel Devang" className="loader-logo-img" />
+              </div>
+              <span className="loader-sparkle sparkle-1">✦</span>
+              <span className="loader-sparkle sparkle-2">✦</span>
+              <span className="loader-sparkle sparkle-3">✦</span>
+            </div>
+
+            {/* Hotel Brand Title */}
+            <h4 className="loader-hotel-title">
+              HOTEL <span className="gold-text">DEVANG</span>
+            </h4>
+            <p className="loader-sacred-subtitle">Dwarka Divine Hospitality</p>
+
+            {/* Conversion Direction Box: FROM -> TO */}
+            <div className="loader-conversion-box">
+              <div className="conversion-pill conversion-from">
+                <span className="pill-flag">{transitionInfo.from.flag}</span>
+                <div className="pill-text">
+                  <span className="pill-tag">FROM</span>
+                  <span className="pill-native">{transitionInfo.from.nativeName}</span>
+                  <span className="pill-sub">{transitionInfo.from.name}</span>
+                </div>
+              </div>
+
+              <div className="conversion-arrow-wrap">
+                <div className="arrow-track">
+                  <i className="fas fa-long-arrow-alt-right arrow-icon"></i>
+                </div>
+                <span className="converting-label">TRANSLATING</span>
+              </div>
+
+              <div className="conversion-pill conversion-to">
+                <span className="pill-flag">{transitionInfo.to.flag}</span>
+                <div className="pill-text">
+                  <span className="pill-tag">TO</span>
+                  <span className="pill-native">{transitionInfo.to.nativeName}</span>
+                  <span className="pill-sub">{transitionInfo.to.name}</span>
+                </div>
               </div>
             </div>
 
-            {/* Title */}
-            <h4 className="converter-title">Hotel Devang</h4>
-            <p className="converter-status">Translating Experience...</p>
-
-            {/* Transition Language Pills: FROM -> TO */}
-            <div className="converter-transition-row">
-              <span className="converter-lang-pill from">
-                <span>{transitionInfo.from.flag}</span>
-                <span>{transitionInfo.from.nativeName}</span>
-              </span>
-
-              <div className="converter-arrow">
-                <i className="fas fa-arrow-right"></i>
-              </div>
-
-              <span className="converter-lang-pill to">
-                <span>{transitionInfo.to.flag}</span>
-                <span>{transitionInfo.to.nativeName}</span>
-              </span>
+            {/* Status message */}
+            <div className="loader-status-msg">
+              <i className="fas fa-om status-icon"></i>
+              <span>Preparing experience in <strong>{transitionInfo.to.nativeName}</strong>...</span>
             </div>
 
-            {/* Gold Progress Shimmer Bar */}
-            <div className="converter-progress-bar">
-              <div className="converter-progress-fill"></div>
+            {/* Progress Bar */}
+            <div className="loader-progress-track">
+              <div className="loader-progress-fill"></div>
             </div>
 
-            <p className="converter-subtext">
-              Dwarka Divine Hospitality in Your Language
+            <p className="loader-note">
+              Seamlessly converting sacred Dwarka stay information into {transitionInfo.to.name}
             </p>
           </div>
         </div>
