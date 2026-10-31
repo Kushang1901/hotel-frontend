@@ -3,7 +3,7 @@
    Preserves Crimson (#880000) & Gold (#caa035, #ffd700) Luxury Theme
    ════════════════════════════════════════════════════════ */
 
-/* ─── 1. COMPLETE GOOGLE TRANSLATE BANNER & FRAME SUPPRESSION ─── */
+/* ─── 1. COMPLETE GOOGLE TRANSLATE BANNER SUPPRESSION ─── */
 .VIpgJd-ZVi9od-ORHb-OEVmcd,
 .VIpgJd-ZVi9od-xl07Ob-OEVmcd,
 .VIpgJd-ZVi9od-SmfZ-OEVmcd,
@@ -19,14 +19,6 @@
 .goog-te-banner-frame,
 iframe.goog-te-banner-frame,
 iframe.VIpgJd-ZVi9od-ORHb-OEVmcd,
-iframe[class*="VIpgJd"],
-iframe[class*="goog-te-banner"],
-iframe[id*=":1.container"],
-iframe[id*=":2.container"],
-iframe[id*="goog-te-"],
-iframe[src*="translate.google"],
-.skiptranslate iframe,
-body > div.skiptranslate,
 #goog-gt-tt,
 .goog-te-balloon-frame,
 .goog-tooltip,
@@ -48,13 +40,17 @@ body > div.skiptranslate,
 html,
 body,
 body.translated-ltr,
-body.translated-rtl,
-html.translated-ltr,
-html.translated-rtl {
+body.translated-rtl {
     top: 0px !important;
     position: static !important;
     margin-top: 0px !important;
     padding-top: 0px !important;
+}
+
+/* Hide highlight tooltips on translated text */
+.goog-text-highlight {
+    background: none !important;
+    box-shadow: none !important;
 }
 
 header#mainHeader,

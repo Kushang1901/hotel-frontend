@@ -23,6 +23,39 @@ export const INDIAN_LANGUAGES = [
 
 const LanguageContext = createContext(null);
 
+// Helper: set or clear googtrans cookies across all domain levels and formats
+function setGoogleTransCookies(langCode) {
+  if (typeof document === "undefined") return;
+
+  const isEn = !langCode || langCode === "en";
+  const cookieVals = isEn ? [""] : [`/en/${langCode}`, `/auto/${langCode}`];
+  const maxAge = isEn
+    ? "expires=Thu, 01 Jan 1970 00:00:00 UTC;"
+    : "max-age=31536000;";
+
+  const hostname = window.location.hostname;
+  const parts = hostname.split(".");
+  const domains = [hostname];
+
+  if (parts.length > 2) {
+    domains.push("." + parts.slice(-2).join("."));
+  } else if (parts.length === 2 && !hostname.includes(":")) {
+    domains.push("." + hostname);
+  }
+
+  cookieVals.forEach((val) => {
+    // Current host without domain attribute
+    document.cookie = `googtrans=${val}; path=/; ${maxAge}`;
+    document.cookie = `googtrans=${val}; path=/; SameSite=Lax; ${maxAge}`;
+
+    // Specific domain scopes
+    domains.forEach((d) => {
+      document.cookie = `googtrans=${val}; path=/; domain=${d}; ${maxAge}`;
+      document.cookie = `googtrans=${val}; path=/; domain=${d}; SameSite=Lax; ${maxAge}`;
+    });
+  });
+}
+
 export function LanguageProvider({ children }) {
   const [currentLang, setCurrentLang] = useState(INDIAN_LANGUAGES[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,38 +70,33 @@ export function LanguageProvider({ children }) {
 
   const initializedRef = useRef(false);
 
-  // Enforce English as default unless explicitly chosen
+  // Synchronize language state on client mount
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const savedCode = localStorage.getItem("hotel_devang_lang");
 
-    // If no preference is saved yet or saved as English, enforce English as default and clear any stray googtrans cookie
     if (!savedCode || savedCode === "en") {
-      setCurrentLang(INDIAN_LANGUAGES[0]); // English
-      const domain = window.location.hostname;
-      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
-      if (domain.includes(".")) {
-        const rootDomain = domain.replace(/^www\./, "");
-        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${rootDomain};`;
-      }
+      setCurrentLang(INDIAN_LANGUAGES[0]);
+      setGoogleTransCookies("en");
       return;
     }
 
-    // Only if user explicitly saved a non-English language in this browser
     const found = INDIAN_LANGUAGES.find((l) => l.code === savedCode);
     if (found) {
       setCurrentLang(found);
+      // Re-assert cookies in case browser session cleared them
+      setGoogleTransCookies(found.code);
     }
   }, []);
 
-  // Google Translate Script injection
+  // Google Translate Script injection with production-ready callback
   useEffect(() => {
     if (typeof window === "undefined" || initializedRef.current) return;
     initializedRef.current = true;
 
-    window.googleTranslateElementInit = () => {
+    // Define callback on window BEFORE script loads
+    window.googleTranslateElementInit = function () {
       try {
         if (window.google && window.google.translate) {
           new window.google.translate.TranslateElement(
@@ -80,26 +108,26 @@ export function LanguageProvider({ children }) {
             "google_translate_element"
           );
         }
-      } catch (e) {
-        console.warn("Google Translate init exception:", e);
+      } catch (err) {
+        console.warn("Google Translate init error:", err);
       }
     };
 
     if (!document.getElementById("google-translate-script")) {
       const script = document.createElement("script");
       script.id = "google-translate-script";
-      script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       script.async = true;
       document.body.appendChild(script);
     }
   }, []);
 
-  // Continuously suppress Google top banner and prevent body top shifts
+  // Suppress top banner and shift without killing translation worker iframes
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const suppressBanner = () => {
-      // 1. Force body and html top back to 0px
+      // Keep page pinned to top
       if (document.body.style.top && document.body.style.top !== "0px") {
         document.body.style.setProperty("top", "0px", "important");
       }
@@ -107,11 +135,11 @@ export function LanguageProvider({ children }) {
         document.documentElement.style.setProperty("top", "0px", "important");
       }
 
-      // 2. Hide any banner iframes injected by Google
-      const elementsToHide = document.querySelectorAll(
-        '.VIpgJd-ZVi9od-ORHb-OEVmcd, .goog-te-banner-frame, iframe[class*="VIpgJd"], iframe[id*=":1.container"], iframe[id*=":2.container"], body > div.skiptranslate'
+      // Hide only Google's top popup banner frames
+      const banners = document.querySelectorAll(
+        '.VIpgJd-ZVi9od-ORHb-OEVmcd, .goog-te-banner-frame, iframe.goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame'
       );
-      elementsToHide.forEach((el) => {
+      banners.forEach((el) => {
         el.style.setProperty("display", "none", "important");
         el.style.setProperty("visibility", "hidden", "important");
         el.style.setProperty("height", "0px", "important");
@@ -164,21 +192,19 @@ export function LanguageProvider({ children }) {
     setIsTranslating(true);
     setIsClosingLoader(false);
 
-    // 2. Set Google Translate Cookies & localStorage
-    const domain = window.location.hostname;
-    const cookieVal = targetLang.code === "en" ? "" : `/en/${targetLang.code}`;
-    const expires = targetLang.code === "en" ? "; expires=Thu, 01 Jan 1970 00:00:00 UTC" : "; max-age=31536000";
+    // 2. Set Cookies and LocalStorage
+    localStorage.setItem("hotel_devang_lang", targetLang.code);
+    setGoogleTransCookies(targetLang.code);
 
-    document.cookie = `googtrans=${cookieVal}; path=/${expires}`;
-    document.cookie = `googtrans=${cookieVal}; path=/; domain=${domain}${expires}`;
-    if (domain.includes(".")) {
-      const rootDomain = domain.replace(/^www\./, "");
-      document.cookie = `googtrans=${cookieVal}; path=/; domain=.${rootDomain}${expires}`;
+    // 3. If switching to English, reload for pristine source text
+    if (targetLang.code === "en") {
+      setTimeout(() => {
+        window.location.reload();
+      }, 900);
+      return;
     }
 
-    localStorage.setItem("hotel_devang_lang", targetLang.code);
-
-    // 3. Trigger DOM translation via Google Translate Select Combo
+    // 4. Try client-side Google Translate select combo trigger
     const triggerTranslateCombo = () => {
       const combo = document.querySelector(".goog-te-combo");
       if (combo) {
@@ -189,33 +215,29 @@ export function LanguageProvider({ children }) {
       return false;
     };
 
-    let comboApplied = triggerTranslateCombo();
-    if (!comboApplied) {
-      let attempts = 0;
-      const interval = setInterval(() => {
-        attempts++;
-        if (triggerTranslateCombo() || attempts > 25) {
-          clearInterval(interval);
-        }
-      }, 100);
-    }
+    triggerTranslateCombo();
 
-    // 4. Smooth transition timer for the Logo Loader
+    // 5. Check if translation succeeded client-side or fallback to reload
+    // In production hosted environments, reloading with googtrans cookie set
+    // guarantees Google Translate translates the page on initial load.
     setTimeout(() => {
-      // If switching back to English, a clean reload guarantees pristine English
-      if (targetLang.code === "en") {
-        window.location.reload();
-        return;
-      }
+      const isTranslated =
+        document.documentElement.classList.contains("translated-ltr") ||
+        document.documentElement.classList.contains("translated-rtl");
 
-      // Smooth fade-out of the Logo Loader
-      setIsClosingLoader(true);
-      setTimeout(() => {
-        setIsTranslating(false);
-        setIsClosingLoader(false);
-        setCurrentLang(targetLang);
-      }, 350);
-    }, 1250);
+      if (isTranslated) {
+        // Translation applied dynamically
+        setIsClosingLoader(true);
+        setTimeout(() => {
+          setIsTranslating(false);
+          setIsClosingLoader(false);
+          setCurrentLang(targetLang);
+        }, 350);
+      } else {
+        // Production fallback: clean reload with googtrans cookie active
+        window.location.reload();
+      }
+    }, 1100);
   };
 
   // Filter languages for search & region
@@ -244,9 +266,22 @@ export function LanguageProvider({ children }) {
     >
       {children}
 
-      {/* ═══ FLOATING LUXURY LANGUAGE WIDGET (Bottom-Left) ═══ */}
-            {/* Hidden Google Translate Target */}
-      <div id="google_translate_element" style={{ display: "none" }} aria-hidden="true" />
+      {/* Off-screen Google Translate Container (Must NOT be display: none for Google script to mount) */}
+      <div
+        id="google_translate_element"
+        style={{
+          position: "fixed",
+          top: "-9999px",
+          left: "-9999px",
+          width: "1px",
+          height: "1px",
+          opacity: 0.01,
+          pointerEvents: "none",
+          overflow: "hidden",
+          zIndex: -9999,
+        }}
+        aria-hidden="true"
+      />
 
       {/* ═══ LANGUAGE SELECTION MODAL ═══ */}
       {isModalOpen && (
@@ -278,7 +313,7 @@ export function LanguageProvider({ children }) {
                 <i className="fas fa-search"></i>
                 <input
                   type="text"
-                  placeholder="Search language / भाषा खोजें / શોધો (e.g. Gujarati, Hindi, Marathi)..."
+                  placeholder="Search language / ભાષા શોધો / भाषा खोजें (e.g. Gujarati, Hindi, Marathi)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="lang-search-input"
@@ -298,120 +333,101 @@ export function LanguageProvider({ children }) {
 
             {/* Region Filter Tabs */}
             <div className="lang-filter-tabs">
-              {["All", "Gujarat / Dwarka", "North", "South", "East", "West"].map((region) => (
+              {["All", "Gujarat / Dwarka", "North", "West", "South", "East", "Sacred"].map((region) => (
                 <button
                   key={region}
                   type="button"
-                  className={`lang-filter-tab ${selectedRegion === region ? "active" : ""}`}
                   onClick={() => setSelectedRegion(region)}
+                  className={`lang-tab ${selectedRegion === region ? "active" : ""}`}
                 >
-                  {region === "Gujarat / Dwarka" ? "✦ Gujarat / Dwarka" : region}
+                  {region}
                 </button>
               ))}
             </div>
 
-            {/* Languages Grid */}
-            <div className="lang-grid-wrap">
+            {/* Language Grid */}
+            <div className="lang-grid">
               {filteredLanguages.map((lang) => {
-                const isSelected = lang.code === currentLang.code;
+                const isSelected = currentLang.code === lang.code;
                 return (
                   <button
                     key={lang.code}
                     type="button"
-                    className={`lang-option-card ${isSelected ? "selected" : ""}`}
                     onClick={() => changeLanguage(lang)}
+                    className={`lang-card ${isSelected ? "selected" : ""}`}
                   >
-                    <span className="lang-card-flag">{lang.flag}</span>
-                    <div className="lang-card-info">
-                      <span className="lang-card-native">{lang.nativeName}</span>
-                      <span className="lang-card-en">{lang.name} • {lang.region}</span>
+                    <div className="lang-card-top">
+                      <span className="lang-flag">{lang.flag}</span>
+                      <span className="lang-region-badge">{lang.region}</span>
+                    </div>
+                    <div className="lang-card-main">
+                      <span className="lang-native-name">{lang.nativeName}</span>
+                      <span className="lang-english-name">{lang.name}</span>
                     </div>
                     {isSelected && (
-                      <span className="lang-card-check">
-                        <i className="fas fa-check-circle"></i>
+                      <span className="lang-selected-check">
+                        <i className="fas fa-check-circle"></i> Active
                       </span>
                     )}
                   </button>
                 );
               })}
             </div>
+
+            {/* Footer */}
+            <div className="lang-modal-footer">
+              <span>
+                <i className="fas fa-sparkles" style={{ color: "#ffd700", marginRight: "6px" }}></i>
+                Real-time dynamic translation across 15+ Indian languages
+              </span>
+            </div>
           </div>
         </div>
       )}
 
-      {/* ═══ LOGO CONVERTER LOADER SCREEN ═══ */}
+      {/* ═══ LUXURY LOGO CONVERTER LOADER SCREEN ═══ */}
       {isTranslating && (
-        <div className={`lang-converter-loader ${isClosingLoader ? "fade-out" : "fade-in"}`}>
-          <div className="loader-center-card">
-            {/* Center Logo with Luxury Rotating Aura */}
-            <div className="loader-logo-container">
-              <div className="loader-ring loader-ring-dashed"></div>
-              <div className="loader-ring loader-ring-outer"></div>
-              <div className="loader-ring loader-ring-inner"></div>
-
-              <div className="loader-logo-img-wrap">
-                <img
-                  src="/Photos/index/logo.png"
-                  alt="Hotel Devang Logo"
-                  className="loader-logo-img"
-                />
+        <div className={`logo-converter-overlay ${isClosingLoader ? "fade-out" : ""}`}>
+          <div className="logo-converter-content">
+            {/* Spinning Rings & Center Logo */}
+            <div className="converter-logo-wrapper">
+              <div className="converter-ring ring-1"></div>
+              <div className="converter-ring ring-2"></div>
+              <div className="converter-ring ring-3"></div>
+              <div className="converter-logo-center">
+                <img src="/Photos/index/logo.png" alt="Hotel Devang" />
               </div>
-
-              <span className="loader-sparkle sparkle-1">✦</span>
-              <span className="loader-sparkle sparkle-2">✦</span>
-              <span className="loader-sparkle sparkle-3">✦</span>
             </div>
 
-            {/* Hotel Devang Brand */}
-            <h3 className="loader-hotel-title">
-              HOTEL <span className="gold-text">DEVANG</span>
-            </h3>
-            <p className="loader-sacred-subtitle">
-              Dwarkadhish Divine Hospitality
+            {/* Title */}
+            <h4 className="converter-title">Hotel Devang</h4>
+            <p className="converter-status">Translating Experience...</p>
+
+            {/* Transition Language Pills: FROM -> TO */}
+            <div className="converter-transition-row">
+              <span className="converter-lang-pill from">
+                <span>{transitionInfo.from.flag}</span>
+                <span>{transitionInfo.from.nativeName}</span>
+              </span>
+
+              <div className="converter-arrow">
+                <i className="fas fa-arrow-right"></i>
+              </div>
+
+              <span className="converter-lang-pill to">
+                <span>{transitionInfo.to.flag}</span>
+                <span>{transitionInfo.to.nativeName}</span>
+              </span>
+            </div>
+
+            {/* Gold Progress Shimmer Bar */}
+            <div className="converter-progress-bar">
+              <div className="converter-progress-fill"></div>
+            </div>
+
+            <p className="converter-subtext">
+              Dwarka Divine Hospitality in Your Language
             </p>
-
-            {/* Conversion Direction Box: Converting from respected to respected language */}
-            <div className="loader-conversion-box">
-              {/* Respected FROM language */}
-              <div className="conversion-pill conversion-from">
-                <span className="pill-flag">{transitionInfo.from.flag}</span>
-                <div className="pill-text">
-                  <span className="pill-tag">CURRENT</span>
-                  <strong className="pill-native">{transitionInfo.from.nativeName}</strong>
-                  <span className="pill-sub">({transitionInfo.from.name})</span>
-                </div>
-              </div>
-
-              {/* Animated Golden Conversion Arrow */}
-              <div className="conversion-arrow-wrap">
-                <div className="arrow-track">
-                  <i className="fas fa-arrow-right arrow-icon"></i>
-                </div>
-                <span className="converting-label">CONVERTING</span>
-              </div>
-
-              {/* Respected TO language */}
-              <div className="conversion-pill conversion-to">
-                <span className="pill-flag">{transitionInfo.to.flag}</span>
-                <div className="pill-text">
-                  <span className="pill-tag">SELECTED</span>
-                  <strong className="pill-native gold-text">{transitionInfo.to.nativeName}</strong>
-                  <span className="pill-sub">({transitionInfo.to.name})</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Dynamic Status Text */}
-            <div className="loader-status-msg">
-              <i className="fas fa-circle-notch fa-spin status-icon"></i>
-              <span>Translating into <strong>{transitionInfo.to.nativeName} ({transitionInfo.to.name})</strong>...</span>
-            </div>
-
-            {/* Luxury Golden Progress Bar */}
-            <div className="loader-progress-track">
-              <div className="loader-progress-fill"></div>
-            </div>
-            <p className="loader-note">Applying authentic Indian language translation...</p>
           </div>
         </div>
       )}
@@ -426,4 +442,3 @@ export function useLanguage() {
   }
   return context;
 }
-
