@@ -8,40 +8,47 @@ import "./css/index.css";
 export default function Home() {
   // === SLIDESHOW STATE ===
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [prevSlide, setPrevSlide] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [videoReady, setVideoReady] = useState({});
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
   const particlesCanvasRef = useRef(null);
+  const aboutVideoRef = useRef(null);
 
   const slides = [
     { 
-      src: "/Photos/index/counter-shot.mp4", 
-      poster: "/Photos/index/Hero1.jpeg", 
-      title: "Grand Reception & Welcome", 
-      type: "video" 
+      image: "/Photos/index/Hero1.jpeg", 
+      title: "Grand Reception & Welcome",
+      animClass: "slide-anim-0"
     },
     { 
-      src: "/Photos/index/sofa-shot.mp4", 
-      poster: "/Photos/index/Hero2.jpeg", 
-      title: "Executive Guest Lounge", 
-      type: "video" 
+      image: "/Photos/index/Hero2.jpeg", 
+      title: "Executive Guest Lounge",
+      animClass: "slide-anim-1"
     },
     { 
-      src: "/Photos/index/entrance-shot2.mp4", 
-      poster: "/Photos/index/Hero3.jpeg", 
-      title: "Sacred Temple Gateway", 
-      type: "video" 
+      image: "/Photos/index/Hero3.jpeg", 
+      title: "Sacred Temple Gateway",
+      animClass: "slide-anim-2"
     },
     { 
-      src: "/Photos/index/Hotel_flow.mp4", 
-      poster: "/Photos/index/Hero4.jpeg", 
-      title: "Hotel Devang Dwarka", 
-      type: "video" 
+      image: "/Photos/index/Hero4.jpeg", 
+      title: "Hotel Devang Dwarka",
+      animClass: "slide-anim-3"
     }
   ];
-  const slideDuration = 8000;
+  const slideDuration = 6500; // 6.5s smooth cinematic presentation
   const slideTimerRef = useRef(null);
   const linerRef = useRef(null);
+
+  // Preload slides 2, 3, 4 into browser cache immediately after initial mount
+  useEffect(() => {
+    slides.forEach((slide, idx) => {
+      if (idx !== 0) {
+        const img = new Image();
+        img.src = slide.image;
+      }
+    });
+  }, []);
 
   // Parallax subtle 3D hover tracking
   const handleHeroMouseMove = (e) => {
@@ -122,49 +129,54 @@ export default function Home() {
     };
   }, []);
 
-  const startSlideshow = () => {
-    stopSlideshow();
-    slideTimerRef.current = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, slideDuration);
-    
-    if (linerRef.current) {
-      linerRef.current.style.animation = "none";
-      void linerRef.current.offsetWidth; // Trigger reflow
-      linerRef.current.style.animation = `linerProgress ${slideDuration}ms linear forwards`;
-    }
+  const changeSlide = (nextIndex) => {
+    setPrevSlide(currentSlide);
+    setCurrentSlide(nextIndex);
   };
 
-  const stopSlideshow = () => {
-    if (slideTimerRef.current) {
-      clearInterval(slideTimerRef.current);
-      slideTimerRef.current = null;
-    }
+  const handlePrevSlide = () => {
+    changeSlide((currentSlide - 1 + slides.length) % slides.length);
+  };
+
+  const handleNextSlide = () => {
+    changeSlide((currentSlide + 1) % slides.length);
+  };
+
+  const handlePlayPause = () => {
+    setIsPlaying((prev) => !prev);
   };
 
   useEffect(() => {
     if (isPlaying) {
-      startSlideshow();
-    } else {
-      stopSlideshow();
+      slideTimerRef.current = setInterval(() => {
+        setCurrentSlide((curr) => {
+          setPrevSlide(curr);
+          return (curr + 1) % slides.length;
+        });
+      }, slideDuration);
+
       if (linerRef.current) {
         linerRef.current.style.animation = "none";
+        void linerRef.current.offsetWidth; // Trigger reflow
+        linerRef.current.style.animation = `linerProgress ${slideDuration}ms linear forwards`;
+      }
+    } else {
+      if (slideTimerRef.current) {
+        clearInterval(slideTimerRef.current);
+        slideTimerRef.current = null;
+      }
+      if (linerRef.current) {
+        linerRef.current.style.animationPlayState = "paused";
       }
     }
-    return () => stopSlideshow();
+
+    return () => {
+      if (slideTimerRef.current) {
+        clearInterval(slideTimerRef.current);
+        slideTimerRef.current = null;
+      }
+    };
   }, [currentSlide, isPlaying]);
-
-  const handlePrevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  const handleNextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const handlePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
 
   // === TESTIMONIALS SLIDER STATE ===
   const [testimonialIndex, setTestimonialIndex] = useState(0);
@@ -219,63 +231,25 @@ export default function Home() {
     });
   };
 
-  // Visibility observer for videos
-  const videoRefs = useRef([]);
+  // Visibility observer for About section video
   useEffect(() => {
     if (typeof window !== "undefined" && "IntersectionObserver" in window) {
+      const video = aboutVideoRef.current;
+      if (!video) return;
       const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const video = entry.target;
-            if (entry.isIntersecting) {
-              // For slideshow videos, only play if it's the active slide
-              const idx = videoRefs.current.indexOf(video);
-              if (idx === -1 || idx === currentSlide) {
-                video.play().catch(() => {});
-              }
-            } else {
-              video.pause();
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-      
-      videoRefs.current.forEach((v) => {
-        if (v) observer.observe(v);
-      });
-      
-      return () => {
-        videoRefs.current.forEach((v) => {
-          if (v) observer.unobserve(v);
-        });
-      };
-    }
-  }, [currentSlide]);
-
-  // Handle slideshow video playback on state change
-  useEffect(() => {
-    slides.forEach((_, idx) => {
-      const video = videoRefs.current[idx];
-      if (video) {
-        if (idx === currentSlide && isPlaying) {
-          const promise = video.play();
-          if (promise !== undefined) {
-            promise
-              .then(() => {
-                setVideoReady((prev) => ({ ...prev, [idx]: true }));
-              })
-              .catch(() => {});
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
           }
-        } else {
-          video.pause();
-          try {
-            video.currentTime = 0;
-          } catch (e) {}
-        }
-      }
-    });
-  }, [currentSlide, isPlaying]);
+        },
+        { threshold: 0.3 }
+      );
+      observer.observe(video);
+      return () => observer.disconnect();
+    }
+  }, []);
 
   return (
     <div className="page-index">
@@ -294,35 +268,25 @@ export default function Home() {
         >
           {slides.map((slide, idx) => {
             const isActive = idx === currentSlide;
-            const isNext = idx === (currentSlide + 1) % slides.length;
+            const isPrev = idx === prevSlide;
             return (
               <div 
                 key={idx} 
-                className={`slide ${isActive ? "active" : ""}`}
+                className={`slide ${isActive ? "active" : ""} ${isPrev ? "previous" : ""}`}
                 aria-hidden={!isActive}
               >
-                {/* Instant Cinematic Poster Image (0ms latency, Ken Burns animation) */}
+                {/* Instant Cinematic Hero Image with Ken Burns pan & zoom */}
                 <img 
-                  src={slide.poster} 
+                  src={slide.image} 
                   alt={slide.title} 
-                  className="slide-poster"
+                  className={`slide-image ${slide.animClass}`}
                   loading={idx === 0 ? "eager" : "lazy"}
+                  fetchPriority={idx === 0 ? "high" : "auto"}
+                  decoding={idx === 0 ? "sync" : "async"}
+                  style={{
+                    animationPlayState: isPlaying ? "running" : "paused"
+                  }}
                 />
-
-                {/* Seamless Video Layer (crossfades smoothly once buffer is ready) */}
-                <video 
-                  ref={(el) => (videoRefs.current[idx] = el)}
-                  autoPlay={isActive} 
-                  muted 
-                  loop 
-                  playsInline 
-                  preload={isActive || isNext ? "auto" : "metadata"}
-                  onPlaying={() => setVideoReady((prev) => ({ ...prev, [idx]: true }))}
-                  onLoadedData={() => setVideoReady((prev) => ({ ...prev, [idx]: true }))}
-                  className={`slide-video ${videoReady[idx] && isActive ? "is-playing" : ""}`}
-                >
-                  <source src={slide.src} type="video/mp4" />
-                </video>
               </div>
             );
           })}
@@ -330,7 +294,13 @@ export default function Home() {
           {/* Golden Ambient Particles Canvas */}
           <canvas ref={particlesCanvasRef} className="hero-particles" />
 
-          <div ref={linerRef} className="slide-liner"></div>
+          <div 
+            ref={linerRef} 
+            className="slide-liner"
+            style={{
+              animationPlayState: isPlaying ? "running" : "paused"
+            }}
+          />
         </div>
 
         <div className="hero-content">
@@ -404,13 +374,13 @@ export default function Home() {
               boxShadow: "0 25px 45px rgba(0,0,0,0.15)"
             }}>
               <video 
-                ref={(el) => (videoRefs.current[slides.length] = el)}
+                ref={aboutVideoRef}
                 width="100%" 
                 autoPlay 
                 muted 
                 loop 
                 playsInline 
-                preload="auto" 
+                preload="metadata" 
                 style={{ borderRadius: "14px" }}
               >
                 <source src="/Photos/index/title_video.mp4" type="video/mp4" />

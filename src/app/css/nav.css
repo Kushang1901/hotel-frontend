@@ -613,6 +613,15 @@ header.scrolled .logo-name {
 /* ─── RESPONSIVE NAV ─── */
 @media (max-width: 1024px) {
     /* Show hamburger, hide split nav lists */
+    /* Ticker compact on mobile */
+    .ticker-lang-section {
+        padding: 0 0.5rem !important;
+    }
+    .ticker-lang-btn {
+        padding: 2px 8px !important;
+        font-size: 0.72rem !important;
+    }
+
     .menu-toggle { display: flex !important; }
     .nav-left, .nav-right { display: none !important; }
 
@@ -876,19 +885,91 @@ header.scrolled nav.split-nav {
 .ticker-wrap {
     width: 100% !important;
     overflow: hidden !important;
-    /* Deep crimson matching the navbar — same Jaali lattice pattern */
     background-color: #6b0000 !important;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M20,0 L40,20 L20,40 L0,20 Z' fill='none' stroke='%23caa035' stroke-width='0.4' opacity='0.12'/%3E%3Ccircle cx='20' cy='20' r='1' fill='%23ffd700' opacity='0.18'/%3E%3C/svg%3E") !important;
-    /* Two-tone gold shimmer border at the bottom */
     border-bottom: 1px solid rgba(202, 160, 53, 0.55) !important;
     box-shadow: 0 1px 0 rgba(255, 215, 0, 0.15), inset 0 -1px 0 rgba(92, 0, 0, 0.4) !important;
     box-sizing: border-box !important;
     height: 34px !important;
     display: flex !important;
     align-items: center !important;
+    justify-content: space-between !important;
     z-index: 1002 !important;
-    pointer-events: none !important;
+    pointer-events: auto !important;
     position: relative !important;
+    padding: 0 !important;
+}
+
+/* 80% Sliding welcome ticker */
+.ticker-sliding-section {
+    flex: 1 1 80% !important;
+    max-width: 82% !important;
+    overflow: hidden !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    position: relative !important;
+    pointer-events: none !important;
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%) !important;
+    mask-image: linear-gradient(to right, black 85%, transparent 100%) !important;
+}
+
+/* 20% Language transition cell */
+.ticker-lang-section {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
+    padding: 0 clamp(0.75rem, 1.5vw, 1.5rem) !important;
+    border-left: 1px solid rgba(202, 160, 53, 0.4) !important;
+    background: rgba(107, 0, 0, 0.95) !important;
+    position: relative !important;
+    z-index: 5 !important;
+    pointer-events: auto !important;
+}
+
+.ticker-lang-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: rgba(202, 160, 53, 0.18) !important;
+    border: 1px solid rgba(202, 160, 53, 0.55) !important;
+    color: #ffd700 !important;
+    padding: 3px 12px !important;
+    border-radius: 12px !important;
+    font-family: 'Jost', sans-serif !important;
+    font-size: 0.76rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.06em !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    white-space: nowrap !important;
+    line-height: 1 !important;
+    pointer-events: auto !important;
+}
+
+.ticker-lang-btn:hover {
+    background: rgba(202, 160, 53, 0.35) !important;
+    border-color: #ffd700 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+.ticker-lang-btn .ticker-lang-icon {
+    font-size: 0.78rem !important;
+    color: #ffd700 !important;
+}
+
+.ticker-lang-btn .ticker-lang-chevron {
+    font-size: 0.6rem !important;
+    opacity: 0.8 !important;
+    transition: transform 0.2s ease !important;
+}
+
+.ticker-lang-btn:hover .ticker-lang-chevron {
+    transform: translateY(1px) !important;
 }
 
 /* Subtle left fade-out mask for elegant text entry */

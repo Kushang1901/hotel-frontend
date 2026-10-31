@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import BackToTop from "@/components/BackToTop";
 import Preloader from "@/components/Preloader";
+import { LanguageProvider } from "@/context/LanguageContext";
 import Script from "next/script";
 
 export const metadata = {
@@ -58,6 +59,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* Instant Hero Image Preload */}
+        <link 
+          rel="preload" 
+          as="image" 
+          href="/Photos/index/Hero1.jpeg" 
+          fetchPriority="high" 
+        />
+
         {/* Preconnect domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -357,12 +366,14 @@ export default function RootLayout({ children }) {
           />
         </noscript>
         
-        <Preloader />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <Chatbot />
-        <BackToTop />
+        <LanguageProvider>
+          <Preloader />
+          <Header />
+          <main>{children}</main>
+          <Footer />
+          <Chatbot />
+          <BackToTop />
+        </LanguageProvider>
       </body>
     </html>
   );

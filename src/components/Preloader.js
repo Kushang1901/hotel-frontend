@@ -12,9 +12,9 @@ export default function Preloader() {
       setOpacity(0);
       const hideTimeout = setTimeout(() => {
         setVisible(false);
-      }, 500); // match transition duration
+      }, 300); // match transition duration
       return () => clearTimeout(hideTimeout);
-    }, 300); // Reduced artificial delay from 800ms to 300ms for faster page transition
+    }, 80); // Ultra-fast dismiss so hero images appear immediately
 
     // Failsafe auto-hide at 2.5s
     const failsafeTimeout = setTimeout(() => {
@@ -48,7 +48,7 @@ export default function Preloader() {
         alignItems: "center",
         zIndex: 99999, // Ensure it sits above all elements
         opacity: opacity,
-        transition: "opacity 0.5s ease"
+        transition: "opacity 0.3s ease"
       }}
     >
       <div style={{ position: "relative", width: "180px", height: "180px", display: "flex", justifyContent: "center", alignItems: "center" }}>

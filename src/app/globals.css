@@ -2,6 +2,7 @@
 @import "./css/nav.css";
 @import "./css/footer.css";
 @import "./css/chat.css";
+@import "./css/language-translator.css";
 
 /* Additional base resets */
 *, *::before, *::after {

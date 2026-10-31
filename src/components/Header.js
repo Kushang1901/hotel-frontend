@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Header() {
+  const { currentLang, openLanguageModal } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
@@ -153,6 +155,20 @@ export default function Header() {
             <li><Link href="/policies" className={pathname === "/policies" ? "active" : ""} onClick={toggleMenu}>Policies</Link></li>
             <li><Link href="/contact" className={pathname === "/contact" ? "active" : ""} onClick={toggleMenu}>Contact Us</Link></li>
           </ul>
+
+          <div className="mobile-overlay-lang-section">
+            <span className="mobile-overlay-lang-title">Language / ભાષા</span>
+            <button 
+              type="button" 
+              onClick={() => { toggleMenu(); openLanguageModal(); }} 
+              className="mobile-overlay-lang-btn"
+            >
+              <span style={{ fontSize: "1.15rem" }}>{currentLang.flag}</span>
+              <span>{currentLang.nativeName} ({currentLang.name})</span>
+              <i className="fas fa-chevron-right" style={{ fontSize: "0.75rem", opacity: 0.8, marginLeft: "4px" }}></i>
+            </button>
+          </div>
+
           <Link href="/booking" className="overlay-book-cta" onClick={toggleMenu}>Reserve Your Stay</Link>
         </div>
       </div>
@@ -167,9 +183,23 @@ export default function Header() {
       >
         {/* Ticker bar directly inside Header */}
         <div id="headerTicker" className="ticker-wrap">
-          <div className="ticker-content">
-            <span>{tickerText}</span>
-            <span>{tickerText}</span>
+          <div className="ticker-sliding-section">
+            <div className="ticker-content">
+              <span>{tickerText}</span>
+              <span>{tickerText}</span>
+            </div>
+          </div>
+          <div className="ticker-lang-section">
+            <button
+              type="button"
+              onClick={openLanguageModal}
+              className="ticker-lang-btn"
+              aria-label="Select Language"
+            >
+              <i className="fas fa-globe ticker-lang-icon"></i>
+              <span className="ticker-lang-text">{currentLang.nativeName}</span>
+              <i className="fas fa-chevron-down ticker-lang-chevron"></i>
+            </button>
           </div>
         </div>
 
@@ -182,7 +212,7 @@ export default function Header() {
               <Link href="/room" className={pathname.startsWith("/room") ? "active" : ""}>
                 Rooms <i className="fas fa-chevron-down nav-chevron"></i>
               </Link>
-              <div className="mega-menu-dropdown">
+               <div className="mega-menu-dropdown">
                 <div className="mega-menu-inner">
                   {/* Left Side: Room Categories Grid (2 Columns) */}
                   <div className="mega-menu-left">
@@ -260,7 +290,7 @@ export default function Header() {
             <li><Link href="/gallery" className={pathname === "/gallery" ? "active" : ""}>Gallery</Link></li>
           </ul>
 
-          {/* Center logo: HOTEL , logo , DEVANG */}
+          {/* Center logo: HOTEL · logo · DEVANG */}
           <div className="nav-center-logo">
             <Link href="/" className="logo-brand-link" aria-label="Hotel Devang Home">
               <span className="logo-word logo-word-hotel">HOTEL</span>
@@ -277,7 +307,7 @@ export default function Header() {
               <Link href="/facilities" className={pathname.startsWith("/facilities") ? "active" : ""}>
                 Facilities <i className="fas fa-chevron-down nav-chevron"></i>
               </Link>
-              <div className="mega-menu-dropdown">
+               <div className="mega-menu-dropdown">
                 <div className="mega-menu-inner">
                   {/* Left Side: Venues Grid (2 Columns) */}
                   <div className="mega-menu-left">
@@ -307,14 +337,14 @@ export default function Header() {
                       <Link href="/facilities/ground-1" className="mega-menu-item">
                         <div className="mega-item-icon"><i className="fas fa-tree"></i></div>
                         <div className="mega-item-text">
-                          <h5>Ground — 1 Lawn <i className="fas fa-arrow-right"></i></h5>
+                          <h5>Ground ΓÇö 1 Lawn <i className="fas fa-arrow-right"></i></h5>
                           <p>15,000 sq.ft grand outdoor wedding ground for up to 1,200 attendees.</p>
                         </div>
                       </Link>
                       <Link href="/facilities/ground-2" className="mega-menu-item">
                         <div className="mega-item-icon"><i className="fas fa-leaf"></i></div>
                         <div className="mega-item-text">
-                          <h5>Ground — 2 Garden <i className="fas fa-arrow-right"></i></h5>
+                          <h5>Ground ΓÇö 2 Garden <i className="fas fa-arrow-right"></i></h5>
                           <p>Intimate beautifully landscaped garden lawn for romantic ceremonies.</p>
                         </div>
                       </Link>
@@ -350,7 +380,7 @@ export default function Header() {
             <li><Link href="/contact" className={pathname === "/contact" ? "active" : ""}>Contact</Link></li>
           </ul>
 
-          {/* Mobile hamburger (visible on ≤1024px) */}
+          {/* Mobile hamburger (visible on <=1024px) */}
           <button 
             className={`menu-toggle ${isMenuOpen ? "open" : ""}`} 
             id="menuToggle" 

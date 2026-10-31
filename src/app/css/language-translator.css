@@ -1,0 +1,955 @@
+/* ═══════════════════════════════════════════════════════
+   HOTEL DEVANG — INDIAN LANGUAGES TRANSLATOR & LOGO CONVERTER
+   Preserves Crimson (#880000) & Gold (#caa035, #ffd700) Luxury Theme
+   ════════════════════════════════════════════════════════ */
+
+/* ─── 1. COMPLETE GOOGLE TRANSLATE BANNER & FRAME SUPPRESSION ─── */
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+.VIpgJd-ZVi9od-xl07Ob-OEVmcd,
+.VIpgJd-ZVi9od-SmfZ-OEVmcd,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+.VIpgJd-ZVi9od-aZ2wEe-OiiCO,
+.VIpgJd-ZVi9od-aZ2wEe,
+.VIpgJd-ZVi9od-ORHb,
+.VIpgJd-ZVi9od-SmfZ,
+.VIpgJd-ZVi9od-l9xktf,
+.VIpgJd-ZVi9od-vH1Gmf,
+.VIpgJd-ZVi9od-xl07Ob,
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame,
+iframe.goog-te-banner-frame,
+iframe.VIpgJd-ZVi9od-ORHb-OEVmcd,
+iframe[class*="VIpgJd"],
+iframe[class*="goog-te-banner"],
+iframe[id*=":1.container"],
+iframe[id*=":2.container"],
+iframe[id*="goog-te-"],
+iframe[src*="translate.google"],
+.skiptranslate iframe,
+body > div.skiptranslate,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0px !important;
+    min-height: 0px !important;
+    max-height: 0px !important;
+    width: 0px !important;
+    border: none !important;
+    top: -9999px !important;
+    position: absolute !important;
+    z-index: -999999 !important;
+}
+
+html,
+body,
+body.translated-ltr,
+body.translated-rtl,
+html.translated-ltr,
+html.translated-rtl {
+    top: 0px !important;
+    position: static !important;
+    margin-top: 0px !important;
+    padding-top: 0px !important;
+}
+
+header#mainHeader,
+.page-index header#mainHeader {
+    top: 0px !important;
+}
+
+#google_translate_element {
+    display: none !important;
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.goog-text-highlight {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* ─── 2. HEADER LANGUAGE BUTTONS ─── */
+
+/* Nav-right Language Item (5th column) */
+.nav-links-right > li.nav-lang-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 0 0 clamp(0.4rem, 0.7vw, 0.9rem) !important;
+}
+
+.nav-links-right > li.nav-lang-item::before {
+    display: none !important;
+}
+
+/* Desktop Header Button in nav-right */
+.header-lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(202, 160, 53, 0.12);
+    border: 1px solid rgba(202, 160, 53, 0.45);
+    color: #ffd700;
+    padding: 0.38rem 0.85rem;
+    border-radius: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: clamp(0.72rem, 0.78vw, 0.82rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
+.header-lang-btn:hover {
+    background: rgba(202, 160, 53, 0.25);
+    border-color: #ffd700;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.25);
+    transform: translateY(-1px);
+}
+
+.header-lang-btn .lang-globe-icon {
+    font-size: 0.88rem;
+    color: #ffd700;
+}
+
+.header-lang-btn .lang-chevron {
+    font-size: 0.65rem;
+    opacity: 0.8;
+    transition: transform 0.3s ease;
+}
+
+.header-lang-btn:hover .lang-chevron {
+    transform: translateY(1px);
+}
+
+/* Mobile Header Language Button (Visible next to hamburger on <=1024px) */
+.mobile-header-lang-btn {
+    display: none;
+    align-items: center;
+    gap: 5px;
+    background: rgba(202, 160, 53, 0.15);
+    border: 1px solid rgba(202, 160, 53, 0.5);
+    color: #ffd700;
+    padding: 0.35rem 0.65rem;
+    border-radius: 18px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+    z-index: 10002;
+}
+
+.mobile-header-lang-btn:hover {
+    border-color: #ffd700;
+    background: rgba(202, 160, 53, 0.3);
+}
+
+@media (max-width: 1024px) {
+    .mobile-header-lang-btn {
+        display: inline-flex !important;
+    }
+}
+
+/* Mobile Nav Menu Language Row */
+.mobile-overlay-lang-section {
+    width: 100%;
+    margin: 1.2rem 0 0.8rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(202, 160, 53, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.mobile-overlay-lang-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #ffd700;
+    opacity: 0.85;
+}
+
+.mobile-overlay-lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.5rem 1.4rem;
+    background: rgba(202, 160, 53, 0.15);
+    border: 1px solid rgba(202, 160, 53, 0.6);
+    border-radius: 25px;
+    color: #ffffff;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mobile-overlay-lang-btn:hover {
+    border-color: #ffd700;
+    background: rgba(202, 160, 53, 0.25);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── 3. LANGUAGE SELECTION MODAL ─── */
+.lang-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999990;
+    background: rgba(18, 2, 2, 0.78);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.lang-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    max-height: 85vh;
+    background: linear-gradient(150deg, #660000 0%, #460000 50%, #2a0000 100%);
+    border: 1.5px solid rgba(202, 160, 53, 0.5);
+    border-radius: 20px;
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.65),
+        0 0 40px rgba(202, 160, 53, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Traditional jaali pattern top banner */
+.lang-modal-header {
+    padding: 1.4rem 1.6rem 1rem;
+    position: relative;
+    border-bottom: 1px solid rgba(202, 160, 53, 0.25);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30,0 L60,30 L30,60 L0,30 Z' fill='none' stroke='%23caa035' stroke-width='0.5' opacity='0.15'/%3E%3C/svg%3E");
+}
+
+.lang-modal-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+}
+
+.lang-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: #ffd700;
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
+.lang-modal-title i {
+    font-size: 1.25rem;
+    color: #caa035;
+}
+
+.lang-modal-close-btn {
+    background: transparent;
+    border: 1px solid rgba(202, 160, 53, 0.4);
+    color: #ffd700;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+}
+
+.lang-modal-close-btn:hover {
+    border-color: #ffd700;
+    background: rgba(202, 160, 53, 0.2);
+    transform: rotate(90deg);
+}
+
+.lang-modal-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+/* Search bar */
+.lang-search-wrap {
+    padding: 0.8rem 1.6rem 0.5rem;
+}
+
+.lang-search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(20, 3, 3, 0.6);
+    border: 1px solid rgba(202, 160, 53, 0.35);
+    border-radius: 12px;
+    padding: 0.55rem 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.lang-search-box:focus-within {
+    border-color: #ffd700;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+}
+
+.lang-search-box i {
+    color: #caa035;
+    font-size: 0.85rem;
+}
+
+.lang-search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+}
+
+.lang-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* Region Filter Tabs */
+.lang-filter-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 0.4rem 1.6rem 0.8rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.lang-filter-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.lang-filter-tab {
+    background: rgba(202, 160, 53, 0.1);
+    border: 1px solid rgba(202, 160, 53, 0.25);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.25rem 0.7rem;
+    border-radius: 14px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lang-filter-tab.active,
+.lang-filter-tab:hover {
+    background: rgba(202, 160, 53, 0.28);
+    border-color: #ffd700;
+    color: #ffd700;
+}
+
+/* Language List Grid */
+.lang-grid-wrap {
+    padding: 0.6rem 1.6rem 1.6rem;
+    overflow-y: auto;
+    max-height: 50vh;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+@media (max-width: 580px) {
+    .lang-grid-wrap {
+        grid-template-columns: 1fr;
+    }
+}
+
+.lang-option-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.75rem 0.95rem;
+    background: rgba(25, 3, 3, 0.45);
+    border: 1px solid rgba(202, 160, 53, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: left;
+    width: 100%;
+}
+
+.lang-option-card:hover {
+    background: rgba(202, 160, 53, 0.16);
+    border-color: rgba(255, 215, 0, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.lang-option-card.selected {
+    background: linear-gradient(135deg, rgba(202, 160, 53, 0.25), rgba(136, 0, 0, 0.45));
+    border-color: #ffd700;
+    box-shadow: 0 0 16px rgba(255, 215, 0, 0.25);
+}
+
+.lang-card-flag {
+    font-size: 1.35rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+
+.lang-card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.lang-card-native {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.25;
+}
+
+.lang-option-card.selected .lang-card-native {
+    color: #ffd700;
+}
+
+.lang-card-en {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.74rem;
+    color: rgba(202, 160, 53, 0.9);
+    letter-spacing: 0.02em;
+}
+
+.lang-card-check {
+    color: #ffd700;
+    font-size: 0.9rem;
+    margin-left: auto;
+}
+
+/* ═══════════════════════════════════════════════════════
+   4. LOGO CONVERTER LOADER SCREEN
+   "one loader in logo in between like when one language to
+   another language converted then that good ui logo loader
+   come between like converting from respected to respected
+   language"
+   ════════════════════════════════════════════════════════ */
+.lang-converter-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    pointer-events: all;
+    background: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30,0 L60,30 L30,60 L0,30 Z' fill='none' stroke='%23caa035' stroke-width='0.5' opacity='0.18'/%3E%3Ccircle cx='30' cy='30' r='1.5' fill='%23ffd700' opacity='0.25'/%3E%3C/svg%3E"),
+        radial-gradient(circle at center, #6b0000 0%, #3e0000 50%, #170000 100%);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.lang-converter-loader.fade-in {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lang-converter-loader.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-center-card {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    background: rgba(28, 4, 4, 0.88);
+    border: 1.5px solid rgba(202, 160, 53, 0.55);
+    border-radius: 28px;
+    padding: 2.4rem 2rem 2.2rem;
+    text-align: center;
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.8),
+        0 0 50px rgba(202, 160, 53, 0.22);
+    overflow: hidden;
+    animation: loaderCardPop 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes loaderCardPop {
+    from { opacity: 0; transform: scale(0.92) translateY(18px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Ambient corner radial highlights */
+.loader-center-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 10% 10%, rgba(255, 215, 0, 0.12), transparent 45%),
+        radial-gradient(circle at 90% 90%, rgba(202, 160, 53, 0.12), transparent 45%);
+    pointer-events: none;
+}
+
+/* ─── Center Logo with Multi-Ring Aura ─── */
+.loader-logo-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Outer spinning dashed gold ring */
+.loader-ring-dashed {
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 2px dashed rgba(255, 215, 0, 0.6);
+    animation: spinClockwise 8s linear infinite;
+    pointer-events: none;
+}
+
+/* Middle spinning gradient sweep ring */
+.loader-ring-outer {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #ffd700;
+    border-right-color: #caa035;
+    animation: spinCounter 2.8s linear infinite;
+    pointer-events: none;
+}
+
+/* Inner pulsing glow ring */
+.loader-ring-inner {
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.35);
+    animation: pulseRing 2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* Logo Image in center */
+.loader-logo-img-wrap {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.loader-logo-img {
+    width: 82px;
+    height: 82px;
+    object-fit: contain;
+    animation: logoBreath 2.2s ease-in-out infinite;
+}
+
+/* Floating sacred sparkles around logo */
+.loader-sparkle {
+    position: absolute;
+    color: #ffd700;
+    font-size: 0.9rem;
+    animation: sparkleFloat 2.5s ease-in-out infinite;
+}
+.loader-sparkle.sparkle-1 { top: -5px; right: -5px; animation-delay: 0s; }
+.loader-sparkle.sparkle-2 { bottom: 5px; left: -10px; animation-delay: 0.8s; }
+.loader-sparkle.sparkle-3 { top: 35px; right: -18px; animation-delay: 1.6s; font-size: 0.75rem; }
+
+@keyframes spinClockwise {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes spinCounter {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
+@keyframes pulseRing {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes logoBreath {
+    0%, 100% { transform: scale(0.96); }
+    50% { transform: scale(1.02); }
+}
+
+@keyframes sparkleFloat {
+    0%, 100% { opacity: 0.3; transform: scale(0.8) translateY(0); }
+    50% { opacity: 1; transform: scale(1.2) translateY(-4px); }
+}
+
+/* Hotel Brand Title */
+.loader-hotel-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #ffd700;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+}
+
+.loader-hotel-title .gold-text {
+    color: #ffd700;
+}
+
+.loader-sacred-subtitle {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+/* ─── Language Conversion Direction Box: FROM -> TO ─── */
+.loader-conversion-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: rgba(15, 2, 2, 0.65);
+    border: 1px solid rgba(202, 160, 53, 0.35);
+    border-radius: 20px;
+    padding: 1.1rem 1rem;
+    margin-bottom: 1.3rem;
+    position: relative;
+    box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.conversion-pill {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.6rem 0.8rem;
+    background: rgba(40, 5, 5, 0.75);
+    border: 1px solid rgba(202, 160, 53, 0.3);
+    border-radius: 14px;
+    text-align: left;
+    min-width: 0;
+}
+
+.conversion-pill.conversion-to {
+    border-color: #ffd700;
+    background: linear-gradient(135deg, rgba(202, 160, 53, 0.22), rgba(136, 0, 0, 0.5));
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.18);
+}
+
+.pill-flag {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.pill-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.pill-tag {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: rgba(202, 160, 53, 0.9);
+    font-weight: 600;
+}
+
+.pill-native {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.95rem;
+    color: #ffffff;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.conversion-pill.conversion-to .pill-native {
+    color: #ffd700;
+    font-weight: 700;
+}
+
+.pill-sub {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Animated Golden Conversion Arrow */
+.conversion-arrow-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    padding: 0 4px;
+}
+
+.arrow-track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 32px;
+}
+
+.arrow-icon {
+    font-size: 1.15rem;
+    color: #ffd700;
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+    animation: arrowNudge 1.2s ease-in-out infinite;
+}
+
+@keyframes arrowNudge {
+    0%, 100% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+}
+
+.converting-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #caa035;
+}
+
+/* Status message */
+.loader-status-msg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    color: #ffffff;
+    margin-bottom: 1.1rem;
+}
+
+.loader-status-msg strong {
+    color: #ffd700;
+}
+
+.status-icon {
+    color: #ffd700;
+    font-size: 0.95rem;
+}
+
+/* Luxury Golden Progress Bar */
+.loader-progress-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0.8rem;
+}
+
+.loader-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #caa035, #ffd700, #ffffff, #caa035);
+    background-size: 200% 100%;
+    border-radius: 4px;
+    width: 0%;
+    animation:
+        progressFill 1.15s cubic-bezier(0.2, 0.8, 0.3, 1) forwards,
+        shimmerWave 1s linear infinite;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+@keyframes progressFill {
+    0% { width: 0%; }
+    40% { width: 55%; }
+    80% { width: 90%; }
+    100% { width: 100%; }
+}
+
+@keyframes shimmerWave {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.loader-note {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.74rem;
+    color: rgba(202, 160, 53, 0.85);
+    letter-spacing: 0.04em;
+    margin: 0;
+}
+
+/* ─── 5. FLOATING LUXURY LANGUAGE WIDGET (Bottom-Left) ─── */
+.floating-lang-widget {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 9998;
+    animation: floatWidgetIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes floatWidgetIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.92); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.floating-lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0.6rem 1.15rem;
+    background: rgba(30, 4, 4, 0.92);
+    border: 1.5px solid rgba(202, 160, 53, 0.65);
+    border-radius: 30px;
+    color: #ffd700;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.45),
+        0 0 16px rgba(202, 160, 53, 0.22);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-lang-btn:hover {
+    background: rgba(50, 6, 6, 0.98);
+    border-color: #ffd700;
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.6),
+        0 0 25px rgba(255, 215, 0, 0.35);
+}
+
+.floating-lang-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffd700;
+    font-size: 0.98rem;
+    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+}
+
+.floating-lang-name {
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.floating-lang-btn:hover .floating-lang-name {
+    color: #ffd700;
+}
+
+.floating-lang-chevron {
+    font-size: 0.68rem;
+    color: #caa035;
+    transition: transform 0.3s ease;
+}
+
+.floating-lang-btn:hover .floating-lang-chevron {
+    transform: translateY(-2px);
+    color: #ffd700;
+}
+
+@media (max-width: 768px) {
+    .floating-lang-widget {
+        bottom: 18px;
+        left: 16px;
+    }
+    .floating-lang-btn {
+        padding: 0.52rem 0.95rem;
+        font-size: 0.78rem;
+    }
+}
+
+/* Top Welcome Bar Language Selector Button */
+.ticker-lang-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: rgba(202, 160, 53, 0.18) !important;
+    border: 1px solid rgba(202, 160, 53, 0.55) !important;
+    color: #ffd700 !important;
+    padding: 3px 12px !important;
+    border-radius: 12px !important;
+    font-family: 'Jost', sans-serif !important;
+    font-size: 0.76rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.06em !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    white-space: nowrap !important;
+    line-height: 1 !important;
+    pointer-events: auto !important;
+}
+
+.ticker-lang-btn:hover {
+    background: rgba(202, 160, 53, 0.35) !important;
+    border-color: #ffd700 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3) !important;
+}

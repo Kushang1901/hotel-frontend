@@ -161,7 +161,7 @@
     box-shadow: none;
 }
 
-/* ─── LEFT & RIGHT LINK LISTS (4 Equal Symmetrical Columns Each) ─── */
+/* ΓöÇΓöÇΓöÇ LEFT & RIGHT LINK LISTS (4 Equal Symmetrical Columns Each) ΓöÇΓöÇΓöÇ */
 .page-index .nav-left,
 .page-index .nav-right {
     display: grid;
@@ -258,7 +258,7 @@
     background: rgba(202,160,53,0.25);
 }
 
-/* ─── CENTER LOGO (HOTEL , logo , DEVANG) ─── */
+/* ΓöÇΓöÇΓöÇ CENTER LOGO (HOTEL , logo , DEVANG) ΓöÇΓöÇΓöÇ */
 .page-index .nav-center-logo {
     text-align: center;
     flex-shrink: 0;
@@ -315,7 +315,7 @@
         0 10px 32px rgba(0,0,0,0.5);
 }
 
-/* Pulsing outer ring — very subtle */
+/* Pulsing outer ring ΓÇö very subtle */
 .page-index .logo-img-wrap::after {
     content: '';
     position: absolute;
@@ -376,7 +376,7 @@
     letter-spacing: 0.2em;
 }
 
-/* ─── HAMBURGER (desktop hidden) ─── */
+/* ΓöÇΓöÇΓöÇ HAMBURGER (desktop hidden) ΓöÇΓöÇΓöÇ */
 .page-index .menu-toggle {
     display: none;
     flex-direction: column;
@@ -742,61 +742,92 @@
     top: 0; left: 0;
     width: 100%; height: 100%;
     opacity: 0;
-    transition: opacity 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 0;
     overflow: hidden;
     background: #150808;
+    pointer-events: none;
 }
 
-.page-index .slide.active { opacity: 1; z-index: 2; }
-.page-index .slide.previous { opacity: 1; z-index: 1; }
+.page-index .slide.active { 
+    opacity: 1; 
+    z-index: 2; 
+    pointer-events: auto;
+}
 
-/* ─── Instant Cinematic Moving Poster (Ken Burns) ─── */
-.page-index .slide .slide-poster {
+.page-index .slide.previous { 
+    opacity: 1; 
+    z-index: 1; 
+}
+
+/* ─── Instant Cinematic Moving Hero Images (Slow Zoom & Pan Ken Burns) ─── */
+.page-index .slide .slide-image {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    inset: -5%;
+    width: 110%;
+    height: 110%;
     object-fit: cover;
     filter: brightness(0.84) contrast(1.06) saturate(1.05);
-    transform: scale(1.0);
+    transform: scale(1.0) translate3d(0, 0, 0);
     will-change: transform;
     pointer-events: none;
     display: block;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-origin: center center;
 }
 
-.page-index .slide.active .slide-poster {
-    animation: kenBurnsCinematic 10s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
+/* Distinct cinematic slow zoom and pan for each of the 4 slides */
+.page-index .slide.active .slide-image.slide-anim-0 {
+    animation: kenBurnsZoomInPanLeft 7s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
 }
 
-@keyframes kenBurnsCinematic {
+.page-index .slide.active .slide-image.slide-anim-1 {
+    animation: kenBurnsZoomOutPanRight 7s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
+}
+
+.page-index .slide.active .slide-image.slide-anim-2 {
+    animation: kenBurnsZoomInPanRight 7s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
+}
+
+.page-index .slide.active .slide-image.slide-anim-3 {
+    animation: kenBurnsZoomInPanUp 7s cubic-bezier(0.25, 1, 0.5, 1) infinite alternate;
+}
+
+@keyframes kenBurnsZoomInPanLeft {
     0% {
-        transform: scale(1.0) translate(0%, 0%);
+        transform: scale(1.0) translate3d(0, 0, 0);
     }
     100% {
-        transform: scale(1.08) translate(-1.2%, -0.8%);
+        transform: scale(1.10) translate3d(-2%, -1.4%, 0);
     }
 }
 
-/* ─── Seamless Video Layer (Smooth Handshake) ─── */
-.page-index .slide .slide-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transform: translate3d(0,0,0);
-    backface-visibility: hidden;
-    filter: brightness(0.84) contrast(1.06) saturate(1.05);
-    opacity: 0;
-    transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: opacity;
-    pointer-events: none;
+@keyframes kenBurnsZoomOutPanRight {
+    0% {
+        transform: scale(1.12) translate3d(-1.5%, -1%, 0);
+    }
+    100% {
+        transform: scale(1.02) translate3d(1.8%, 1.2%, 0);
+    }
 }
 
-.page-index .slide .slide-video.is-playing {
-    opacity: 1;
+@keyframes kenBurnsZoomInPanRight {
+    0% {
+        transform: scale(1.02) translate3d(-1.8%, 0.8%, 0);
+    }
+    100% {
+        transform: scale(1.12) translate3d(1.8%, -0.8%, 0);
+    }
+}
+
+@keyframes kenBurnsZoomInPanUp {
+    0% {
+        transform: scale(1.0) translate3d(0.8%, 1.4%, 0);
+    }
+    100% {
+        transform: scale(1.11) translate3d(-1.2%, -1.6%, 0);
+    }
 }
 
 /* ─── Golden Ambient Particles Canvas ─── */

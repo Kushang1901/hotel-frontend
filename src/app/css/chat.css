@@ -250,4 +250,10 @@
         bottom: 15px;
         right: 15px;
     }
+    .back-to-top {
+        left: 16px;
+    }
+    .back-to-top.show {
+        bottom: 68px;
+    }
 }
