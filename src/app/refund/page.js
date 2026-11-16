@@ -14,7 +14,25 @@ export const metadata = {
     description: "Read our transparent room booking advance deposit terms, cancellation policies, and refund process details for Hotel Devang in Dwarka.",
     url: "https://hoteldevang.com/refund",
     type: "website",
-  }
+    siteName: "Hotel Devang",
+    locale: "en_IN",
+    images: [
+      {
+        url: "https://hoteldevang.com/Photos/index/Hero4.jpeg",
+        secureUrl: "https://hoteldevang.com/Photos/index/Hero4.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Hotel Devang Refund & Cancellation Policy",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Refund & Cancellation Policy | Hotel Devang Dwarka",
+    description: "Read our transparent room booking advance deposit terms, cancellation policies, and refund process details for Hotel Devang in Dwarka.",
+    images: ["https://hoteldevang.com/Photos/index/Hero4.jpeg"],
+  },
 };
 
 export default function Refund() {

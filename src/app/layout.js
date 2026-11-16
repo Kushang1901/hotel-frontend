@@ -31,12 +31,15 @@ export const metadata = {
     type: "website",
     siteName: "Hotel Devang",
     locale: "en_IN",
+    alternateLocale: ["hi_IN", "gu_IN"],
     images: [
       {
         url: "https://hoteldevang.com/Photos/index/Hero4.jpeg",
+        secureUrl: "https://hoteldevang.com/Photos/index/Hero4.jpeg",
         width: 1200,
         height: 630,
-        alt: "Hotel Devang Dwarka",
+        alt: "Hotel Devang – Premium Stay Near Dwarkadhish Temple Dwarka",
+        type: "image/jpeg",
       },
     ],
   },
@@ -46,12 +49,19 @@ export const metadata = {
     description: "Hotel Devang – one of the best hotels in Dwarka for families & travelers. Stay near Dwarkadhish Temple with premium rooms, comfort & top amenities.",
     images: ["https://hoteldevang.com/Photos/index/Hero4.jpeg"],
   },
+  verification: {
+    google: "CftiHAoH7beLxbZieD1-liyfLwboPGrGrzeN4ukdv4o",
+    other: {
+      "msvalidate.01": [
+        process.env.NEXT_PUBLIC_BING_VERIFICATION || "8CA0B8636020035C1FAD4EF19EE7540D",
+      ],
+    },
+  },
   other: {
     "geo.region": "IN-GJ",
     "geo.placename": "Dwarka, Gujarat",
     "geo.position": "22.2442;68.9685",
     "ICBM": "22.2442, 68.9685",
-    "google-site-verification": "CftiHAoH7beLxbZieD1-liyfLwboPGrGrzeN4ukdv4o",
   }
 };
 

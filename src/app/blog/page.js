@@ -15,8 +15,26 @@ export const metadata = {
     title: "Dwarka Travel Blog & Spiritual Stay Guide | Hotel Devang",
     description: "Read stories, pilgrim guides, local attractions, and travel tips for your visit to the holy city of Dwarka.",
     url: "https://hoteldevang.com/blog",
-    type: "website",
-  }
+    type: "article",
+    siteName: "Hotel Devang",
+    locale: "en_IN",
+    images: [
+      {
+        url: "https://hoteldevang.com/Photos/index/blog.png",
+        secureUrl: "https://hoteldevang.com/Photos/index/blog.png",
+        width: 1200,
+        height: 630,
+        alt: "Dwarka Travel Blog & Pilgrim Guide - Hotel Devang",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dwarka Travel Blog & Spiritual Stay Guide | Hotel Devang",
+    description: "Read stories, pilgrim guides, local attractions, and travel tips for your visit to the holy city of Dwarka.",
+    images: ["https://hoteldevang.com/Photos/index/blog.png"],
+  },
 };
 
 export default function Blog() {

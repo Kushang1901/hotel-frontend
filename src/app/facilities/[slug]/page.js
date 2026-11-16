@@ -24,6 +24,9 @@ export async function generateMetadata({ params }) {
   const title = `${facility.title} | Event Venue in Dwarka | Hotel Devang`;
   const description = `${facility.desc.substring(0, 150)}... Book ${facility.title} for weddings, dhwaja ceremonies, and spiritual events in Dwarka. Seating: ${facility.seating}, Area: ${facility.area}.`;
   const canonicalUrl = `https://hoteldevang.com/facilities/${slug}`;
+  const absoluteImageUrl = facility.image?.startsWith("http")
+    ? facility.image
+    : `https://hoteldevang.com${facility.image?.startsWith("/") ? "" : "/"}${facility.image || "Photos/Facilities/TH.jpeg"}`;
 
   return {
     title,
@@ -37,12 +40,24 @@ export async function generateMetadata({ params }) {
       description,
       url: canonicalUrl,
       type: "website",
+      siteName: "Hotel Devang",
+      locale: "en_IN",
       images: [
         {
-          url: facility.image,
-          alt: facility.title,
+          url: absoluteImageUrl,
+          secureUrl: absoluteImageUrl,
+          width: 1200,
+          height: 800,
+          alt: `${facility.title} - Hotel Devang Dwarka`,
+          type: "image/jpeg",
         },
       ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [absoluteImageUrl],
     },
   };
 }

@@ -12,7 +12,25 @@ export const metadata = {
     description: "Choose from 43 well-appointed rooms at Hotel Devang Dwarka. Offering Standard, Deluxe, Super Deluxe, and premium Suites near Dwarkadhish Temple.",
     url: "https://hoteldevang.com/room",
     type: "website",
-  }
+    siteName: "Hotel Devang",
+    locale: "en_IN",
+    images: [
+      {
+        url: "https://hoteldevang.com/Photos/Rooms/suite.jpeg",
+        secureUrl: "https://hoteldevang.com/Photos/Rooms/suite.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Hotel Devang Luxury Rooms & Family Accommodation in Dwarka",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Deluxe AC Rooms & Family Accommodation in Dwarka | Hotel Devang",
+    description: "Choose from 43 well-appointed rooms at Hotel Devang Dwarka. Offering Standard, Deluxe, Super Deluxe, and premium Suites near Dwarkadhish Temple.",
+    images: ["https://hoteldevang.com/Photos/Rooms/suite.jpeg"],
+  },
 };
 
 export default function Page() {

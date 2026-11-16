@@ -24,6 +24,9 @@ export async function generateMetadata({ params }) {
   const title = `${room.title} in Dwarka | Hotel Devang`;
   const description = `${room.description.substring(0, 150)}... Book ${room.title} near Dwarkadhish Temple. AC/Non-AC options, double beds, modern bathroom.`;
   const canonicalUrl = `https://hoteldevang.com/room/${slug}`;
+  const absoluteImageUrl = room.image?.startsWith("http")
+    ? room.image
+    : `https://hoteldevang.com${room.image?.startsWith("/") ? "" : "/"}${room.image || "Photos/Rooms/suite.jpeg"}`;
 
   return {
     title,
@@ -37,12 +40,24 @@ export async function generateMetadata({ params }) {
       description,
       url: canonicalUrl,
       type: "website",
+      siteName: "Hotel Devang",
+      locale: "en_IN",
       images: [
         {
-          url: room.image,
-          alt: room.title,
+          url: absoluteImageUrl,
+          secureUrl: absoluteImageUrl,
+          width: 1200,
+          height: 800,
+          alt: `${room.title} - Hotel Devang Dwarka`,
+          type: "image/jpeg",
         },
       ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [absoluteImageUrl],
     },
   };
 }

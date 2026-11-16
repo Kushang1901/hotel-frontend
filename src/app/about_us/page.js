@@ -12,7 +12,25 @@ export const metadata = {
     description: "Established in 1997, Hotel Devang is a trusted family hotel near Dwarkadhish Temple in Dwarka. Managed by the Acharya brothers, offering 43 deluxe rooms.",
     url: "https://hoteldevang.com/about_us",
     type: "website",
-  }
+    siteName: "Hotel Devang",
+    locale: "en_IN",
+    images: [
+      {
+        url: "https://hoteldevang.com/Photos/index/hotel_front.jpeg",
+        secureUrl: "https://hoteldevang.com/Photos/index/hotel_front.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Hotel Devang Heritage & Building in Dwarka",
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Hotel Devang – 27+ Years of Hospitality in Dwarka",
+    description: "Established in 1997, Hotel Devang is a trusted family hotel near Dwarkadhish Temple in Dwarka. Managed by the Acharya brothers, offering 43 deluxe rooms.",
+    images: ["https://hoteldevang.com/Photos/index/hotel_front.jpeg"],
+  },
 };
 
 export default function Page() {

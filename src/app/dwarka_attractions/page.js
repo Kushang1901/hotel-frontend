@@ -14,7 +14,25 @@ export const metadata = {
     description: "Explore top tourist spots and holy temples in Dwarka: Dwarkadhish Temple, Gomti Ghat, Shivrajpur Beach, Nageshwar Jyotirlinga, and Bet Dwarka.",
     url: "https://hoteldevang.com/dwarka_attractions",
     type: "website",
-  }
+    siteName: "Hotel Devang",
+    locale: "en_IN",
+    images: [
+      {
+        url: "https://hoteldevang.com/Photos/index/dwarka1.png",
+        secureUrl: "https://hoteldevang.com/Photos/index/dwarka1.png",
+        width: 1200,
+        height: 630,
+        alt: "Dwarkadhish Temple & Attractions Near Hotel Devang",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Top Places to Visit in Dwarka | Attractions Near Hotel Devang",
+    description: "Explore top tourist spots and holy temples in Dwarka: Dwarkadhish Temple, Gomti Ghat, Shivrajpur Beach, Nageshwar Jyotirlinga, and Bet Dwarka.",
+    images: ["https://hoteldevang.com/Photos/index/dwarka1.png"],
+  },
 };
 
 import { attractionsData } from "../../data/attractionsData";
