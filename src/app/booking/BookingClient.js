@@ -271,6 +271,7 @@ export default function Booking() {
         activeCheckInFp = fp(checkInInputRef.current, {
           dateFormat: "d/m/Y",
           allowInput: true,
+          disableMobile: true,
           minDate: "today",
           defaultDate: checkInVal ? new Date(checkInVal) : undefined,
           parseDate: (datestr) => {
@@ -312,6 +313,7 @@ export default function Booking() {
         activeCheckOutFp = fp(checkOutInputRef.current, {
           dateFormat: "d/m/Y",
           allowInput: true,
+          disableMobile: true,
           minDate: initialMin,
           defaultDate: checkOutVal ? new Date(checkOutVal) : undefined,
           parseDate: (datestr) => {

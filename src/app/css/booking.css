@@ -1397,14 +1397,26 @@
 .page-booking .date-input-wrapper {
     position: relative;
     width: 100%;
+    display: flex;
+    align-items: center;
 }
 .page-booking .date-input-wrapper input {
     width: 100% !important;
     padding-right: 2.6rem !important;
     cursor: pointer;
 }
-.page-booking .date-input-wrapper input[type="hidden"] {
+.page-booking .date-input-wrapper input[type="hidden"],
+.page-booking .date-input-wrapper input.flatpickr-mobile,
+.page-booking input.flatpickr-mobile {
     display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    margin: 0 !important;
+    position: absolute !important;
+    pointer-events: none !important;
 }
 .page-booking .date-input-wrapper .date-input-icon {
     position: absolute;
