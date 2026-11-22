@@ -315,7 +315,7 @@
         0 10px 32px rgba(0,0,0,0.5);
 }
 
-/* Pulsing outer ring ΓÇö very subtle */
+/* Pulsing outer ring — very subtle */
 .page-index .logo-img-wrap::after {
     content: '';
     position: absolute;

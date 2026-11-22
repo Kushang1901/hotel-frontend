@@ -337,14 +337,14 @@ export default function Header() {
                       <Link href="/facilities/ground-1" className="mega-menu-item">
                         <div className="mega-item-icon"><i className="fas fa-tree"></i></div>
                         <div className="mega-item-text">
-                          <h5>Ground ΓÇö 1 Lawn <i className="fas fa-arrow-right"></i></h5>
+                          <h5>Ground — 1 Lawn <i className="fas fa-arrow-right"></i></h5>
                           <p>15,000 sq.ft grand outdoor wedding ground for up to 1,200 attendees.</p>
                         </div>
                       </Link>
                       <Link href="/facilities/ground-2" className="mega-menu-item">
                         <div className="mega-item-icon"><i className="fas fa-leaf"></i></div>
                         <div className="mega-item-text">
-                          <h5>Ground ΓÇö 2 Garden <i className="fas fa-arrow-right"></i></h5>
+                          <h5>Ground — 2 Garden <i className="fas fa-arrow-right"></i></h5>
                           <p>Intimate beautifully landscaped garden lawn for romantic ceremonies.</p>
                         </div>
                       </Link>
